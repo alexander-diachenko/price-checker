@@ -26,7 +26,12 @@ public class Main {
         Excel excel = new ExcelImpl();
         List<List<Object>> table = excel.read(FILE_PATH);
         for (List<Object> row : table) {
-            row.add(PRICE_COLUMN, makeup.getPrice(String.valueOf(row.get(LINKS_COLUMN))));
+            final String url = String.valueOf(row.get(LINKS_COLUMN));
+            if (!url.isEmpty()) {
+                final String price = makeup.getPrice(url);
+                System.out.println(price);
+                row.add(PRICE_COLUMN, price);
+            }
         }
         closeConnection(driver);
         excel.write(table, SAVE_FILE_PATH);

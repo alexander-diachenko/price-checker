@@ -37,7 +37,7 @@ public class Makeup {
     }
 
     private Document getDocument(String URL) {
-
+        driver.get("https://www.google.com.ua/");
         driver.get(URL);
         final String page = driver.getPageSource();
         return Jsoup.parse(page);

@@ -3,7 +3,9 @@ package magazine;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 
 /**
  * @author Alexander Diachenko.
@@ -30,13 +32,13 @@ public class Makeup {
                 return getValue(DISCOUNT_PRICE_SPAN);
             }
             return getValue(PRICE_SPAN);
-        } catch (Exception e) {
+        } catch (WebDriverException e) {
             e.printStackTrace();
             return "Страница не найдена";
         }
     }
 
-    private Document getDocument(String URL) {
+    private Document getDocument(String URL) throws WebDriverException {
         driver.get("https://www.google.com.ua/");
         driver.get(URL);
         final String page = driver.getPageSource();
@@ -52,8 +54,14 @@ public class Makeup {
         return discountPriceSpan != null;
     }
 
-    private boolean isAvailable(Element document) {
+    private boolean isAvailable(Element document) throws NotFoundException {
         Element itemStatusDiv = document.select(ITEM_STATUS_DIV).first();
-        return itemStatusDiv.text().equals("Есть в наличии!");
+        boolean available;
+        try {
+            available = itemStatusDiv.text().equals("Есть в наличии!");
+        } catch (NullPointerException e) {
+            throw new NotFoundException();
+        }
+        return available;
     }
 }

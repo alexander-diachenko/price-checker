@@ -3,10 +3,11 @@ package magazine;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import url.UrlUtils;
+
+import java.net.MalformedURLException;
 
 /**
  * @author Alexander Diachenko.
@@ -24,31 +25,35 @@ public class Makeup {
     }
 
     public String getPrice(String url) {
-        try {
-            if (!isMakeup(url)) {
-                return "Сайт не makeup";
-            }
-            document = getDocument(url);
-            if (!isCorrectPage()) {
-                return "Страница не найдена";
-            }
-            return getValue(PRICE_SPAN);
-        } catch (WebDriverException e) {
-            e.printStackTrace();
+        if (!UrlUtils.isValid(url)) {
             return "Не правельный URL";
         }
+        if (!isMakeup(url)) {
+            return "Сайт не makeup";
+        }
+        document = getDocument(url);
+        if (!isCorrectPage()) {
+            return "Страница не найдена";
+        }
+        return getValue(PRICE_SPAN);
     }
+
 
     private boolean isCorrectPage() {
         return !document.select("h1.page-header").text().equals("Страница не найдена");
     }
 
     private boolean isMakeup(String url) {
-        return UrlUtils.getDomainName(url).equals("makeup.com.ua");
+        try {
+            return UrlUtils.getDomainName(url).equals("makeup.com.ua");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
-    private Document getDocument(String URL) throws WebDriverException {
-        driver.get(URL);
+    private Document getDocument(String url) throws WebDriverException {
+        driver.get(url);
         final String page = driver.getPageSource();
         return Jsoup.parse(page);
     }
@@ -67,14 +72,8 @@ public class Makeup {
         return discountPriceSpan != null;
     }
 
-    private boolean isAvailable(Element document) throws NotFoundException {
+    private boolean isAvailable(Element document) {
         Element itemStatusDiv = document.select(ITEM_STATUS_DIV).first();
-        boolean available;
-        try {
-            available = itemStatusDiv.text().equals("Есть в наличии!");
-        } catch (NullPointerException e) {
-            throw new NotFoundException();
-        }
-        return available;
+        return itemStatusDiv.text().equals("Есть в наличии!");
     }
 }

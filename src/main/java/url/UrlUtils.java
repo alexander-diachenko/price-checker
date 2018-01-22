@@ -1,21 +1,22 @@
 package url;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import org.apache.commons.validator.routines.UrlValidator;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * @author Alexander Diachenko.
  */
 public class UrlUtils {
 
-    public static String getDomainName(String url) {
-        URI uri = null;
-        try {
-            uri = new URI(url);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        String domain = uri.getHost();
-        return domain.startsWith("www.") ? domain.substring(4) : domain;
+    public static String getDomainName(String url) throws MalformedURLException {
+        return new URL(url).getHost();
+    }
+
+    public static boolean isValid(String url) {
+        String[] schemes = {"http","https"};
+        UrlValidator urlValidator = new UrlValidator(schemes);
+        return urlValidator.isValid(url);
     }
 }

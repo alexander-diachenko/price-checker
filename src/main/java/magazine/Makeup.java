@@ -12,7 +12,7 @@ import java.net.MalformedURLException;
 /**
  * @author Alexander Diachenko.
  */
-public class Makeup {
+public class Makeup implements Magazine {
 
     private final String DISCOUNT_PRICE_SPAN = "div.product-item__price-wrap > span.product-item__discount-price > span.rus";
     private final String PRICE_SPAN = "div.product-item__price-wrap > span.product-item__price > span.rus";
@@ -24,11 +24,12 @@ public class Makeup {
         this.driver = driver;
     }
 
+    @Override
     public String getPrice(String url) {
         if (!UrlUtils.isValid(url)) {
             return "Не правельный URL";
         }
-        if (!isMakeup(url)) {
+        if (!isThisWebsite(url)) {
             return "Сайт не makeup";
         }
         document = getDocument(url);
@@ -39,11 +40,13 @@ public class Makeup {
     }
 
 
-    private boolean isCorrectPage() {
+    @Override
+    public boolean isCorrectPage() {
         return !document.select("h1.page-header").text().equals("Страница не найдена");
     }
 
-    private boolean isMakeup(String url) {
+    @Override
+    public boolean isThisWebsite(String url) {
         try {
             return UrlUtils.getDomainName(url).equals("makeup.com.ua");
         } catch (MalformedURLException e) {
@@ -52,7 +55,8 @@ public class Makeup {
         return false;
     }
 
-    private Document getDocument(String url) throws WebDriverException {
+    @Override
+    public Document getDocument(String url) throws WebDriverException {
         driver.get(url);
         final String page = driver.getPageSource();
         return Jsoup.parse(page);
@@ -67,12 +71,14 @@ public class Makeup {
             return document.select(cssQuery).first().text();
     }
 
-    private boolean isDiscount(Element document) {
+    @Override
+    public boolean isDiscount(Element document) {
         Element discountPriceSpan = document.select(DISCOUNT_PRICE_SPAN).first();
         return discountPriceSpan != null;
     }
 
-    private boolean isAvailable(Element document) {
+    @Override
+    public boolean isAvailable(Element document) {
         Element itemStatusDiv = document.select(ITEM_STATUS_DIV).first();
         return itemStatusDiv.text().equals("Есть в наличии!");
     }

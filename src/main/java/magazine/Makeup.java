@@ -6,6 +6,7 @@ import org.jsoup.nodes.Element;
 import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
+import url.UrlUtils;
 
 /**
  * @author Alexander Diachenko.
@@ -22,31 +23,43 @@ public class Makeup {
         this.driver = driver;
     }
 
-    public String getPrice(String URL) {
+    public String getPrice(String url) {
         try {
-            document = getDocument(URL);
-            if (!isAvailable(document)) {
-                return "Нет в наличии";
+            if (!isMakeup(url)) {
+                return "Сайт не makeup";
             }
-            if (isDiscount(document)) {
-                return getValue(DISCOUNT_PRICE_SPAN);
+            document = getDocument(url);
+            if (!isCorrectPage()) {
+                return "Страница не найдена";
             }
             return getValue(PRICE_SPAN);
         } catch (WebDriverException e) {
             e.printStackTrace();
-            return "Страница не найдена";
+            return "Не правельный URL";
         }
     }
 
+    private boolean isCorrectPage() {
+        return !document.select("h1.page-header").text().equals("Страница не найдена");
+    }
+
+    private boolean isMakeup(String url) {
+        return UrlUtils.getDomainName(url).equals("makeup.com.ua");
+    }
+
     private Document getDocument(String URL) throws WebDriverException {
-        driver.get("https://www.google.com.ua/");
         driver.get(URL);
         final String page = driver.getPageSource();
         return Jsoup.parse(page);
     }
 
     private String getValue(String cssQuery) {
-        return document.select(cssQuery).first().text();
+        if (!isAvailable(document)) {
+            return "Нет в наличии";
+        } else if (isDiscount(document)) {
+            return document.select(DISCOUNT_PRICE_SPAN).first().text();
+        } else
+            return document.select(cssQuery).first().text();
     }
 
     private boolean isDiscount(Element document) {

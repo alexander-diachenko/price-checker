@@ -1,5 +1,6 @@
 import excel.Excel;
 import excel.ExcelImpl;
+import magazine.Magazine;
 import magazine.Makeup;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.openqa.selenium.WebDriver;
@@ -13,32 +14,36 @@ import java.util.List;
  */
 public class Main {
 
-    private static final String CHROME_DRIVER_PATH = "C:\\Selenium\\chromedriver.exe";
-    private static final String FILE_PATH = "D:\\Downloads\\links.xlsx";
-    private static final String SAVE_FILE_PATH = "D:\\Downloads\\prices.xlsx";
-    private static final int LINKS_COLUMN = 0;
-    private static final int PRICE_COLUMN = 1;
-
-    public static void main(String[] args) throws IOException, InvalidFormatException {
+    public static void main(String[] args) throws IOException, InvalidFormatException, InterruptedException {
         setSystemProperty();
         WebDriver driver = new ChromeDriver();
-        Makeup makeup = new Makeup(driver);
+        Magazine makeup = new Makeup(driver);
         Excel excel = new ExcelImpl();
-        List<List<Object>> table = excel.read(FILE_PATH);
+        List<List<Object>> table = excel.read(AppProperty.getProperty("file.path"));
+
         for (List<Object> row : table) {
-            final String url = String.valueOf(row.get(LINKS_COLUMN));
+            final String url = String.valueOf(row.get(Integer.parseInt(AppProperty.getProperty("link.column")) - 1));
             if (!url.isEmpty()) {
-                final String price = makeup.getPrice(url);
-                System.out.println(price);
-                row.add(PRICE_COLUMN, price);
+                driver.get("https://www.google.com.ua/");
+                insert(row, makeup.getPrice(url));
             }
         }
         closeConnection(driver);
-        excel.write(table, SAVE_FILE_PATH);
+        excel.write(table, AppProperty.getProperty("save.file.path"));
     }
 
-    private static void setSystemProperty() {
-        System.setProperty("webdriver.chrome.driver", CHROME_DRIVER_PATH);
+    private static void insert(List<Object> row, String price) throws IOException {
+        final String priceColumn = AppProperty.getProperty("price.column");
+        final int column = Integer.parseInt(priceColumn) - 1;
+        if (row.size() > column) {
+            row.set(column, price);
+        } else {
+            row.add(column, price);
+        }
+    }
+
+    private static void setSystemProperty() throws IOException {
+        System.setProperty("webdriver.chrome.driver", AppProperty.getProperty("chrome.driver.path"));
     }
 
     private static void closeConnection(WebDriver driver) {

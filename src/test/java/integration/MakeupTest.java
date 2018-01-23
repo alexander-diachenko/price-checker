@@ -10,6 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.io.File;
+import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -30,31 +31,31 @@ public class MakeupTest {
     }
 
     @Test
-    public void getPriceTest_invalidUrl() {
+    public void getPriceTest_invalidUrl() throws IOException {
         final String price = makeup.getPrice("qwe");
         assertEquals("Не правельный URL", price);
     }
 
     @Test
-    public void getPriceTest_pageNotFound() {
+    public void getPriceTest_pageNotFound() throws IOException {
         final String price = makeup.getPrice("https://makeup.com.ua/qwe");
         assertEquals("Страница не найдена", price);
     }
 
     @Test
-    public void getPriceTest_unavailable() {
+    public void getPriceTest_unavailable() throws IOException {
         final String price = makeup.getPrice("https://makeup.com.ua/product/20652/");
         assertEquals("Нет в наличии", price);
     }
 
     @Test
-    public void getPriceTest_notMakeup() {
+    public void getPriceTest_notMakeup() throws IOException {
         final String price = makeup.getPrice("http://www.google.com.ua/");
         assertEquals("Сайт не makeup", price);
     }
 
     @Test
-    public void getPriceTest() {
+    public void getPriceTest() throws IOException {
         final String price = makeup.getPrice("https://makeup.com.ua/product/1801/#/option/393587/");
         assertThat(Integer.valueOf(price), CoreMatchers.instanceOf(Integer.class));
     }

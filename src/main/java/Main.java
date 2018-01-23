@@ -5,6 +5,7 @@ import magazine.Makeup;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import property.AppProperty;
 
 import java.io.IOException;
 import java.util.List;

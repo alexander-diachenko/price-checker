@@ -5,8 +5,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
+import property.AppProperty;
 import url.UrlUtils;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 
 /**
@@ -14,9 +16,6 @@ import java.net.MalformedURLException;
  */
 public class Makeup implements Magazine {
 
-    private final String DISCOUNT_PRICE_SPAN = "div.product-item__price-wrap > span.product-item__discount-price > span.rus";
-    private final String PRICE_SPAN = "div.product-item__price-wrap > span.product-item__price > span.rus";
-    private final String ITEM_STATUS_DIV = "div.product-item__code-wrap > div.product-item__status";
     private Document document;
     private WebDriver driver;
 
@@ -25,7 +24,7 @@ public class Makeup implements Magazine {
     }
 
     @Override
-    public String getPrice(String url) {
+    public String getPrice(String url) throws IOException {
         if (!UrlUtils.isValid(url)) {
             return "Не правельный URL";
         }
@@ -36,9 +35,8 @@ public class Makeup implements Magazine {
         if (!isCorrectPage()) {
             return "Страница не найдена";
         }
-        return getValue(PRICE_SPAN);
+        return getValue(AppProperty.getProperty("normal.price.span"));
     }
-
 
     @Override
     public boolean isCorrectPage() {
@@ -62,24 +60,24 @@ public class Makeup implements Magazine {
         return Jsoup.parse(page);
     }
 
-    private String getValue(String cssQuery) {
+    private String getValue(String cssQuery) throws IOException {
         if (!isAvailable(document)) {
             return "Нет в наличии";
         } else if (isDiscount(document)) {
-            return document.select(DISCOUNT_PRICE_SPAN).first().text();
+            return document.select(AppProperty.getProperty("discount.price.span")).first().text();
         } else
             return document.select(cssQuery).first().text();
     }
 
     @Override
-    public boolean isDiscount(Element document) {
-        Element discountPriceSpan = document.select(DISCOUNT_PRICE_SPAN).first();
+    public boolean isDiscount(Element document) throws IOException {
+        Element discountPriceSpan = document.select(AppProperty.getProperty("discount.price.span")).first();
         return discountPriceSpan != null;
     }
 
     @Override
-    public boolean isAvailable(Element document) {
-        Element itemStatusDiv = document.select(ITEM_STATUS_DIV).first();
+    public boolean isAvailable(Element document) throws IOException {
+        Element itemStatusDiv = document.select(AppProperty.getProperty("item.status.div")).first();
         return itemStatusDiv.text().equals("Есть в наличии!");
     }
 }

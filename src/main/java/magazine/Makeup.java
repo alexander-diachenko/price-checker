@@ -35,7 +35,7 @@ public class Makeup implements Magazine {
         if (!isCorrectPage()) {
             return "Страница не найдена";
         }
-        return getValue(AppProperty.getProperty("normal.price.span"));
+        return getValue();
     }
 
     @Override
@@ -60,13 +60,13 @@ public class Makeup implements Magazine {
         return Jsoup.parse(page);
     }
 
-    private String getValue(String cssQuery) throws IOException {
+    private String getValue() throws IOException {
         if (!isAvailable(document)) {
             return "Нет в наличии";
         } else if (isDiscount(document)) {
             return document.select(AppProperty.getProperty("discount.price.span")).first().text();
         } else
-            return document.select(cssQuery).first().text();
+            return document.select(AppProperty.getProperty("normal.price.span")).first().text();
     }
 
     @Override

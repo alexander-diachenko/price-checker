@@ -25,16 +25,16 @@ public class Main {
             final String url = String.valueOf(row.get(Integer.parseInt(AppProperty.getProperty("link.column")) - 1));
             if (!url.isEmpty()) {
                 driver.get("https://www.google.com.ua/");
-                insert(row, makeup.getPrice(url));
+                final String priceColumn = AppProperty.getProperty("price.column");
+                final int column = Integer.parseInt(priceColumn) - 1;
+                insert(row, column, makeup.getPrice(url));
             }
         }
         closeConnection(driver);
         excel.write(table, AppProperty.getProperty("save.file.path"));
     }
 
-    private static void insert(List<Object> row, String price) throws IOException {
-        final String priceColumn = AppProperty.getProperty("price.column");
-        final int column = Integer.parseInt(priceColumn) - 1;
+    private static void insert(List<Object> row, int column, String price) {
         if (row.size() > column) {
             row.set(column, price);
         } else {

@@ -5,6 +5,7 @@ import magazine.Makeup;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import property.AppProperty;
 
 import java.io.IOException;
@@ -19,7 +20,9 @@ public class Main {
     public static void main(String[] args) throws IOException, InvalidFormatException, InterruptedException {
         Properties properties = AppProperty.getProperty();
         setSystemProperty(properties);
-        WebDriver driver = new ChromeDriver();
+        ChromeOptions chromeOptions = new ChromeOptions();
+        setChromeOption(chromeOptions);
+        WebDriver driver = new ChromeDriver(chromeOptions);
         Magazine makeup = new Makeup(driver, properties);
         Excel excel = new ExcelImpl();
         List<List<Object>> table = excel.read(properties.getProperty("file.path"));
@@ -31,11 +34,18 @@ public class Main {
             if (!url.isEmpty()) {
                 driver.get("https://www.google.com.ua/");
                 final int column = Integer.parseInt(priceColumn) - 1;
-                insert(row, column, makeup.getPrice(url));
+                final String price = makeup.getPrice(url);
+                System.out.println(price);
+                insert(row, column, price);
             }
         }
         closeConnection(driver);
         excel.write(table, properties.getProperty("save.file.path"));
+    }
+
+    private static void setChromeOption(ChromeOptions chromeOptions) {
+        chromeOptions.addArguments("headless");
+        chromeOptions.addArguments("window-size=1200x600");
     }
 
     private static void insert(List<Object> row, int column, String price) {

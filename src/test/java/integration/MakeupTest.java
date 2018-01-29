@@ -8,9 +8,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import property.AppProperty;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Properties;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -24,38 +26,38 @@ public class MakeupTest {
     private Magazine makeup;
 
     @Before
-    public void setup() {
+    public void setup() throws IOException {
         System.setProperty("webdriver.chrome.driver", getResource("chromedriver.exe").getAbsolutePath());
         driver = new ChromeDriver();
-        makeup = new Makeup(driver);
+        makeup = new Makeup(driver, AppProperty.getProperty());
     }
 
     @Test
-    public void getPriceTest_invalidUrl() throws IOException {
+    public void getPriceTest_invalidUrl() {
         final String price = makeup.getPrice("qwe");
         assertEquals("Не правельный URL", price);
     }
 
     @Test
-    public void getPriceTest_pageNotFound() throws IOException {
+    public void getPriceTest_pageNotFound() {
         final String price = makeup.getPrice("https://makeup.com.ua/qwe");
         assertEquals("Страница не найдена", price);
     }
 
     @Test
-    public void getPriceTest_unavailable() throws IOException {
+    public void getPriceTest_unavailable() {
         final String price = makeup.getPrice("https://makeup.com.ua/product/20652/");
         assertEquals("Нет в наличии", price);
     }
 
     @Test
-    public void getPriceTest_notMakeup() throws IOException {
+    public void getPriceTest_notMakeup()  {
         final String price = makeup.getPrice("http://www.google.com.ua/");
         assertEquals("Сайт не makeup", price);
     }
 
     @Test
-    public void getPriceTest() throws IOException {
+    public void getPriceTest() {
         final String price = makeup.getPrice("https://makeup.com.ua/product/1801/#/option/393587/");
         assertThat(Integer.valueOf(price), CoreMatchers.instanceOf(Integer.class));
     }
@@ -68,6 +70,6 @@ public class MakeupTest {
 
     private File getResource(String fileName) {
         ClassLoader classLoader = getClass().getClassLoader();
-        return new File(classLoader.getResource("chromedriver.exe").getFile());
+        return new File(classLoader.getResource(fileName).getFile());
     }
 }

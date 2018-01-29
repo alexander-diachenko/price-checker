@@ -9,13 +9,13 @@ import java.util.Properties;
  */
 public class AppProperty {
 
-    public static String getProperty(String property) throws IOException {
+    public static Properties getProperty() throws IOException {
         Properties mainProperties = new Properties();
         FileInputStream file;
         String path = "./main.properties";
         file = new FileInputStream(path);
         mainProperties.load(file);
         file.close();
-        return mainProperties.getProperty(property);
+        return mainProperties;
     }
 }

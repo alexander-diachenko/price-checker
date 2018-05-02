@@ -3,13 +3,13 @@ import excel.ExcelImpl;
 import magazine.Magazine;
 import magazine.Makeup;
 import org.apache.log4j.Logger;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import property.AppProperty;
 
-import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -18,18 +18,23 @@ import java.util.Properties;
  */
 public class Main {
 
+    static {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hhmmss");
+        System.setProperty("current.date", dateFormat.format(new Date()));
+    }
+
     private final static Logger logger = Logger.getLogger(Main.class);
 
     public static void main(String[] args) {
+        Properties properties = AppProperty.getProperty();
+        setSystemProperty(properties);
+        ChromeOptions chromeOptions = new ChromeOptions();
+        setChromeOption(chromeOptions);
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        Magazine makeup = new Makeup(driver, properties);
+        Excel excel = new ExcelImpl();
         try {
-            Properties properties = AppProperty.getProperty();
-            setSystemProperty(properties);
-            ChromeOptions chromeOptions = new ChromeOptions();
-            setChromeOption(chromeOptions);
-            WebDriver driver = new ChromeDriver(chromeOptions);
-            Magazine makeup = new Makeup(driver, properties);
-            Excel excel = new ExcelImpl();
-            List<List<Object>> table = excel.read(properties.getProperty("file.path"));
+            List<List<Object>>  table = excel.read(properties.getProperty("file.path"));
 
             final String priceColumn = properties.getProperty("price.column");
             final String linkColumn = properties.getProperty("link.column");
@@ -44,10 +49,10 @@ public class Main {
                 }
             }
             closeConnection(driver);
+
             excel.write(table, properties.getProperty("save.file.path"));
-        } catch (IOException | InvalidFormatException e) {
+        } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            e.printStackTrace();
         }
     }
 

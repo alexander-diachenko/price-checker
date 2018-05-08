@@ -1,5 +1,7 @@
 package integration;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
 import magazine.Magazine;
 import magazine.Makeup;
 import org.hamcrest.CoreMatchers;
@@ -7,12 +9,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import property.AppProperty;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.Properties;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -26,9 +26,15 @@ public class MakeupTest {
     private Magazine makeup;
 
     @Before
-    public void setup() throws IOException {
-        System.setProperty("webdriver.chrome.driver", getResource("chromedriver.exe").getAbsolutePath());
-        driver = new ChromeDriver();
+    public void setup() {
+        driver = new HtmlUnitDriver(BrowserVersion.CHROME,true) {
+            @Override
+            protected WebClient newWebClient(BrowserVersion version) {
+                WebClient webClient = super.newWebClient(version);
+                webClient.getOptions().setThrowExceptionOnScriptError(false);
+                return webClient;
+            }
+        };
         makeup = new Makeup(driver, AppProperty.getProperty());
     }
 

@@ -1,11 +1,12 @@
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
 import excel.Excel;
 import excel.ExcelImpl;
 import magazine.Magazine;
 import magazine.Makeup;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import property.AppProperty;
 
 import java.text.SimpleDateFormat;
@@ -27,10 +28,14 @@ public class Main {
 
     public static void main(String[] args) {
         Properties properties = AppProperty.getProperty();
-        setSystemProperty(properties);
-        ChromeOptions chromeOptions = new ChromeOptions();
-        setChromeOption(chromeOptions);
-        WebDriver driver = new ChromeDriver(chromeOptions);
+        WebDriver driver = new HtmlUnitDriver(BrowserVersion.CHROME,true) {
+            @Override
+            protected WebClient newWebClient(BrowserVersion version) {
+                WebClient webClient = super.newWebClient(version);
+                webClient.getOptions().setThrowExceptionOnScriptError(false);
+                return webClient;
+            }
+        };
         Magazine makeup = new Makeup(driver, properties);
         Excel excel = new ExcelImpl();
         try {
@@ -56,11 +61,6 @@ public class Main {
         }
     }
 
-    private static void setChromeOption(ChromeOptions chromeOptions) {
-        chromeOptions.addArguments("headless");
-        chromeOptions.addArguments("window-size=1200x600");
-    }
-
     private static void insert(List<Object> row, int column, String price) {
         if (row.size() > column) {
             row.set(column, price);
@@ -69,12 +69,7 @@ public class Main {
         }
     }
 
-    private static void setSystemProperty(Properties properties) {
-        System.setProperty("webdriver.chrome.driver", properties.getProperty("chrome.driver.path"));
-    }
-
     private static void closeConnection(WebDriver driver) {
         driver.close();
-        driver.quit();
     }
 }

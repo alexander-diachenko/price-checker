@@ -1,10 +1,12 @@
 package magazine;
 
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
+import url.AppProperty;
 import url.UrlUtils;
 
 import java.net.MalformedURLException;
@@ -14,6 +16,8 @@ import java.util.Properties;
  * @author Alexander Diachenko.
  */
 public class Makeup implements Magazine {
+
+    private final static Logger logger = Logger.getLogger(Makeup.class);
 
     private Properties properties;
     private WebDriver driver;
@@ -42,7 +46,7 @@ public class Makeup implements Magazine {
         try {
             return UrlUtils.getDomainName(url).equals("makeup.com.ua");
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
         return false;
     }

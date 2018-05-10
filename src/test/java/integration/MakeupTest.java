@@ -5,14 +5,10 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import magazine.Magazine;
 import magazine.Makeup;
 import org.hamcrest.CoreMatchers;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import url.AppProperty;
-
-import java.io.File;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -22,11 +18,11 @@ import static org.junit.Assert.assertThat;
  */
 public class MakeupTest {
 
-    private WebDriver driver;
-    private Magazine makeup;
+    private static WebDriver driver;
+    private static Magazine makeup;
 
-    @Before
-    public void setup() {
+    @BeforeClass
+    public static void setup() {
         driver = new HtmlUnitDriver(BrowserVersion.CHROME,true) {
             @Override
             protected WebClient newWebClient(BrowserVersion version) {
@@ -36,12 +32,6 @@ public class MakeupTest {
             }
         };
         makeup = new Makeup(driver, AppProperty.getProperty());
-    }
-
-    @Test
-    public void getPriceTest_invalidUrl() {
-        final String price = makeup.getPrice("qwe");
-        assertEquals("Не правельный URL", price);
     }
 
     @Test
@@ -57,19 +47,13 @@ public class MakeupTest {
     }
 
     @Test
-    public void getPriceTest_notMakeup()  {
-        final String price = makeup.getPrice("http://www.google.com.ua/");
-        assertEquals("Сайт не makeup", price);
-    }
-
-    @Test
     public void getPriceTest() {
         final String price = makeup.getPrice("https://makeup.com.ua/product/1801/#/option/393587/");
         assertThat(Integer.valueOf(price), CoreMatchers.instanceOf(Integer.class));
     }
 
-    @After
-    public void close() {
+    @AfterClass
+    public static void close() {
         driver.close();
         driver.quit();
     }

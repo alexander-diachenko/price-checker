@@ -1,4 +1,4 @@
-package property;
+package url;
 
 import org.apache.log4j.Logger;
 

@@ -37,7 +37,7 @@ public class Controller {
                     if (!url.isEmpty() && magazine.isThisWebsite(url)) {
                         int column = Integer.parseInt(priceColumn) - 1;
                         String price = magazine.getPrice(url);
-                        System.out.println((index + 1) + ") " + url + " -> " + price + " грн");
+                        System.out.println((index + 1) + ") " + url + " -> " + price);
                         insert(row, column, price);
                     }
                 }

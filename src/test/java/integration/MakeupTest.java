@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-import property.AppProperty;
+import url.AppProperty;
 
 import java.io.File;
 
@@ -72,10 +72,5 @@ public class MakeupTest {
     public void close() {
         driver.close();
         driver.quit();
-    }
-
-    private File getResource(String fileName) {
-        ClassLoader classLoader = getClass().getClassLoader();
-        return new File(classLoader.getResource(fileName).getFile());
     }
 }

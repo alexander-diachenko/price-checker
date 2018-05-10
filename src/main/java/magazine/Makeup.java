@@ -6,7 +6,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
-import url.AppProperty;
 import url.UrlUtils;
 
 import java.net.MalformedURLException;

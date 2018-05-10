@@ -25,12 +25,6 @@ public class Makeup implements Magazine {
 
     @Override
     public String getPrice(String url) {
-        if (!UrlUtils.isValid(url)) {
-            return "Не правельный URL";
-        }
-        if (!isThisWebsite(url)) {
-            return "Сайт не makeup";
-        }
         Document document = getDocument(url);
         if (!isCorrectPage(document)) {
             return "Страница не найдена";

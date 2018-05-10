@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane fx:id="gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="controller.MainController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Button onAction="#fileAction" mnemonicParsing="false" prefHeight="25.0" prefWidth="319.0" text="Select file" />
+      <Label fx:id="filePath" prefHeight="17.0" prefWidth="360.0" GridPane.columnIndex="1" />
+       <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1" >
+           <Spinner fx:id="urlColumn">
+               <valueFactory>
+                   <SpinnerValueFactory.IntegerSpinnerValueFactory min="1" max="1000"/>
+               </valueFactory>
+               <tooltip>
+                   <Tooltip fx:id="urlColumnTooltip" text="Select URL column"/>
+               </tooltip>
+           </Spinner>
+           <Spinner fx:id="insertColumn">
+               <valueFactory>
+                   <SpinnerValueFactory.IntegerSpinnerValueFactory min="1" max="1000"/>
+               </valueFactory>
+               <tooltip>
+                   <Tooltip fx:id="insertColumnTooltip" text="Select insert column"/>
+               </tooltip>
+           </Spinner>
+       </HBox>
+      <Button onAction="#checkAction" mnemonicParsing="false" prefHeight="25.0" prefWidth="324.0" text="Check" GridPane.rowIndex="2" />
+      <ProgressIndicator fx:id="progressIndicator" progress="0.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+   </children>
+</GridPane>

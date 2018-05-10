@@ -16,7 +16,6 @@ import java.util.Properties;
 public class Makeup implements Magazine {
 
     private Properties properties;
-    private Document document;
     private WebDriver driver;
 
     public Makeup(WebDriver driver, Properties properties) {
@@ -32,15 +31,15 @@ public class Makeup implements Magazine {
         if (!isThisWebsite(url)) {
             return "Сайт не makeup";
         }
-        document = getDocument(url);
-        if (!isCorrectPage()) {
+        Document document = getDocument(url);
+        if (!isCorrectPage(document)) {
             return "Страница не найдена";
         }
-        return getValue();
+        return getValue(document);
     }
 
     @Override
-    public boolean isCorrectPage() {
+    public boolean isCorrectPage(Document document) {
         return !document.select("h1.page-header").text().equals("Страница не найдена");
     }
 
@@ -61,7 +60,7 @@ public class Makeup implements Magazine {
         return Jsoup.parse(page);
     }
 
-    private String getValue() {
+    private String getValue(Document document) {
         if (!isAvailable(document)) {
             return "Нет в наличии";
         } else if (isDiscount(document)) {
@@ -71,13 +70,13 @@ public class Makeup implements Magazine {
     }
 
     @Override
-    public boolean isDiscount(Element document) {
+    public boolean isDiscount(Document document) {
         Element discountPrice = document.select(properties.getProperty("discount.price.span")).first();
         return discountPrice != null;
     }
 
     @Override
-    public boolean isAvailable(Element document) {
+    public boolean isAvailable(Document document) {
         Element itemStatus = document.select(properties.getProperty("item.status.div")).first();
         return itemStatus.text().equals("Есть в наличии!");
     }

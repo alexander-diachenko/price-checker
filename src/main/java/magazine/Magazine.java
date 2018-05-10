@@ -1,7 +1,6 @@
 package magazine;
 
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.openqa.selenium.WebDriverException;
 
 /**
@@ -11,13 +10,13 @@ public interface Magazine {
 
     String getPrice(String url);
 
-    boolean isCorrectPage();
+    boolean isCorrectPage(Document document);
 
     boolean isThisWebsite(String url);
 
     Document getDocument(String url) throws WebDriverException;
 
-    boolean isDiscount(Element document);
+    boolean isDiscount(Document document);
 
-    boolean isAvailable(Element document);
+    boolean isAvailable(Document document);
 }

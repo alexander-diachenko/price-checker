@@ -28,14 +28,7 @@ public class Main {
 
     public static void main(String[] args) {
         Properties properties = AppProperty.getProperty();
-        WebDriver driver = new HtmlUnitDriver(BrowserVersion.CHROME,true) {
-            @Override
-            protected WebClient newWebClient(BrowserVersion version) {
-                WebClient webClient = super.newWebClient(version);
-                webClient.getOptions().setThrowExceptionOnScriptError(false);
-                return webClient;
-            }
-        };
+        WebDriver driver = getDriver(BrowserVersion.CHROME, true);
         Magazine makeup = new Makeup(driver, properties);
         Excel excel = new ExcelImpl();
         try {
@@ -43,21 +36,23 @@ public class Main {
 
             final String priceColumn = properties.getProperty("price.column");
             final String linkColumn = properties.getProperty("link.column");
-            for (List<Object> row : table) {
+            for (int i = 0, tableSize = table.size(); i < tableSize; i++) {
+                List<Object> row = table.get(i);
                 final String url = String.valueOf(row.get(Integer.parseInt(linkColumn) - 1));
                 if (!url.isEmpty()) {
                     driver.get("https://www.google.com.ua/");
                     final int column = Integer.parseInt(priceColumn) - 1;
                     final String price = makeup.getPrice(url);
-                    System.out.println(price);
+                    System.out.println((i + 1) + ") " + url + " -> " + price + " грн");
                     insert(row, column, price);
                 }
             }
-            closeConnection(driver);
 
             excel.write(table, properties.getProperty("save.file.path"));
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
+        } finally {
+            closeConnection(driver);
         }
     }
 
@@ -71,5 +66,16 @@ public class Main {
 
     private static void closeConnection(WebDriver driver) {
         driver.close();
+    }
+
+    private static WebDriver getDriver(BrowserVersion browserVersion, boolean javascript) {
+        return new HtmlUnitDriver(browserVersion,javascript) {
+            @Override
+            protected WebClient newWebClient(BrowserVersion version) {
+                WebClient webClient = super.newWebClient(version);
+                webClient.getOptions().setThrowExceptionOnScriptError(false);
+                return webClient;
+            }
+        };
     }
 }

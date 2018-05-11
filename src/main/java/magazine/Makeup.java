@@ -52,8 +52,8 @@ public class Makeup implements Magazine {
 
     @Override
     public Document getDocument(String url) throws WebDriverException {
+        driver.get("https://www.google.com.ua/");
         driver.get(url);
-        driver.navigate().refresh();
         final String page = driver.getPageSource();
         return Jsoup.parse(page);
     }

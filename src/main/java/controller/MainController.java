@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.net.URL;
@@ -20,6 +21,8 @@ import java.util.ResourceBundle;
  * @author Alexander Diachenko.
  */
 public class MainController implements Initializable {
+
+    private final static Logger logger = Logger.getLogger(MainController.class);
 
     @FXML
     private Button check;
@@ -52,6 +55,7 @@ public class MainController implements Initializable {
     }
 
     public void checkAction() {
+        disableAll(true);
         progressIndicator.setProgress(-1);
         MainService service = new MainService(file.getPath(), urlColumn.getValue(), insertColumn.getValue(), saveDirectoryPath.getText(), progressIndicator);
         service.restart();
@@ -60,12 +64,15 @@ public class MainController implements Initializable {
     }
 
     private void setComplete() {
-        progressIndicator.visibleProperty().unbind();
+        disableAll(false);
         progressIndicator.setProgress(1);
     }
 
     private void setFailed(Throwable exception) {
-        exception.printStackTrace();
+        logger.error(exception.getMessage(), exception);
+        disableAll(false);
+        progressIndicator.setProgress(0);
+        Modal.openModal(getStage(), exception);
     }
 
     public void directoryAction() {
@@ -86,5 +93,9 @@ public class MainController implements Initializable {
     private BooleanBinding getBooleanBinding() {
         return filePath.textProperty().isEmpty()
                 .or(saveDirectoryPath.textProperty().isEmpty());
+    }
+
+    private void disableAll(boolean value) {
+        gridPane.setDisable(value);
     }
 }

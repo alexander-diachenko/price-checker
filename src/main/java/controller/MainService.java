@@ -6,7 +6,6 @@ import excel.Excel;
 import excel.ExcelImpl;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import javafx.fxml.Initializable;
 import javafx.scene.control.ProgressIndicator;
 import magazine.Magazine;
 import magazine.Makeup;
@@ -15,11 +14,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import url.AppProperty;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.ResourceBundle;
 
 /**
  * @author Alexander Diachenko.
@@ -47,12 +44,11 @@ public class MainService extends Service<Void> {
         return new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                progressIndicator.setProgress(0.01);
                 try {
                     List<List<Object>> table = excel.read(properties.getProperty("file.path"));
                     final String priceColumn = properties.getProperty("price.column");
                     final String linkColumn = properties.getProperty("link.column");
-                    for (int index = 0, tableSize = table.size(); index < tableSize; index++) {
+                    for (int index = 0; index < table.size(); index++) {
                         List<Object> row = table.get(index);
                         final String url = String.valueOf(row.get(Integer.parseInt(linkColumn) - 1));
                         for (Magazine magazine : magazines) {
@@ -63,7 +59,7 @@ public class MainService extends Service<Void> {
                                 insert(row, column, price);
                             }
                         }
-                        progressIndicator.setProgress(index / 100);
+                        progressIndicator.setProgress((double) 1 / table.size() * (index + 1));
                     }
                     excel.write(table, properties.getProperty("save.file.path"));
                 } catch (Exception e) {

@@ -41,7 +41,7 @@
         <Button onAction="#directoryAction" mnemonicParsing="false" prefHeight="25.0" prefWidth="319.0" text="Select directory"
                 GridPane.rowIndex="2"/>
         <Label fx:id="saveDirectoryPath" prefHeight="17.0" prefWidth="360.0" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-        <Button onAction="#checkAction" mnemonicParsing="false" prefHeight="25.0" prefWidth="324.0" text="Check"
+        <Button fx:id="check" onAction="#checkAction" mnemonicParsing="false" prefHeight="25.0" prefWidth="324.0" text="Check"
                 GridPane.rowIndex="3"/>
         <ProgressIndicator fx:id="progressIndicator" progress="0.0" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
     </children>

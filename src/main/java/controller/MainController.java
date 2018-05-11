@@ -1,6 +1,9 @@
 package controller;
 
+import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Spinner;
@@ -10,12 +13,16 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * @author Alexander Diachenko.
  */
-public class MainController {
+public class MainController implements Initializable {
 
+    @FXML
+    private Button check;
     @FXML
     private Label saveDirectoryPath;
     @FXML
@@ -69,5 +76,15 @@ public class MainController {
         } else {
             saveDirectoryPath.setText("");
         }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        check.disableProperty().bind(getBooleanBinding());
+    }
+
+    private BooleanBinding getBooleanBinding() {
+        return filePath.textProperty().isEmpty()
+                .or(saveDirectoryPath.textProperty().isEmpty());
     }
 }

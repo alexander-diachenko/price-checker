@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Spinner;
 import javafx.scene.layout.GridPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -15,6 +16,8 @@ import java.io.File;
  */
 public class MainController {
 
+    @FXML
+    private Label saveDirectoryPath;
     @FXML
     private ProgressIndicator progressIndicator;
     @FXML
@@ -43,7 +46,7 @@ public class MainController {
 
     public void checkAction() {
         progressIndicator.setProgress(-1);
-        MainService service = new MainService(file, urlColumn, insertColumn, progressIndicator);
+        MainService service = new MainService(file.getPath(), urlColumn.getValue(), insertColumn.getValue(), saveDirectoryPath.getText(), progressIndicator);
         service.restart();
         service.setOnSucceeded(event -> setComplete());
         service.setOnFailed(event -> setFailed(service.getException()));
@@ -56,5 +59,15 @@ public class MainController {
 
     private void setFailed(Throwable exception) {
         exception.printStackTrace();
+    }
+
+    public void directoryAction() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File saveDirectory = directoryChooser.showDialog(getStage());
+        if (saveDirectory != null) {
+            saveDirectoryPath.setText(saveDirectory.getAbsolutePath());
+        } else {
+            saveDirectoryPath.setText("");
+        }
     }
 }

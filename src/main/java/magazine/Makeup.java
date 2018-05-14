@@ -3,15 +3,12 @@ package magazine;
 import org.apache.log4j.Logger;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import url.UrlUtils;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Properties;
 
@@ -74,27 +71,26 @@ public class Makeup implements Magazine {
         if (!isAvailable(document)) {
             return "Нет в наличии";
         } else {
-            Elements withAttr = new Elements();
-            for (Element element : document.getAllElements()) {
-                for (Attribute attribute : element.attributes()) {
-                    if (attribute.getValue().equalsIgnoreCase(String.valueOf(id))) {
-                        withAttr.add(element);
-                    }
-                }
+            final Elements elementsByAttributeValue = document.getElementsByAttributeValue("data-variant-id", id);
+            if (elementsByAttributeValue.size() == 0) {
+                return document.select("span.product-item__price > span.rus").text();
             }
-            return withAttr.get(0).attr("data-price");
+            for (Element element : elementsByAttributeValue) {
+                return element.attr("data-price");
+            }
+            return "Не найдено";
         }
     }
 
     @Override
     public boolean isDiscount(Document document) {
-        Element discountPrice = document.select(properties.getProperty("discount.price.span")).first();
-        return discountPrice != null;
+        final Element status = document.getElementById("product_enabled");
+        return status.text().equalsIgnoreCase("Есть в наличии!");
     }
 
     @Override
     public boolean isAvailable(Document document) {
-        Element itemStatus = document.select(properties.getProperty("item.status.div")).first();
-        return itemStatus.text().equals("Есть в наличии!");
+        final Element status = document.getElementById("product_enabled");
+        return status.text().equalsIgnoreCase("Есть в наличии!");
     }
 }

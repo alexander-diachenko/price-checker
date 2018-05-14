@@ -62,6 +62,7 @@ public class MainService extends Service<Void> {
                     final long end = new Date().getTime();
                     System.out.println(end - start);
                 } catch (Exception exception) {
+                    exception.printStackTrace();
                     logger.error(exception.getMessage(), exception);
                     throw exception;
                 }

@@ -30,7 +30,6 @@ public class MakeupTest {
     @Test
     public void getPriceTest() {
         final String price = makeup.getPrice("https://makeup.com.ua/product/1801/#/option/393587/");
-        System.out.println(price);
         assertThat(Integer.valueOf(price), CoreMatchers.instanceOf(Integer.class));
     }
 }

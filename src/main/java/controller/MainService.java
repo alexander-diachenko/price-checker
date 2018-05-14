@@ -1,22 +1,16 @@
 package controller;
 
-import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.gargoylesoftware.htmlunit.WebClient;
 import excel.Excel;
 import excel.ExcelImpl;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.Spinner;
 import magazine.Magazine;
 import magazine.Makeup;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import url.AppProperty;
 
-import java.io.File;
 import java.util.*;
 
 /**
@@ -46,12 +40,10 @@ public class MainService extends Service<Void> {
             @Override
             protected Void call() throws Exception {
                 final long start = new Date().getTime();
-                WebDriver driver = null;
                 Excel excel = new ExcelImpl();
                 try {
-                    driver = getDriver(BrowserVersion.CHROME, true);
                     Properties properties = AppProperty.getProperty();
-                    List<Magazine> magazines = getMagazines(driver, properties);
+                    List<Magazine> magazines = getMagazines(properties);
                     List<List<Object>> table = excel.read(filePath);
                     for (int index = 0; index < table.size(); index++) {
                         List<Object> row = table.get(index);
@@ -72,8 +64,6 @@ public class MainService extends Service<Void> {
                 } catch (Exception exception) {
                     logger.error(exception.getMessage(), exception);
                     throw exception;
-                } finally {
-                    Objects.requireNonNull(driver).close();
                 }
                 return null;
             }
@@ -88,21 +78,10 @@ public class MainService extends Service<Void> {
         }
     }
 
-    private static List<Magazine> getMagazines(WebDriver driver, Properties properties) {
+    private static List<Magazine> getMagazines(Properties properties) {
         List<Magazine> magazines = new ArrayList<>();
-        Magazine makeup = new Makeup(driver, properties);
+        Magazine makeup = new Makeup(properties);
         magazines.add(makeup);
         return magazines;
-    }
-
-    private static WebDriver getDriver(BrowserVersion browserVersion, boolean javascript) {
-        return new HtmlUnitDriver(browserVersion, javascript) {
-            @Override
-            protected WebClient newWebClient(BrowserVersion version) {
-                WebClient webClient = super.newWebClient(version);
-                webClient.getOptions().setThrowExceptionOnScriptError(false);
-                return webClient;
-            }
-        };
     }
 }

@@ -18,21 +18,7 @@ import static org.junit.Assert.assertThat;
  */
 public class MakeupTest {
 
-    private static WebDriver driver;
-    private static Magazine makeup;
-
-    @BeforeClass
-    public static void setup() {
-        driver = new HtmlUnitDriver(BrowserVersion.CHROME,true) {
-            @Override
-            protected WebClient newWebClient(BrowserVersion version) {
-                WebClient webClient = super.newWebClient(version);
-                webClient.getOptions().setThrowExceptionOnScriptError(false);
-                return webClient;
-            }
-        };
-        makeup = new Makeup(driver, AppProperty.getProperty());
-    }
+    private Magazine makeup = new Makeup(AppProperty.getProperty());
 
     @Test
     public void getPriceTest_pageNotFound() {
@@ -49,12 +35,7 @@ public class MakeupTest {
     @Test
     public void getPriceTest() {
         final String price = makeup.getPrice("https://makeup.com.ua/product/1801/#/option/393587/");
+        System.out.println(price);
         assertThat(Integer.valueOf(price), CoreMatchers.instanceOf(Integer.class));
-    }
-
-    @AfterClass
-    public static void close() {
-        driver.close();
-        driver.quit();
     }
 }

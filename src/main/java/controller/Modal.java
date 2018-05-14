@@ -36,7 +36,6 @@ public class Modal {
             stage.show();
         } catch (IOException e) {
             logger.error(exception.getMessage(), exception);
-            e.printStackTrace();
         }
     }
 }

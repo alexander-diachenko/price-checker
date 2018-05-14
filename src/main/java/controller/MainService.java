@@ -60,7 +60,6 @@ public class MainService extends Service<Void> {
                     }
                     excel.write(table, saveDirectoryPath + "\\prices.xlsx");
                 } catch (Exception exception) {
-                    exception.printStackTrace();
                     logger.error(exception.getMessage(), exception);
                     throw exception;
                 }

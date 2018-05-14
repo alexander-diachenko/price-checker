@@ -49,7 +49,6 @@ public class Makeup implements Magazine {
         } catch (HttpStatusException ex) {
             return null;
         } catch (Exception e) {
-            e.printStackTrace();
             logger.error(e.getMessage(), e);
         }
         return null;

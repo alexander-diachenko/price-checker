@@ -44,6 +44,9 @@ public class MainService extends Service<Void> {
                     List<List<Object>> table = excel.read(filePath);
                     for (int index = 0; index < table.size(); index++) {
                         List<Object> row = table.get(index);
+                        if(row.size() < urlColumn) {
+                            continue;
+                        }
                         String url = String.valueOf(row.get(urlColumn - 1));
                         for (Magazine magazine : magazines) {
                             if (!url.isEmpty() && magazine.isThisWebsite(url)) {

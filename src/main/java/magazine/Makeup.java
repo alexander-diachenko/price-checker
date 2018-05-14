@@ -10,7 +10,6 @@ import org.openqa.selenium.WebDriverException;
 import url.UrlUtils;
 
 import java.net.MalformedURLException;
-import java.util.Properties;
 
 /**
  * @author Alexander Diachenko.
@@ -19,25 +18,16 @@ public class Makeup implements Magazine {
 
     private final static Logger logger = Logger.getLogger(Makeup.class);
 
-    private Properties properties;
-    private String id;
-
-    public Makeup(Properties properties) {
-        this.properties = properties;
-    }
+    private String url;
 
     @Override
     public String getPrice(String url) {
+        this.url = url;
         Document document = getDocument(url);
         if (document == null) {
             return "Страница не найдена";
         }
         return getValue(document);
-    }
-
-    @Override
-    public boolean isCorrectPage(Document document) {
-        return !document.select("h1.page-header").text().equals("Страница не найдена");
     }
 
     @Override
@@ -52,8 +42,6 @@ public class Makeup implements Magazine {
 
     @Override
     public Document getDocument(String url) throws WebDriverException {
-        String[] split = url.split("/");
-        id = split[split.length - 1];
         try {
             return Jsoup.connect(url)
                     .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36")
@@ -70,27 +58,22 @@ public class Makeup implements Magazine {
     private String getValue(Document document) {
         if (!isAvailable(document)) {
             return "Нет в наличии";
-        } else {
-            final Elements elementsByAttributeValue = document.getElementsByAttributeValue("data-variant-id", id);
-            if (elementsByAttributeValue.size() == 0) {
-                return document.select("span.product-item__price > span.rus").text();
-            }
-            for (Element element : elementsByAttributeValue) {
-                return element.attr("data-price");
-            }
-            return "Не найдено";
         }
-    }
-
-    @Override
-    public boolean isDiscount(Document document) {
-        final Element status = document.getElementById("product_enabled");
-        return status.text().equalsIgnoreCase("Есть в наличии!");
+        Elements elementsByAttributeValue = document.getElementsByAttributeValue("data-variant-id", getDataVariantId(url));
+        if (elementsByAttributeValue.size() == 0) {
+            return document.select("span.product-item__price > span.rus").text();
+        }
+        return elementsByAttributeValue.stream().findFirst().map(element -> element.attr("data-price")).orElse("Не найдено");
     }
 
     @Override
     public boolean isAvailable(Document document) {
         final Element status = document.getElementById("product_enabled");
         return status.text().equalsIgnoreCase("Есть в наличии!");
+    }
+
+    private String getDataVariantId(String url) {
+        String[] split = url.split("/");
+        return split[split.length - 1];
     }
 }

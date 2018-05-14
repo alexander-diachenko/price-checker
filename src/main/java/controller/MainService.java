@@ -9,7 +9,6 @@ import javafx.scene.control.ProgressIndicator;
 import magazine.Magazine;
 import magazine.Makeup;
 import org.apache.log4j.Logger;
-import url.AppProperty;
 
 import java.util.*;
 
@@ -39,11 +38,9 @@ public class MainService extends Service<Void> {
         return new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                final long start = new Date().getTime();
                 Excel excel = new ExcelImpl();
                 try {
-                    Properties properties = AppProperty.getProperty();
-                    List<Magazine> magazines = getMagazines(properties);
+                    List<Magazine> magazines = getMagazines();
                     List<List<Object>> table = excel.read(filePath);
                     for (int index = 0; index < table.size(); index++) {
                         List<Object> row = table.get(index);
@@ -59,8 +56,6 @@ public class MainService extends Service<Void> {
                         Platform.runLater(() -> progressIndicator.setProgress(0.99 / table.size() * (finalIndex + 1)));
                     }
                     excel.write(table, saveDirectoryPath + "\\prices.xlsx");
-                    final long end = new Date().getTime();
-                    System.out.println(end - start);
                 } catch (Exception exception) {
                     exception.printStackTrace();
                     logger.error(exception.getMessage(), exception);
@@ -79,9 +74,9 @@ public class MainService extends Service<Void> {
         }
     }
 
-    private static List<Magazine> getMagazines(Properties properties) {
+    private static List<Magazine> getMagazines() {
         List<Magazine> magazines = new ArrayList<>();
-        Magazine makeup = new Makeup(properties);
+        Magazine makeup = new Makeup();
         magazines.add(makeup);
         return magazines;
     }

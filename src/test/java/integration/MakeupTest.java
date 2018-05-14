@@ -1,14 +1,9 @@
 package integration;
 
-import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.gargoylesoftware.htmlunit.WebClient;
 import magazine.Magazine;
 import magazine.Makeup;
 import org.hamcrest.CoreMatchers;
 import org.junit.*;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-import url.AppProperty;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -18,7 +13,7 @@ import static org.junit.Assert.assertThat;
  */
 public class MakeupTest {
 
-    private Magazine makeup = new Makeup(AppProperty.getProperty());
+    private Magazine makeup = new Makeup();
 
     @Test
     public void getPriceTest_pageNotFound() {

@@ -1,4 +1,4 @@
-package url;
+package checker.url;
 
 import org.apache.commons.validator.routines.UrlValidator;
 
@@ -11,18 +11,18 @@ import java.net.URL;
 public class UrlUtils {
 
     /**
-     * Return domain name for given url
-     * @param url String url
-     * @return domain name for given url
-     * @throws MalformedURLException then url is invalid
+     * Return domain name for given checker.url
+     * @param url String checker.url
+     * @return domain name for given checker.url
+     * @throws MalformedURLException then checker.url is invalid
      */
     public static String getDomainName(String url) throws MalformedURLException {
         return new URL(url).getHost();
     }
 
     /**
-     * Check if the url is valid
-     * @param url String url
+     * Check if the checker.url is valid
+     * @param url String checker.url
      * @return true if valid
      */
     public static boolean isValid(String url) {

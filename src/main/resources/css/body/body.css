@@ -1,0 +1,37 @@
+#gridPane {
+    -fx-alignment: CENTER;
+    -fx-hgap: 25;
+    -fx-pref-height: 400;
+    -fx-pref-width: 600;
+    -fx-padding: 0 10 0 10;
+}
+
+#fileButton, #directory, #check {
+    -fx-alignment: CENTER;
+    -fx-content-display: CENTER;
+    -fx-pref-height: 25;
+    -fx-pref-width: 280;
+}
+
+#filePath, #saveDirectoryPath {
+    -fx-pref-height: 25;
+    -fx-pref-width: 280;
+}
+
+#columns {
+    -fx-alignment: CENTER;
+    -fx-pref-height: 25;
+    -fx-pref-width: 280;
+    -fx-spacing: 10;
+}
+
+#urlColumn, #insertColumn {
+}
+
+#urlColumnTooltip, #insertColumnTooltip {
+}
+
+#progressIndicator {
+    -fx-pref-height: 50;
+    -fx-pref-width: 50;
+}

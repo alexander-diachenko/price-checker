@@ -1,0 +1,21 @@
+.root {
+    -fx-pref-height: 450;
+    -fx-pref-width: 600;
+    -fx-font-family: "Arial";
+}
+
+.button {
+    -fx-cursor: hand;
+}
+
+.menu-bar .menu {
+    -fx-cursor: hand;
+}
+
+.menu-bar .menu-item {
+    -fx-cursor: hand;
+}
+
+.spinner {
+    -fx-cursor: hand;
+}

@@ -1,7 +1,7 @@
 package integration;
 
-import magazine.Magazine;
-import magazine.Makeup;
+import checker.magazine.Magazine;
+import checker.magazine.Makeup;
 import org.hamcrest.CoreMatchers;
 import org.junit.*;
 

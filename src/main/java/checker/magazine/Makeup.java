@@ -1,4 +1,4 @@
-package magazine;
+package checker.magazine;
 
 import org.apache.log4j.Logger;
 import org.jsoup.HttpStatusException;
@@ -7,7 +7,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.WebDriverException;
-import url.UrlUtils;
+import checker.url.UrlUtils;
 
 import java.net.MalformedURLException;
 

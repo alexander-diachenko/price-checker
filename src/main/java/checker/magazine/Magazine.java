@@ -1,4 +1,4 @@
-package magazine;
+package checker.magazine;
 
 import org.jsoup.nodes.Document;
 import org.openqa.selenium.WebDriverException;

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.net.URL?>
+<GridPane fx:id="gridPane" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8"
+          fx:controller="checker.controller.MainController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+    </rowConstraints>
+    <children>
+        <Button fx:id="fileButton" onAction="#fileAction" mnemonicParsing="false" text="%body.button.file.text"/>
+        <Label fx:id="filePath" GridPane.columnIndex="1"/>
+        <HBox fx:id="columns" GridPane.rowIndex="1">
+            <Spinner fx:id="urlColumn">
+                <valueFactory>
+                    <SpinnerValueFactory.IntegerSpinnerValueFactory min="1" max="1000"/>
+                </valueFactory>
+                <tooltip>
+                    <Tooltip fx:id="urlColumnTooltip" text="%body.spinner.tooltip.url"/>
+                </tooltip>
+            </Spinner>
+            <Spinner fx:id="insertColumn">
+                <valueFactory>
+                    <SpinnerValueFactory.IntegerSpinnerValueFactory min="1" max="1000"/>
+                </valueFactory>
+                <tooltip>
+                    <Tooltip fx:id="insertColumnTooltip" text="%body.spinner.tooltip.insert"/>
+                </tooltip>
+            </Spinner>
+        </HBox>
+        <Button fx:id="directory" onAction="#directoryAction" mnemonicParsing="false" text="%body.button.directory.text"
+                GridPane.rowIndex="2"/>
+        <Label fx:id="saveDirectoryPath" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <Button fx:id="check" onAction="#checkAction" mnemonicParsing="false" text="%body.button.check.text"
+                GridPane.rowIndex="3"/>
+        <ProgressIndicator fx:id="progressIndicator" progress="0.0" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+    </children>
+    <stylesheets>
+        <URL value="@/css/body/body.css"/>
+    </stylesheets>
+</GridPane>

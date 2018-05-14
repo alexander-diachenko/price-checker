@@ -44,7 +44,7 @@ public class MainService extends Service<Void> {
                     List<List<Object>> table = excel.read(filePath);
                     for (int index = 0; index < table.size(); index++) {
                         List<Object> row = table.get(index);
-                        if(row.size() < urlColumn) {
+                        if (row.size() < urlColumn) {
                             continue;
                         }
                         String url = String.valueOf(row.get(urlColumn - 1));
@@ -69,12 +69,11 @@ public class MainService extends Service<Void> {
         };
     }
 
-    private static void insert(List<Object> row, int column, String price) {
-        if (row.size() > column) {
-            row.set(column, price);
-        } else {
-            row.add(column, price);
+    private void insert(List<Object> row, int column, String price) {
+        while (row.size() <= column) {
+            row.add("");
         }
+        row.set(column, price);
     }
 
     private static List<Magazine> getMagazines() {

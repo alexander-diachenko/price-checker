@@ -33,7 +33,7 @@ public class Makeup implements Magazine {
     @Override
     public boolean isThisWebsite(String url) {
         try {
-            return UrlUtils.getDomainName(url).equals("makeup.com.ua");
+            return UrlUtils.isValid(url) && UrlUtils.getDomainName(url).equals("makeup.com.ua");
         } catch (MalformedURLException e) {
             logger.error(e.getMessage(), e);
         }

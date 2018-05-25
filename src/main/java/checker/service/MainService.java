@@ -46,9 +46,6 @@ public class MainService extends Service<Void> {
                         continue;
                     }
                     String url = String.valueOf(row.get(urlColumn - 1));
-                    if (!UrlUtils.isValid(url)) {
-                        continue;
-                    }
                     for (Magazine magazine : magazines) {
                         if (magazine.isThisWebsite(url)) {
                             String price = magazine.getPrice(url);

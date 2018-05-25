@@ -1,13 +1,13 @@
-package checker.controller;
+package checker.service;
 
-import checker.excel.Excel;
-import checker.excel.ExcelImpl;
+import checker.model.excel.Excel;
+import checker.model.excel.ExcelImpl;
+import checker.model.magazine.Magazine;
+import checker.model.magazine.Makeup;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.control.ProgressIndicator;
-import checker.magazine.Magazine;
-import checker.magazine.Makeup;
 import org.apache.log4j.Logger;
 
 import java.util.*;

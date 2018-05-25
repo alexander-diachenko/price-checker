@@ -6,8 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import checker.url.AppProperty;
-import checker.url.ResourceBundleControl;
+import checker.util.AppProperty;
+import checker.util.ResourceBundleControl;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;

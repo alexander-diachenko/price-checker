@@ -1,5 +1,5 @@
 import org.junit.Test;
-import checker.url.UrlUtils;
+import checker.util.UrlUtils;
 
 import java.net.MalformedURLException;
 

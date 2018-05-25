@@ -1,4 +1,4 @@
-package checker.url;
+package checker.util;
 
 /*
  * This file is part of aion-emu <aion-emu.com>.

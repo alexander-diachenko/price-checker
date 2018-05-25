@@ -1,6 +1,7 @@
 package checker.controller;
 
 import checker.component.Modal;
+import checker.service.MainService;
 import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

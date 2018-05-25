@@ -1,4 +1,4 @@
-package checker.url;
+package checker.util;
 
 import org.apache.log4j.Logger;
 

@@ -12,7 +12,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
-import checker.url.AppProperty;
+import checker.util.AppProperty;
 
 import java.io.IOException;
 import java.net.URL;

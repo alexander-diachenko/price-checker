@@ -31,6 +31,19 @@
 #urlColumnTooltip, #insertColumnTooltip {
 }
 
+#actions {
+    -fx-alignment: CENTER;
+    -fx-pref-height: 25;
+    -fx-pref-width: 280;
+    -fx-spacing: 10;
+}
+
+#check, #open {
+    -fx-alignment: CENTER;
+    -fx-content-display: CENTER;
+    -fx-pref-height: 25;
+    -fx-pref-width: 135;
+}
 #progressIndicator {
     -fx-pref-height: 50;
     -fx-pref-width: 50;

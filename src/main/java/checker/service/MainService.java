@@ -22,14 +22,14 @@ public class MainService extends Service<Void> {
     private String filePath;
     private Integer urlColumn;
     private Integer insertColumn;
-    private String saveDirectoryPath;
+    private String savedFilePath;
     private ProgressIndicator progressIndicator;
 
-    public MainService(String filePath, Integer urlColumn, Integer insertColumn, String saveDirectoryPath, ProgressIndicator progressIndicator) {
+    public MainService(String filePath, Integer urlColumn, Integer insertColumn, String savedFilePath, ProgressIndicator progressIndicator) {
         this.filePath = filePath;
         this.urlColumn = urlColumn;
         this.insertColumn = insertColumn;
-        this.saveDirectoryPath = saveDirectoryPath;
+        this.savedFilePath = savedFilePath;
         this.progressIndicator = progressIndicator;
     }
 
@@ -58,7 +58,7 @@ public class MainService extends Service<Void> {
                         int finalIndex = index;
                         Platform.runLater(() -> progressIndicator.setProgress(0.99 / table.size() * (finalIndex + 1)));
                     }
-                    excel.write(table, saveDirectoryPath + "\\prices.xlsx");
+                    excel.write(table, savedFilePath);
                 } catch (Exception exception) {
                     logger.error(exception.getMessage(), exception);
                     throw exception;

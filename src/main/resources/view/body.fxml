@@ -41,8 +41,11 @@
         <Button fx:id="directory" onAction="#directoryAction" mnemonicParsing="false" text="%body.button.directory.text"
                 GridPane.rowIndex="2"/>
         <Label fx:id="saveDirectoryPath" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-        <Button fx:id="check" onAction="#checkAction" mnemonicParsing="false" text="%body.button.check.text"
-                GridPane.rowIndex="3"/>
+        <HBox fx:id="actions" GridPane.rowIndex="3">
+            <Button fx:id="check" onAction="#checkAction" mnemonicParsing="false" text="%body.button.check.text"/>
+            <Button fx:id="open" onAction="#openAction" mnemonicParsing="false" text="%body.button.open.text"
+                    disable="true"/>
+        </HBox>
         <ProgressIndicator fx:id="progressIndicator" progress="0.0" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
     </children>
     <stylesheets>

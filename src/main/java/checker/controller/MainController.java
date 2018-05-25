@@ -2,6 +2,8 @@ package checker.controller;
 
 import checker.component.Modal;
 import checker.service.MainService;
+import checker.util.FileUtil;
+import checker.util.TimeUtil;
 import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,6 +18,7 @@ import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -29,6 +32,8 @@ public class MainController implements Initializable {
     @FXML
     private Button check;
     @FXML
+    private Button open;
+    @FXML
     private Label saveDirectoryPath;
     @FXML
     private ProgressIndicator progressIndicator;
@@ -41,6 +46,7 @@ public class MainController implements Initializable {
     @FXML
     private Label filePath;
     private File file;
+    private String savedFilePath;
 
     public void fileAction() {
         FileChooser fileFromChooser = new FileChooser();
@@ -59,7 +65,8 @@ public class MainController implements Initializable {
     public void checkAction() {
         disableAll(true);
         progressIndicator.setProgress(-1);
-        MainService service = new MainService(file.getPath(), urlColumn.getValue(), insertColumn.getValue(), saveDirectoryPath.getText(), progressIndicator);
+        savedFilePath = getSavedFilePath();
+        MainService service = new MainService(file.getPath(), urlColumn.getValue(), insertColumn.getValue(), savedFilePath, progressIndicator);
         service.restart();
         service.setOnSucceeded(event -> setComplete());
         service.setOnFailed(event -> setFailed(service.getException()));
@@ -67,6 +74,7 @@ public class MainController implements Initializable {
 
     private void setComplete() {
         disableAll(false);
+        open.setDisable(false);
         progressIndicator.setProgress(1);
     }
 
@@ -99,5 +107,19 @@ public class MainController implements Initializable {
 
     private void disableAll(boolean value) {
         gridPane.setDisable(value);
+    }
+
+    public void openAction() {
+        open.setDisable(true);
+        try {
+            FileUtil.open(new File(savedFilePath));
+        } catch (IOException e) {
+            setFailed(e);
+            e.printStackTrace();
+        }
+    }
+
+    private String getSavedFilePath() {
+        return saveDirectoryPath.getText() + "\\"  + "prices_" + TimeUtil.getCurrentTime() + ".xlsx";
     }
 }

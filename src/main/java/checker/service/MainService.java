@@ -4,6 +4,7 @@ import checker.model.excel.Excel;
 import checker.model.excel.ExcelImpl;
 import checker.model.magazine.Magazine;
 import checker.model.magazine.Makeup;
+import checker.util.UrlUtils;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -16,8 +17,6 @@ import java.util.*;
  * @author Alexander Diachenko.
  */
 public class MainService extends Service<Void> {
-
-    private final static Logger logger = Logger.getLogger(MainService.class);
 
     private String filePath;
     private Integer urlColumn;
@@ -39,30 +38,27 @@ public class MainService extends Service<Void> {
             @Override
             protected Void call() throws Exception {
                 Excel excel = new ExcelImpl();
-                try {
-                    List<Magazine> magazines = getMagazines();
-                    List<List<Object>> table = excel.read(filePath);
-                    for (int index = 0; index < table.size(); index++) {
-                        List<Object> row = table.get(index);
-                        if (row.size() < urlColumn) {
-                            continue;
-                        }
-                        String url = String.valueOf(row.get(urlColumn - 1));
-                        for (Magazine magazine : magazines) {
-                            if (!url.isEmpty() && magazine.isThisWebsite(url)) {
-                                String price = magazine.getPrice(url);
-                                System.out.println((index + 1) + ") " + url + " -> " + price);
-                                insert(row, insertColumn - 1, price);
-                            }
-                        }
-                        int finalIndex = index;
-                        Platform.runLater(() -> progressIndicator.setProgress(0.99 / table.size() * (finalIndex + 1)));
+                List<Magazine> magazines = getMagazines();
+                List<List<Object>> table = excel.read(filePath);
+                for (int index = 0; index < table.size(); index++) {
+                    List<Object> row = table.get(index);
+                    if (row.size() < urlColumn) {
+                        continue;
                     }
-                    excel.write(table, savedFilePath);
-                } catch (Exception exception) {
-                    logger.error(exception.getMessage(), exception);
-                    throw exception;
+                    String url = String.valueOf(row.get(urlColumn - 1));
+                    if (!UrlUtils.isValid(url)) {
+                        continue;
+                    }
+                    for (Magazine magazine : magazines) {
+                        if (magazine.isThisWebsite(url)) {
+                            String price = magazine.getPrice(url);
+                            insert(row, insertColumn - 1, price);
+                        }
+                    }
+                    int finalIndex = index;
+                    Platform.runLater(() -> progressIndicator.setProgress(0.99 / table.size() * (finalIndex + 1)));
                 }
+                excel.write(table, savedFilePath);
                 return null;
             }
         };

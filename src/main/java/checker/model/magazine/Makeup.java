@@ -24,7 +24,7 @@ public class Makeup implements Magazine {
     public String getPrice(String url) {
         this.url = url;
         Document document = getDocument(url);
-        if (document == null) {
+        if (document.data().isEmpty()) {
             return "Страница не найдена";
         }
         return getValue(document);
@@ -47,11 +47,11 @@ public class Makeup implements Magazine {
                     .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36")
                     .get();
         } catch (HttpStatusException ex) {
-            return null;
+            return new Document("");
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
-        return null;
+        return new Document("");
     }
 
     private String getValue(Document document) {
@@ -59,7 +59,7 @@ public class Makeup implements Magazine {
             return "Нет в наличии";
         }
         Elements elementsByAttributeValue = document.getElementsByAttributeValue("data-variant-id", getDataVariantId(url));
-        if (elementsByAttributeValue.size() == 0) {
+        if (elementsByAttributeValue.isEmpty()) {
             return document.select("span.product-item__price > span.rus").text();
         }
         return elementsByAttributeValue.stream().findFirst().map(element -> element.attr("data-price")).orElse("Не найдено");

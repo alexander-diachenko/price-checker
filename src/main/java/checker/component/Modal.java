@@ -1,6 +1,7 @@
 package checker.component;
 
 import checker.controller.ModalController;
+import checker.util.AppProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -11,6 +12,7 @@ import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
+import java.util.Properties;
 
 /**
  * @author Alexander Diachenko.
@@ -22,13 +24,14 @@ public class Modal {
         try {
             Stage stage = new Stage();
             stage.getIcons().add(new Image("/img/alert.png"));
+            Properties properties = AppProperty.getProperty();
             FXMLLoader fxmlLoader = new FXMLLoader();
             Pane root = fxmlLoader.load(Modal.class.getResource("/view/modal.fxml").openStream());
             ModalController modalController = fxmlLoader.getController();
             Label message = modalController.getMessage();
             message.setText(exception.getMessage());
             Scene scene = new Scene(root);
-            String style = "light";
+            String style = (String) properties.get("style");
             scene.getStylesheets().add("/css/" + style + "/modal.css");
             stage.setScene(scene);
             stage.setTitle("ERROR!");

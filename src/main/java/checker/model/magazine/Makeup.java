@@ -1,5 +1,6 @@
 package checker.model.magazine;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
@@ -68,7 +69,7 @@ public class Makeup implements Magazine {
     @Override
     public boolean isAvailable(Document document) {
         final Element status = document.getElementById("product_enabled");
-        return status.text().equalsIgnoreCase("Есть в наличии!");
+        return StringUtils.containsIgnoreCase(status.text(), "Есть в наличии");
     }
 
     private String getDataVariantId(String url) {

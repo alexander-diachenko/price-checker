@@ -73,16 +73,22 @@ public class MainController implements Initializable {
     }
 
     private void setComplete() {
+        flashTaskBar();
         disableAll(false);
         open.setDisable(false);
         progressIndicator.setProgress(1);
     }
 
     private void setFailed(Throwable exception) {
+        flashTaskBar();
         logger.error(exception.getMessage(), exception);
         disableAll(false);
         progressIndicator.setProgress(0);
         Modal.openModal(getStage(), exception);
+    }
+
+    private void flashTaskBar() {
+        getStage().toFront();
     }
 
     public void directoryAction() {
@@ -120,6 +126,6 @@ public class MainController implements Initializable {
     }
 
     private String getSavedFilePath() {
-        return saveDirectoryPath.getText() + "\\"  + "prices_" + TimeUtil.getCurrentTime() + ".xlsx";
+        return saveDirectoryPath.getText() + "\\" + "prices_" + TimeUtil.getCurrentTime() + ".xlsx";
     }
 }

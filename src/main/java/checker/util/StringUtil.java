@@ -1,20 +1,28 @@
 package checker.util;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * @author Alexander Diachenko
  */
 public class StringUtil {
 
     public static String formatPrice(String price) {
-        StringBuilder result = new StringBuilder();
-        Pattern p = Pattern.compile("\\d+");
-        Matcher m = p.matcher(price);
-        while(m.find()) {
-            result.append(m.group());
+        String string = price.replaceAll("[^0-9.,]+", "");
+        if (startWithDotOrComa(string)) {
+            string = string.substring(1);
+            formatPrice(string);
         }
-        return result.toString();
+        if (endWithDotOrComa(string)) {
+            string = string.substring(0, string.length() - 1);
+            formatPrice(string);
+        }
+        return string;
+    }
+
+    private static boolean endWithDotOrComa(String string) {
+        return string.endsWith(".") || string.endsWith(",");
+    }
+
+    private static boolean startWithDotOrComa(String string) {
+        return string.startsWith(".") || string.startsWith(",");
     }
 }

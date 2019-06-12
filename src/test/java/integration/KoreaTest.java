@@ -23,12 +23,18 @@ public class KoreaTest {
 
     @Test
     public void getPriceTest_unavailable() {
-        final String price = korea.getPrice("https://korea.in.ua/tony-moly-magic-food-banana-bananovaya-nochnaya-maska/p48\n");
+        final String price = korea.getPrice("https://korea.in.ua/missha-all-around-safe-block-essence-sun-spf45-pa-solntsezaschitnaya-essentsiya-dlya-litsa-i-tela/p1029");
         assertEquals("Нет в наличии", price);
     }
 
     @Test
-    public void getPriceTest() {
+    public void getDiscountPriceTest() {
+        final String price = korea.getPrice("https://korea.in.ua/elizavecca-green-piggy-collagen-jella-pack-kollagenovaya-maska/p51");
+        assertThat(Integer.valueOf(price), CoreMatchers.instanceOf(Integer.class));
+    }
+
+    @Test
+    public void getNormalPriceTest() {
         final String price = korea.getPrice("https://korea.in.ua/bb-krem-missha-m-perfect-cover-bb-cream-spf42-50-ml-ton-21-svetlyij-bezh/p194");
         assertThat(Integer.valueOf(price), CoreMatchers.instanceOf(Integer.class));
     }

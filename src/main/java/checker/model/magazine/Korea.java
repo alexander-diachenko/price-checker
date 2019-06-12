@@ -7,6 +7,7 @@ import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.openqa.selenium.WebDriverException;
 
 import java.net.MalformedURLException;
@@ -31,11 +32,8 @@ public class Korea implements Magazine {
         if (!isAvailable(document)) {
             return "Нет в наличии";
         }
-        Element price = document.getElementsByClass("price").stream().findFirst().orElseGet(null);
-        if(price == null) {
-            return "Нет в наличии";
-        }
-        return StringUtil.formatPrice(price.text());
+        Elements prices = document.getElementsByClass("price");
+        return prices.stream().findFirst().map(price -> StringUtil.formatPrice(price.text())).orElse("Нет в наличии");
     }
 
     @Override
@@ -64,10 +62,12 @@ public class Korea implements Magazine {
 
     @Override
     public boolean isAvailable(Document document) {
-        Element availability = document.getElementsByClass("availability").stream().findFirst().orElseGet(null);
-        if(availability == null) {
-            return false;
+        Elements availabilities = document.getElementsByClass("availability");
+        for (Element availability : availabilities) {
+            if ("В наличии".equalsIgnoreCase(availability.text())) {
+                return true;
+            }
         }
-        return "В наличии".equalsIgnoreCase(availability.text());
+        return false;
     }
 }

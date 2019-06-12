@@ -2,14 +2,13 @@ package checker.service;
 
 import checker.model.excel.Excel;
 import checker.model.excel.ExcelImpl;
+import checker.model.magazine.Korea;
 import checker.model.magazine.Magazine;
 import checker.model.magazine.Makeup;
-import checker.util.UrlUtils;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.control.ProgressIndicator;
-import org.apache.log4j.Logger;
 
 import java.util.*;
 
@@ -71,7 +70,9 @@ public class MainService extends Service<Void> {
     private static List<Magazine> getMagazines() {
         List<Magazine> magazines = new ArrayList<>();
         Magazine makeup = new Makeup();
+        Magazine korea = new Korea();
         magazines.add(makeup);
+        magazines.add(korea);
         return magazines;
     }
 }

@@ -7,6 +7,7 @@ import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.openqa.selenium.WebDriverException;
 
 import java.net.MalformedURLException;
@@ -14,9 +15,9 @@ import java.net.MalformedURLException;
 /**
  * @author Alexander Diachenko
  */
-public class Korea implements Magazine {
+public class RoseRoseShop implements Magazine {
 
-    private final static Logger logger = Logger.getLogger(Korea.class);
+    private final static Logger logger = Logger.getLogger(RoseRoseShop.class);
 
     @Override
     public String getPrice(String url) {
@@ -31,7 +32,7 @@ public class Korea implements Magazine {
         if (!isAvailable(document)) {
             return "Нет в наличии";
         }
-        Element price = document.getElementsByClass("price").stream().findFirst().orElseGet(null);
+        Elements price = document.getElementsByAttributeValue("itemprop", "price");
         if(price == null) {
             return "Нет в наличии";
         }
@@ -41,7 +42,7 @@ public class Korea implements Magazine {
     @Override
     public boolean isThisWebsite(String url) {
         try {
-            return UrlUtils.isValid(url) && UrlUtils.getDomainName(url).equals("korea.in.ua");
+            return UrlUtils.isValid(url) && UrlUtils.getDomainName(url).equals("www.roseroseshop.com");
         } catch (MalformedURLException e) {
             logger.error(e.getMessage(), e);
         }
@@ -64,10 +65,7 @@ public class Korea implements Magazine {
 
     @Override
     public boolean isAvailable(Document document) {
-        Element availability = document.getElementsByClass("availability").stream().findFirst().orElseGet(null);
-        if(availability == null) {
-            return false;
-        }
-        return "В наличии".equalsIgnoreCase(availability.text());
+        Element cartButton = document.getElementById("button-cart");
+        return cartButton != null;
     }
 }

@@ -1,6 +1,6 @@
 package checker.controller;
 
-import checker.Main;
+import checker.PriceCheckerFX;
 import checker.component.Alert;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -133,7 +133,7 @@ public class MenuController implements Initializable {
         primaryStage.close();
         Platform.runLater(() -> {
             try {
-                new Main().start(new Stage());
+                new PriceCheckerFX().start(new Stage());
             } catch (IOException e) {
                 logger.error(e.getMessage(), e);
                 e.printStackTrace();

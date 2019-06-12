@@ -35,7 +35,7 @@ public class KoreaTest {
 
     @Test
     public void getNormalPriceTest() {
-        final String price = korea.getPrice("https://korea.in.ua/bb-krem-missha-m-perfect-cover-bb-cream-spf42-50-ml-ton-21-svetlyij-bezh/p194");
+        final String price = korea.getPrice("https://korea.in.ua/elizavecca-milky-piggy-carbonated-bubble-clay-mask-glinyanaya-pennaya-maska/p27");
         assertThat(Integer.valueOf(price), CoreMatchers.instanceOf(Integer.class));
     }
 }

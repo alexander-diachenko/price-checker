@@ -71,10 +71,12 @@ public class MainService extends Service<Void> {
         Magazine korea = new Korea();
         Magazine roseRoseShop = new RoseRoseShop();
         BeautyNetKorea beautyNetKorea = new BeautyNetKorea();
+        NowZenith nowZenith = new NowZenith();
         magazines.add(makeup);
         magazines.add(korea);
         magazines.add(roseRoseShop);
         magazines.add(beautyNetKorea);
+        magazines.add(nowZenith);
         return magazines;
     }
 }

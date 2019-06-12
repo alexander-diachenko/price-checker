@@ -2,10 +2,7 @@ package checker.service;
 
 import checker.model.excel.Excel;
 import checker.model.excel.ExcelImpl;
-import checker.model.magazine.Korea;
-import checker.model.magazine.Magazine;
-import checker.model.magazine.Makeup;
-import checker.model.magazine.RoseRoseShop;
+import checker.model.magazine.*;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -73,9 +70,11 @@ public class MainService extends Service<Void> {
         Magazine makeup = new Makeup();
         Magazine korea = new Korea();
         Magazine roseRoseShop = new RoseRoseShop();
+        BeautyNetKorea beautyNetKorea = new BeautyNetKorea();
         magazines.add(makeup);
         magazines.add(korea);
         magazines.add(roseRoseShop);
+        magazines.add(beautyNetKorea);
         return magazines;
     }
 }

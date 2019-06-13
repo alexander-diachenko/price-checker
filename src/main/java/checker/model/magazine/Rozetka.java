@@ -16,7 +16,7 @@ public class Rozetka extends AbstractMagazine {
         for (Element price : prices) {
             return StringUtil.formatPrice(price.text());
         }
-        return null;
+        return NOT_FOUND;
     }
 
     @Override
@@ -28,7 +28,9 @@ public class Rozetka extends AbstractMagazine {
     public boolean isAvailable(Document document) {
         Elements buyButtons = document.getElementsByClass("btn-link-i");
         for (Element buyButton : buyButtons) {
-            return "Купить".equalsIgnoreCase(buyButton.text());
+            if("Купить".equalsIgnoreCase(buyButton.text())) {
+                return true;
+            }
         }
         return false;
     }

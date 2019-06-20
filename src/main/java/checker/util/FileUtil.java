@@ -9,6 +9,10 @@ import java.io.IOException;
  */
 public class FileUtil {
 
+    private FileUtil() {
+        throw new IllegalStateException("Creating object not allowed!");
+    }
+
     /**
      * Open file with default application.
      *

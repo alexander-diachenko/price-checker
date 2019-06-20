@@ -12,6 +12,10 @@ import java.util.ResourceBundle;
  */
 public class Alert {
 
+    private Alert() {
+        throw new IllegalStateException("Creating object not allowed!");
+    }
+
     public static javafx.scene.control.Alert openConfirmation(Properties properties, ResourceBundle bundle) {
         javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.CONFIRMATION);
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();

@@ -5,6 +5,10 @@ package checker.util;
  */
 public class StringUtil {
 
+    private StringUtil() {
+        throw new IllegalStateException("Creating object not allowed!");
+    }
+
     public static String formatPrice(String price) {
         String string = price.replaceAll("[^0-9.,]+", "");
         if (startWithDotOrComa(string)) {

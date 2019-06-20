@@ -2,7 +2,6 @@ package checker.model.magazine;
 
 import checker.util.StringUtil;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 /**
@@ -16,14 +15,20 @@ public class NowZenith extends AbstractMagazine {
             return OUT_OF_STOCK;
         }
         Elements discounts = document.getElementsByClass("special-price");
-        for (Element discount : discounts) {
-            return StringUtil.formatPrice(discount.text());
+        if(!discounts.isEmpty()) {
+            return getPrice(discounts);
+
         }
         Elements prices = document.getElementsByClass("product-price");
-        for (Element price : prices) {
-            return StringUtil.formatPrice(price.text());
+        if(!prices.isEmpty()) {
+            return getPrice(prices);
+
         }
         return NOT_FOUND;
+    }
+
+    private String getPrice(Elements elements) {
+        return StringUtil.formatPrice(elements.stream().findFirst().orElseThrow(IllegalStateException::new).text());
     }
 
     @Override

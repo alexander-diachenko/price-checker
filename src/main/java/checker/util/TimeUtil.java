@@ -8,6 +8,10 @@ import java.util.Date;
  */
 public class TimeUtil {
 
+    private TimeUtil() {
+        throw new IllegalStateException("Creating object not allowed!");
+    }
+
     /**
      * Method needed for getting current time in format dd-MM-yyyy_HH-mm-ss
      *

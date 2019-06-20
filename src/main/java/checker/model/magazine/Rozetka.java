@@ -13,10 +13,14 @@ public class Rozetka extends AbstractMagazine {
             return OUT_OF_STOCK;
         }
         Elements prices = document.getElementsByClass("detail-price-uah");
-        for (Element price : prices) {
-            return StringUtil.formatPrice(price.text());
+        if(!prices.isEmpty()) {
+            return getPrice(prices);
         }
         return NOT_FOUND;
+    }
+
+    private String getPrice(Elements elements) {
+        return StringUtil.formatPrice(elements.stream().findFirst().orElseThrow(IllegalStateException::new).text());
     }
 
     @Override

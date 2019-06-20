@@ -25,7 +25,10 @@ import java.util.ResourceBundle;
  */
 public class MenuController implements Initializable {
 
-    private final static Logger logger = Logger.getLogger(MenuController.class);
+    private static final Logger logger = Logger.getLogger(MenuController.class);
+
+    private static final String LANGUAGE = "language";
+    private static final String STYLE = "style";
 
     @FXML
     private MenuBar menu;
@@ -42,51 +45,37 @@ public class MenuController implements Initializable {
     }
 
     public void languageEnAction() {
-        Optional<ButtonType> result = Alert.openConfirmation(properties, bundle).showAndWait();
-        if (result.get() == ButtonType.OK) {
-            setProperty("language", "en");
-            reload(getStage());
-        }
+        callButtonAction(LANGUAGE, "en");
     }
 
     public void languageRuAction() {
-        Optional<ButtonType> result = Alert.openConfirmation(properties, bundle).showAndWait();
-        if (result.get() == ButtonType.OK) {
-            setProperty("language", "ru");
-            reload(getStage());
-        }
+        callButtonAction(LANGUAGE, "ru");
     }
 
     public void languageUaAction() {
-        Optional<ButtonType> result = Alert.openConfirmation(properties, bundle).showAndWait();
-        if (result.get() == ButtonType.OK) {
-            setProperty("language", "ua");
-            reload(getStage());
-        }
+        callButtonAction(LANGUAGE, "ua");
     }
 
     public void styleDefaultAction() {
-        Optional<ButtonType> result = Alert.openConfirmation(properties, bundle).showAndWait();
-        if (result.get() == ButtonType.OK) {
-            setProperty("style", "light");
-            reload(getStage());
-        }
+        callButtonAction(STYLE, "light");
     }
 
     public void styleDarkAction() {
-        Optional<ButtonType> result = Alert.openConfirmation(properties, bundle).showAndWait();
-        if (result.get() == ButtonType.OK) {
-            setProperty("style", "dark");
-            reload(getStage());
-        }
+        callButtonAction(STYLE, "dark");
     }
 
     public void styleBlueAction() {
+        callButtonAction(STYLE, "blue");
+    }
+
+    private void callButtonAction(String key, String value) {
         Optional<ButtonType> result = Alert.openConfirmation(properties, bundle).showAndWait();
-        if (result.get() == ButtonType.OK) {
-            setProperty("style", "blue");
-            reload(getStage());
-        }
+        result.ifPresent(buttonType -> {
+            if (buttonType == ButtonType.OK) {
+                setProperty(key, value);
+                reload(getStage());
+            }
+        });
     }
 
     private void init(ResourceBundle bundle) {
@@ -97,23 +86,18 @@ public class MenuController implements Initializable {
     }
 
     private void disableCurrentStyle() {
-        String style = properties.getProperty("style");
-        ObservableList<MenuItem> items = styles.getItems();
-        for (MenuItem item : items) {
-            String id = item.getId();
-            if (style.equals(id)) {
-                item.setDisable(true);
-                break;
-            }
-        }
+        disableMenuItem(styles, properties.getProperty(STYLE));
     }
 
     private void disableCurrentLanguage() {
-        String language = properties.getProperty("language");
-        ObservableList<MenuItem> items = languages.getItems();
+        disableMenuItem(languages, properties.getProperty(LANGUAGE));
+    }
+
+    private void disableMenuItem(Menu menu, String value) {
+        ObservableList<MenuItem> items = menu.getItems();
         for (MenuItem item : items) {
             String id = item.getId();
-            if(language.equals(id)) {
+            if (value.equals(id)) {
                 item.setDisable(true);
                 break;
             }
@@ -136,7 +120,6 @@ public class MenuController implements Initializable {
                 new PriceCheckerFX().start(new Stage());
             } catch (IOException e) {
                 logger.error(e.getMessage(), e);
-                e.printStackTrace();
             }
         });
     }

@@ -27,7 +27,7 @@ import java.util.ResourceBundle;
  */
 public class MainController implements Initializable {
 
-    private final static Logger logger = Logger.getLogger(MainController.class);
+    private static final Logger logger = Logger.getLogger(MainController.class);
 
     @FXML
     private Button check;
@@ -119,9 +119,9 @@ public class MainController implements Initializable {
         open.setDisable(true);
         try {
             FileUtil.open(new File(savedFilePath));
-        } catch (IOException e) {
-            setFailed(e);
-            e.printStackTrace();
+        } catch (IOException exception) {
+            setFailed(exception);
+            logger.error(exception.getMessage(), exception);
         }
     }
 

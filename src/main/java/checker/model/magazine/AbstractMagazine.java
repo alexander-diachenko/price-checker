@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.openqa.selenium.WebDriverException;
 
 import java.net.MalformedURLException;
 
@@ -14,7 +13,7 @@ import java.net.MalformedURLException;
  */
 public abstract class AbstractMagazine implements Magazine{
 
-    private final static Logger logger = Logger.getLogger(AbstractMagazine.class);
+    private static final Logger logger = Logger.getLogger(AbstractMagazine.class);
 
     protected static final String PAGE_NOT_FOUND = "Страница не найдена";
     protected static final String OUT_OF_STOCK = "Нет в наличии";
@@ -22,7 +21,7 @@ public abstract class AbstractMagazine implements Magazine{
     protected String url;
 
     @Override
-    public Document getDocument(String url) throws WebDriverException {
+    public Document getDocument(String url) {
         try {
             return Jsoup.connect(url)
                     .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36")

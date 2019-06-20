@@ -18,7 +18,12 @@ import java.util.Properties;
  * @author Alexander Diachenko.
  */
 public class Modal {
-    private final static Logger logger = Logger.getLogger(Modal.class);
+
+    private static final Logger logger = Logger.getLogger(Modal.class);
+
+    private Modal() {
+        throw new IllegalStateException("Creating object not allowed!");
+    }
 
     public static void openModal(Stage primaryStage, Throwable exception) {
         try {

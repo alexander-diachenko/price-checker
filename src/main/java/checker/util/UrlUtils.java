@@ -10,6 +10,10 @@ import java.net.URL;
  */
 public class UrlUtils {
 
+    private UrlUtils() {
+        throw new IllegalStateException("Creating object not allowed!");
+    }
+
     /**
      * Return domain name for given url
      * @param url String url

@@ -2,10 +2,7 @@ package checker.util;
 
 import org.apache.log4j.Logger;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.Properties;
 
 /**
@@ -13,7 +10,11 @@ import java.util.Properties;
  */
 public class AppProperty {
 
-    private final static Logger logger = Logger.getLogger(AppProperty.class);
+    private static final Logger logger = Logger.getLogger(AppProperty.class);
+
+    private AppProperty() {
+        throw new IllegalStateException("Creating object not allowed!");
+    }
 
     public static Properties getProperty() {
         Properties mainProperties = new Properties();
@@ -21,8 +22,8 @@ public class AppProperty {
         String path = "./config.properties";
         try {
             file = new FileInputStream(path);
-        mainProperties.load(file);
-        file.close();
+            mainProperties.load(file);
+            file.close();
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
         }
@@ -30,20 +31,10 @@ public class AppProperty {
     }
 
     public static Properties setProperties(Properties properties) {
-        OutputStream output = null;
-        try {
-            output = new FileOutputStream("./config.properties");
+        try (OutputStream output = new FileOutputStream("./config.properties")) {
             properties.store(output, null);
-        } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-        } finally {
-            if (output != null) {
-                try {
-                    output.close();
-                } catch (IOException e) {
-                    logger.error(e.getMessage(), e);
-                }
-            }
+        } catch (IOException ex) {
+            logger.error(ex.getMessage(), ex);
         }
         return properties;
     }

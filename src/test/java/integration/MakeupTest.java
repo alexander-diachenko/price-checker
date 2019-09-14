@@ -5,6 +5,8 @@ import checker.model.magazine.Makeup;
 import org.jsoup.nodes.Document;
 import org.junit.*;
 
+import java.io.IOException;
+
 import static org.junit.Assert.*;
 
 /**
@@ -21,8 +23,8 @@ public class MakeupTest {
     }
 
     @Test
-    public void shouldReturnNotEmptyDocument() {
-        Document document = makeup.getDocument("https://makeup.com.ua/product/20652/");
+    public void shouldReturnNotEmptyDocument() throws IOException {
+        Document document = makeup.getDocument("https://makeup.com.ua/");
         assertFalse(document.data().isEmpty());
     }
 }

@@ -13,7 +13,7 @@ public class Rozetka extends AbstractMagazine {
         if(!prices.isEmpty()) {
             return getPriceFrom(prices);
         }
-        return NOT_FOUND;
+        return null;
     }
 
     private String getPriceFrom(Elements elements) {

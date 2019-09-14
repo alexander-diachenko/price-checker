@@ -21,7 +21,7 @@ public class BeautyNetKorea extends AbstractMagazine {
         if(price != null) {
             return formatPrice(price.text());
         }
-        return NOT_FOUND;
+        return null;
     }
 
     private String formatPrice(String price) {

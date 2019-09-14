@@ -12,6 +12,9 @@ public class KoreaButik extends AbstractMagazine {
     @Override
     protected String getPriceFrom(Document document) {
         Elements price = document.getElementsByAttributeValue("data-qaid", "product_price");
+        if(price.isEmpty()) {
+            return null;
+        }
         return StringUtil.formatPrice(price.text());
     }
 

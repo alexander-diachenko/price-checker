@@ -17,7 +17,7 @@ public abstract class AbstractMagazine implements Magazine {
 
     private static final String PAGE_NOT_FOUND = "Страница не найдена";
     private static final String OUT_OF_STOCK = "Нет в наличии";
-    protected static final String NOT_FOUND = "Не найдено";
+    private static final String NOT_FOUND = "Не найдено";
     protected String url;
 
     @Override
@@ -30,19 +30,23 @@ public abstract class AbstractMagazine implements Magazine {
                     .get();
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
-            return new Document("");
+            return null;
         }
     }
 
     @Override
     public String getPrice(Document document) {
-        if (document.children().isEmpty()) {
+        if (document == null) {
             return PAGE_NOT_FOUND;
         }
         if (!isAvailable(document)) {
             return OUT_OF_STOCK;
         }
-        return getPriceFrom(document);
+        String price = getPriceFrom(document);
+        if(price == null) {
+            return NOT_FOUND;
+        }
+        return price;
     }
 
     protected abstract String getPriceFrom(Document document);

@@ -21,7 +21,7 @@ public class NowZenith extends AbstractMagazine {
             return getPriceFrom(prices);
 
         }
-        return NOT_FOUND;
+        return null;
     }
 
     private String getPriceFrom(Elements elements) {

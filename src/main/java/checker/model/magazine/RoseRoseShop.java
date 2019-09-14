@@ -13,7 +13,7 @@ public class RoseRoseShop extends AbstractMagazine {
     protected String getPriceFrom(Document document) {
         Elements price = document.getElementsByAttributeValue("itemprop", "price");
         if(price == null) {
-            return NOT_FOUND;
+            return null;
         }
         return StringUtil.formatPrice(price.text());
     }

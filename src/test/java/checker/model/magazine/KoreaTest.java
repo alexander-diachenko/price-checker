@@ -21,19 +21,19 @@ public class KoreaTest {
 
     @Test
     public void shouldReturnDiscountPrice() {
-        String price = korea.getValue(creator.createDocumentFromFile("Korea_discount.xml"));
+        String price = korea.getValue(creator.createDocumentFromFile("xml/korea/Korea_discount.xml"));
         assertEquals("295", price);
     }
 
     @Test
     public void shouldReturnNormalPrice() {
-        String price = korea.getValue(creator.createDocumentFromFile("Korea_normal.xml"));
+        String price = korea.getValue(creator.createDocumentFromFile("xml/korea/Korea_normal.xml"));
         assertEquals("310", price);
     }
 
     @Test
     public void shouldReturnOutOfStock() {
-        String price = korea.getValue(creator.createDocumentFromFile("Korea_outofstock.xml"));
+        String price = korea.getValue(creator.createDocumentFromFile("xml/korea/Korea_outofstock.xml"));
         assertEquals("Нет в наличии", price);
     }
 }

@@ -21,19 +21,19 @@ public class BeautyNetKoreaTest {
 
     @Test
     public void shouldReturnDiscountPrice() {
-        String price = beautyNetKorea.getValue(creator.createDocumentFromFile("BeautyNetKorea_discount.xml"));
+        String price = beautyNetKorea.getValue(creator.createDocumentFromFile("xml/beautyNewKorea/BeautyNetKorea_discount.xml"));
         assertEquals("4.47", price);
     }
 
     @Test
     public void shouldReturnNormalPrice() {
-        String price = beautyNetKorea.getValue(creator.createDocumentFromFile("BeautyNetKorea_normal.xml"));
+        String price = beautyNetKorea.getValue(creator.createDocumentFromFile("xml/beautyNewKorea/BeautyNetKorea_normal.xml"));
         assertEquals("1.43", price);
     }
 
     @Test
     public void shouldReturnOutOfStock() {
-        String price = beautyNetKorea.getValue(creator.createDocumentFromFile("BeautyNetKorea_outofstock.xml"));
+        String price = beautyNetKorea.getValue(creator.createDocumentFromFile("xml/beautyNewKorea/BeautyNetKorea_outofstock.xml"));
         assertEquals("Нет в наличии", price);
     }
 }

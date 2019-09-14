@@ -5,6 +5,8 @@ import checker.model.magazine.RoseRoseShop;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
 
+import java.io.IOException;
+
 import static org.junit.Assert.*;
 
 /**
@@ -21,8 +23,8 @@ public class RoseRoseShopTest {
     }
 
     @Test
-    public void shouldReturnNotEmptyDocument() {
-        Document document = roseRoseShop.getDocument("https://www.roseroseshop.com/etude-house-sample-moistfull-collagen-skin-samples-5ml-x-4ea.html");
+    public void shouldReturnNotEmptyDocument() throws IOException {
+        Document document = roseRoseShop.getDocument("https://www.roseroseshop.com/");
         assertFalse(document.data().isEmpty());
     }
 }

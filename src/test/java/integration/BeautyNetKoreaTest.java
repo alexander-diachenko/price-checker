@@ -5,6 +5,8 @@ import checker.model.magazine.Magazine;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
 
+import java.io.IOException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
@@ -22,8 +24,8 @@ public class BeautyNetKoreaTest {
     }
 
     @Test
-    public void shouldReturnNotEmptyDocument() {
-        Document document = beautyNetKorea.getDocument("https://beautynetkorea.com/product/cp-1-bright-complex-intense-nourishing-shampoo-100ml-weight-125g/7039/category/407//p48");
+    public void shouldReturnNotEmptyDocument() throws IOException {
+        Document document = beautyNetKorea.getDocument("https://beautynetkorea.com/");
         assertFalse(document.data().isEmpty());
     }
 }

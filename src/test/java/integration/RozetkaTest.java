@@ -5,6 +5,8 @@ import checker.model.magazine.Rozetka;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
 
+import java.io.IOException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
@@ -22,8 +24,8 @@ public class RozetkaTest {
     }
 
     @Test
-    public void shouldReturnNotEmptyDocument() {
-        Document document = rozetka.getDocument("https://rozetka.com.ua/nina_ricci_3137370205029/p2240292/\n");
+    public void shouldReturnNotEmptyDocument() throws IOException {
+        Document document = rozetka.getDocument("https://rozetka.com.ua/");
         assertFalse(document.data().isEmpty());
     }
 }

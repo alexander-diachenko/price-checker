@@ -18,13 +18,13 @@ public class RoseRoseShopTest {
 
     @Test
     public void shouldReturnPageNotFound() {
-        String price = roseRoseShop.getPrice("https://www.roseroseshop.com/qwe");
+        String price = roseRoseShop.getPrice(roseRoseShop.getDocument("https://www.roseroseshop.com/qwe"));
         assertEquals("Страница не найдена", price);
     }
 
     @Test
     public void shouldReturnNotEmptyDocument() throws IOException {
         Document document = roseRoseShop.getDocument("https://www.roseroseshop.com/");
-        assertFalse(document.data().isEmpty());
+        assertFalse(document.children().isEmpty());
     }
 }

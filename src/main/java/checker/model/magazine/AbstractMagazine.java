@@ -21,26 +21,24 @@ public abstract class AbstractMagazine implements Magazine {
     protected String url;
 
     @Override
-    public Document getDocument(String url) throws IOException {
-        return Jsoup
-                .connect(url)
-                .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36")
-                .get();
-    }
-
-    @Override
-    public String getPrice(String url) {
+    public Document getDocument(String url) {
         this.url = url;
         try {
-            Document document = getDocument(url);
-            return getPrice(document);
+            return Jsoup
+                    .connect(url)
+                    .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36")
+                    .get();
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
-            return PAGE_NOT_FOUND;
+            return new Document("");
         }
     }
 
-    protected String getPrice(Document document){
+    @Override
+    public String getPrice(Document document) {
+        if (document.children().isEmpty()) {
+            return PAGE_NOT_FOUND;
+        }
         if (!isAvailable(document)) {
             return OUT_OF_STOCK;
         }

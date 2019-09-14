@@ -18,13 +18,13 @@ public class KoreaTest {
 
     @Test
     public void shouldReturnPageNotFound() {
-        String price = korea.getPrice("https://korea.in.ua/qwe");
+        String price = korea.getPrice(korea.getDocument("https://korea.in.ua/qwe"));
         assertEquals("Страница не найдена", price);
     }
 
     @Test
     public void shouldReturnNotEmptyDocument() throws IOException {
         Document document = korea.getDocument("https://korea.in.ua/");
-        assertFalse(document.data().isEmpty());
+        assertFalse(document.children().isEmpty());
     }
 }

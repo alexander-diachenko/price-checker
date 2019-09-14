@@ -19,13 +19,13 @@ public class BeautyNetKoreaTest {
 
     @Test
     public void shouldReturnPageNotFound() {
-        String price = beautyNetKorea.getPrice("https://beautynetkorea.com/qwe");
+        String price = beautyNetKorea.getPrice(beautyNetKorea.getDocument("https://beautynetkorea.com/qwe"));
         assertEquals("Страница не найдена", price);
     }
 
     @Test
     public void shouldReturnNotEmptyDocument() throws IOException {
         Document document = beautyNetKorea.getDocument("https://beautynetkorea.com/");
-        assertFalse(document.data().isEmpty());
+        assertFalse(document.children().isEmpty());
     }
 }

@@ -45,7 +45,7 @@ public class MainService extends Service<Void> {
                     String url = String.valueOf(row.get(urlColumn - 1));
                     for (Magazine magazine : magazines) {
                         if (magazine.isThisWebsite(url)) {
-                            String price = magazine.getPrice(url);
+                            String price = magazine.getPrice(magazine.getDocument(url));
                             insert(row, insertColumn - 1, price);
                         }
                     }

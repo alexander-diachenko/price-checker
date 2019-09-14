@@ -19,13 +19,13 @@ public class RozetkaTest {
 
     @Test
     public void shouldReturnPageNotFound() {
-        String price = rozetka.getPrice("https://rozetka.com.ua/qwe");
+        String price = rozetka.getPrice(rozetka.getDocument("https://rozetka.com.ua/qwe"));
         assertEquals("Страница не найдена", price);
     }
 
     @Test
     public void shouldReturnNotEmptyDocument() throws IOException {
         Document document = rozetka.getDocument("https://rozetka.com.ua/");
-        assertFalse(document.data().isEmpty());
+        assertFalse(document.children().isEmpty());
     }
 }

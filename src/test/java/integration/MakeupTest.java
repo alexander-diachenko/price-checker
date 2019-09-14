@@ -18,13 +18,13 @@ public class MakeupTest {
 
     @Test
     public void shouldReturnPageNotFound() {
-        String price = makeup.getPrice("https://makeup.com.ua/qwe");
+        String price = makeup.getPrice(makeup.getDocument("https://makeup.com.ua/qwe"));
         assertEquals("Страница не найдена", price);
     }
 
     @Test
     public void shouldReturnNotEmptyDocument() throws IOException {
         Document document = makeup.getDocument("https://makeup.com.ua/");
-        assertFalse(document.data().isEmpty());
+        assertFalse(document.children().isEmpty());
     }
 }

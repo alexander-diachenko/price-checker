@@ -40,7 +40,14 @@ public abstract class AbstractMagazine implements Magazine {
         }
     }
 
-    protected abstract String getValue(Document document);
+    protected String getValue(Document document){
+        if (!isAvailable(document)) {
+            return OUT_OF_STOCK;
+        }
+        return getPrice(document);
+    }
+
+    protected abstract String getPrice(Document document);
 
     @Override
     public boolean isThisWebsite(String url) {

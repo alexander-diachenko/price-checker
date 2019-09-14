@@ -10,10 +10,7 @@ import org.jsoup.select.Elements;
  */
 public class Makeup extends AbstractMagazine {
 
-    protected String getValue(Document document) {
-        if (!isAvailable(document)) {
-            return OUT_OF_STOCK;
-        }
+    protected String getPrice(Document document) {
         Elements elementsByAttributeValue = document.getElementsByAttributeValue("data-variant-id", getDataVariantId(url));
         if (elementsByAttributeValue.isEmpty()) {
             return document.select("span.product-item__price > span.rus").text();

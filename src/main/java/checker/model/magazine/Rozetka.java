@@ -8,10 +8,7 @@ import org.jsoup.select.Elements;
 public class Rozetka extends AbstractMagazine {
 
     @Override
-    protected String getValue(Document document) {
-        if (!isAvailable(document)) {
-            return OUT_OF_STOCK;
-        }
+    protected String getPrice(Document document) {
         Elements prices = document.getElementsByClass("detail-price-uah");
         if(!prices.isEmpty()) {
             return getPrice(prices);

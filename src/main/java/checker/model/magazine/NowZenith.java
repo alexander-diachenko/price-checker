@@ -10,10 +10,7 @@ import org.jsoup.select.Elements;
 public class NowZenith extends AbstractMagazine {
 
     @Override
-    protected String getValue(Document document) {
-        if (!isAvailable(document)) {
-            return OUT_OF_STOCK;
-        }
+    protected String getPrice(Document document) {
         Elements discounts = document.getElementsByClass("special-price");
         if(!discounts.isEmpty()) {
             return getPrice(discounts);

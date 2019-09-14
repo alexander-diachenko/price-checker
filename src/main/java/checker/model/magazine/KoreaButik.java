@@ -10,10 +10,7 @@ import org.jsoup.select.Elements;
 public class KoreaButik extends AbstractMagazine {
 
     @Override
-    protected String getValue(Document document) {
-        if (!isAvailable(document)) {
-            return OUT_OF_STOCK;
-        }
+    protected String getPrice(Document document) {
         Elements price = document.getElementsByAttributeValue("data-qaid", "product_price");
         return StringUtil.formatPrice(price.text());
     }

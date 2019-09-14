@@ -10,14 +10,7 @@ public class Rozetka extends AbstractMagazine {
     @Override
     protected String getPriceFrom(Document document) {
         Elements prices = document.getElementsByClass("detail-price-uah");
-        if(!prices.isEmpty()) {
-            return getPriceFrom(prices);
-        }
-        return null;
-    }
-
-    private String getPriceFrom(Elements elements) {
-        return StringUtil.formatPrice(elements.stream().findFirst().orElseThrow(IllegalStateException::new).text());
+        return prices.stream().findFirst().map(price -> StringUtil.formatPrice(price.text())).orElse(null);
     }
 
     @Override
@@ -29,7 +22,7 @@ public class Rozetka extends AbstractMagazine {
     public boolean isAvailable(Document document) {
         Elements buyButtons = document.getElementsByClass("btn-link-i");
         for (Element buyButton : buyButtons) {
-            if("Купить".equalsIgnoreCase(buyButton.text())) {
+            if ("Купить".equalsIgnoreCase(buyButton.text())) {
                 return true;
             }
         }

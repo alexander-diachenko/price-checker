@@ -11,11 +11,8 @@ import org.jsoup.select.Elements;
 public class RoseRoseShop extends AbstractMagazine {
 
     protected String getPriceFrom(Document document) {
-        Elements price = document.getElementsByAttributeValue("itemprop", "price");
-        if(price == null) {
-            return null;
-        }
-        return StringUtil.formatPrice(price.text());
+        Elements prices = document.getElementsByAttributeValue("itemprop", "price");
+        return prices.stream().findFirst().map(price -> StringUtil.formatPrice(price.text())).orElse(null);
     }
 
     @Override

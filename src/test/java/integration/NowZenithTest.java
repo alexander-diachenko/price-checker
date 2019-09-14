@@ -5,6 +5,8 @@ import checker.model.magazine.NowZenith;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
 
+import java.io.IOException;
+
 import static org.junit.Assert.*;
 
 /**
@@ -21,8 +23,8 @@ public class NowZenithTest {
     }
 
     @Test
-    public void shouldReturnNotEmptyDocument() {
-        Document document = nowZenith.getDocument("http://www.nowzenith.com/innisfree-skinny-microcara-zero-3-5g-01-black.html");
+    public void shouldReturnNotEmptyDocument() throws IOException {
+        Document document = nowZenith.getDocument("http://www.nowzenith.com/");
         assertFalse(document.data().isEmpty());
     }
 }

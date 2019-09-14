@@ -1,6 +1,6 @@
 package integration;
 
-import checker.model.magazine.BeautyNetKorea;
+import checker.model.magazine.Korea;
 import checker.model.magazine.Magazine;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
@@ -13,19 +13,19 @@ import static org.junit.Assert.assertFalse;
 /**
  * @author Alexander Diachenko.
  */
-public class BeautyNetKoreaTest {
+public class KoreaButikTest {
 
-    private Magazine beautyNetKorea = new BeautyNetKorea();
+    private Magazine korea = new Korea();
 
     @Test
     public void shouldReturnPageNotFound() {
-        String price = beautyNetKorea.getPrice("https://beautynetkorea.com/qwe");
+        String price = korea.getPrice("https://korea-butik.com/qwe");
         assertEquals("Страница не найдена", price);
     }
 
     @Test
     public void shouldReturnNotEmptyDocument() throws IOException {
-        Document document = beautyNetKorea.getDocument("https://beautynetkorea.com/");
+        Document document = korea.getDocument("https://korea-butik.com");
         assertFalse(document.data().isEmpty());
     }
 }

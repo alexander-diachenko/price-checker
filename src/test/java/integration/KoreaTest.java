@@ -5,6 +5,8 @@ import checker.model.magazine.Magazine;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
 
+import java.io.IOException;
+
 import static org.junit.Assert.*;
 
 /**
@@ -21,8 +23,8 @@ public class KoreaTest {
     }
 
     @Test
-    public void shouldReturnNotEmptyDocument() {
-        Document document = korea.getDocument("https://korea.in.ua/missha-all-around-safe-block-essence-sun-spf45-pa-solntsezaschitnaya-essentsiya-dlya-litsa-i-tela/p1029");
+    public void shouldReturnNotEmptyDocument() throws IOException {
+        Document document = korea.getDocument("https://korea.in.ua/");
         assertFalse(document.data().isEmpty());
     }
 }

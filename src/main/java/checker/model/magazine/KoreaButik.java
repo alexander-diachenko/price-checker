@@ -10,7 +10,7 @@ import org.jsoup.select.Elements;
 public class KoreaButik extends AbstractMagazine {
 
     @Override
-    protected String getPrice(Document document) {
+    protected String getPriceFrom(Document document) {
         Elements price = document.getElementsByAttributeValue("data-qaid", "product_price");
         return StringUtil.formatPrice(price.text());
     }

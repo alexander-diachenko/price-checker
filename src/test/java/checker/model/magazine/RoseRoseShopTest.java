@@ -21,19 +21,19 @@ public class RoseRoseShopTest {
 
     @Test
     public void shouldReturnDiscountPrice() {
-        String price = roseRoseShop.getValue(creator.createDocumentFromFile("xml/roseRoseShop/RoseRoseShop_discount.xml"));
+        String price = roseRoseShop.getPrice(creator.createDocumentFromFile("xml/roseRoseShop/RoseRoseShop_discount.xml"));
         assertEquals("1.28", price);
     }
 
     @Test
     public void shouldReturnNormalPrice() {
-        String price = roseRoseShop.getValue(creator.createDocumentFromFile("xml/roseRoseShop/RoseRoseShop_normal.xml"));
+        String price = roseRoseShop.getPrice(creator.createDocumentFromFile("xml/roseRoseShop/RoseRoseShop_normal.xml"));
         assertEquals("0.88", price);
     }
 
     @Test
     public void shouldReturnOutOfStock() {
-        String price = roseRoseShop.getValue(creator.createDocumentFromFile("xml/roseRoseShop/RoseRoseShop_outofstock.xml"));
+        String price = roseRoseShop.getPrice(creator.createDocumentFromFile("xml/roseRoseShop/RoseRoseShop_outofstock.xml"));
         assertEquals("Нет в наличии", price);
     }
 }

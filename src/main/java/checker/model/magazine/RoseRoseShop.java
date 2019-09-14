@@ -10,7 +10,7 @@ import org.jsoup.select.Elements;
  */
 public class RoseRoseShop extends AbstractMagazine {
 
-    protected String getPrice(Document document) {
+    protected String getPriceFrom(Document document) {
         Elements price = document.getElementsByAttributeValue("itemprop", "price");
         if(price == null) {
             return NOT_FOUND;

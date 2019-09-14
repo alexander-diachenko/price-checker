@@ -16,8 +16,8 @@ public abstract class AbstractMagazine implements Magazine {
     private static final Logger logger = Logger.getLogger(AbstractMagazine.class);
 
     private static final String PAGE_NOT_FOUND = "Страница не найдена";
-    static final String OUT_OF_STOCK = "Нет в наличии";
-    static final String NOT_FOUND = "Не найдено";
+    private static final String OUT_OF_STOCK = "Нет в наличии";
+    protected static final String NOT_FOUND = "Не найдено";
     protected String url;
 
     @Override
@@ -33,21 +33,21 @@ public abstract class AbstractMagazine implements Magazine {
         this.url = url;
         try {
             Document document = getDocument(url);
-            return getValue(document);
+            return getPrice(document);
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
             return PAGE_NOT_FOUND;
         }
     }
 
-    protected String getValue(Document document){
+    protected String getPrice(Document document){
         if (!isAvailable(document)) {
             return OUT_OF_STOCK;
         }
-        return getPrice(document);
+        return getPriceFrom(document);
     }
 
-    protected abstract String getPrice(Document document);
+    protected abstract String getPriceFrom(Document document);
 
     @Override
     public boolean isThisWebsite(String url) {

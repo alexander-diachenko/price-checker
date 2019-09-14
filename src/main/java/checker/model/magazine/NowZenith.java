@@ -10,21 +10,21 @@ import org.jsoup.select.Elements;
 public class NowZenith extends AbstractMagazine {
 
     @Override
-    protected String getPrice(Document document) {
+    protected String getPriceFrom(Document document) {
         Elements discounts = document.getElementsByClass("special-price");
         if(!discounts.isEmpty()) {
-            return getPrice(discounts);
+            return getPriceFrom(discounts);
 
         }
         Elements prices = document.getElementsByClass("product-price");
         if(!prices.isEmpty()) {
-            return getPrice(prices);
+            return getPriceFrom(prices);
 
         }
         return NOT_FOUND;
     }
 
-    private String getPrice(Elements elements) {
+    private String getPriceFrom(Elements elements) {
         return StringUtil.formatPrice(elements.stream().findFirst().orElseThrow(IllegalStateException::new).text());
     }
 

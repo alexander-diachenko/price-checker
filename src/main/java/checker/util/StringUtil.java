@@ -10,7 +10,9 @@ public class StringUtil {
     }
 
     public static String formatPrice(String price) {
-        String string = price.replaceAll("[^0-9.,]+", "");
+        String string = price
+                .replaceAll("[^0-9.,]+", "")
+                .replaceAll(",", ".");
         if (startWithDotOrComa(string)) {
             string = string.substring(1);
             formatPrice(string);

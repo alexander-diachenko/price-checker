@@ -22,7 +22,7 @@ public class KoreaButikTest {
     @Test
     public void shouldReturnDiscountPrice() {
         String price = koreaButik.getValue(creator.createDocumentFromFile("xml/koreaButik/KoreaButik_discount.xml"));
-        assertEquals("337,50", price);
+        assertEquals("337.50", price);
     }
 
     @Test

@@ -10,7 +10,10 @@ public class Rozetka extends AbstractMagazine {
     @Override
     protected String getPriceFrom(Document document) {
         Elements prices = document.getElementsByClass("detail-price-uah");
-        return prices.stream().findFirst().map(price -> StringUtil.formatPrice(price.text())).orElse(null);
+        return prices.stream()
+                .findFirst()
+                .map(price -> StringUtil.formatPrice(price.text()))
+                .orElseThrow(IllegalStateException::new);
     }
 
     @Override

@@ -21,7 +21,7 @@ public class NowZenith extends AbstractMagazine {
             return getPriceFrom(prices);
 
         }
-        return null;
+        throw new IllegalStateException();
     }
 
     private String getPriceFrom(Elements elements) {

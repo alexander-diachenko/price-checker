@@ -11,9 +11,12 @@ import org.jsoup.select.Elements;
 public class Korea extends AbstractMagazine {
 
     @Override
-    protected String getPriceFrom(Document document) {
+    protected String getPriceFrom(Document document){
         Elements prices = document.getElementsByClass("price");
-        return prices.stream().findFirst().map(price -> StringUtil.formatPrice(price.text())).orElse(null);
+        return prices.stream()
+                .findFirst()
+                .map(price -> StringUtil.formatPrice(price.text()))
+                .orElseThrow(IllegalStateException::new);
     }
 
     @Override

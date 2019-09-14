@@ -42,14 +42,14 @@ public abstract class AbstractMagazine implements Magazine {
         if (!isAvailable(document)) {
             return OUT_OF_STOCK;
         }
-        String price = getPriceFrom(document);
-        if(price == null) {
+        try {
+            return getPriceFrom(document);
+        } catch (IllegalStateException e) {
             return NOT_FOUND;
         }
-        return price;
     }
 
-    protected abstract String getPriceFrom(Document document);
+    protected abstract String getPriceFrom(Document document) throws IllegalStateException;
 
     @Override
     public boolean isThisWebsite(String url) {

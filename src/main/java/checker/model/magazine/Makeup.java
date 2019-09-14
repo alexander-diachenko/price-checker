@@ -15,7 +15,10 @@ public class Makeup extends AbstractMagazine {
         if (elementsByAttributeValue.isEmpty()) {
             return document.select("span.product-item__price > span.rus").text();
         }
-        return elementsByAttributeValue.stream().findFirst().map(element -> element.attr("data-price")).orElse(null);
+        return elementsByAttributeValue.stream()
+                .findFirst()
+                .map(element -> element.attr("data-price"))
+                .orElseThrow(IllegalStateException::new);
     }
 
     @Override

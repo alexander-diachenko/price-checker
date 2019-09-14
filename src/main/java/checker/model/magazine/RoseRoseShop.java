@@ -12,7 +12,10 @@ public class RoseRoseShop extends AbstractMagazine {
 
     protected String getPriceFrom(Document document) {
         Elements prices = document.getElementsByAttributeValue("itemprop", "price");
-        return prices.stream().findFirst().map(price -> StringUtil.formatPrice(price.text())).orElse(null);
+        return prices.stream()
+                .findFirst()
+                .map(price -> StringUtil.formatPrice(price.text()))
+                .orElseThrow(IllegalStateException::new);
     }
 
     @Override

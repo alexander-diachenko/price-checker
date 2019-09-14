@@ -18,10 +18,10 @@ public class BeautyNetKorea extends AbstractMagazine {
             return formatPrice(discountPrice.text());
         }
         Element price = document.getElementById("span_product_price_text");
-        if(price != null) {
+        if (price != null) {
             return formatPrice(price.text());
         }
-        return null;
+        throw new IllegalStateException();
     }
 
     private String formatPrice(String price) {

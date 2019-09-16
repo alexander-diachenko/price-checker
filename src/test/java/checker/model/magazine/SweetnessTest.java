@@ -15,7 +15,7 @@ public class SweetnessTest {
 
     @Before
     public void setup() {
-        sweetnes = new Sweetnes();
+        sweetnes = new Sweetness();
         creator = new DocumentCreator();
     }
 

@@ -7,7 +7,7 @@ import org.jsoup.nodes.Element;
 /**
  * @author Alexander Diachenko
  */
-public class Sweetnes extends AbstractMagazine {
+public class Sweetness extends AbstractMagazine {
 
     @Override
     protected String getPriceFrom(Document document) throws IllegalStateException {

@@ -21,19 +21,19 @@ public class SweetnessTest {
 
     @Test
     public void shouldReturnDiscountPrice() {
-        String price = sweetnes.getPrice(creator.createDocumentFromFile("xml/cosmetea/Cosmetea_discount.xml"));
-        assertEquals("418", price);
+        String price = sweetnes.getPrice(creator.createDocumentFromFile("xml/sweetness/Sweetness_discount.xml"));
+        assertEquals("217", price);
     }
 
     @Test
     public void shouldReturnNormalPrice() {
-        String price = sweetnes.getPrice(creator.createDocumentFromFile("xml/cosmetea/Cosmetea_normal.xml"));
-        assertEquals("250", price);
+        String price = sweetnes.getPrice(creator.createDocumentFromFile("xml/sweetness/Sweetness_normal.xml"));
+        assertEquals("175", price);
     }
 
     @Test
     public void shouldReturnOutOfStock() {
-        String price = sweetnes.getPrice(creator.createDocumentFromFile("xml/cosmetea/Cosmetea_outofstock.xml"));
+        String price = sweetnes.getPrice(creator.createDocumentFromFile("xml/sweetness/Sweetness_outofstock.xml"));
         assertEquals("Нет в наличии", price);
     }
 }

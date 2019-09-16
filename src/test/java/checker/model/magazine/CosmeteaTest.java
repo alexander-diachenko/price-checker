@@ -10,30 +10,30 @@ import static org.junit.Assert.assertEquals;
  */
 public class CosmeteaTest {
 
-    private Magazine korea;
+    private Magazine cosmetea;
     private DocumentCreator creator;
 
     @Before
     public void setup() {
-        korea = new Cosmetea();
+        cosmetea = new Cosmetea();
         creator = new DocumentCreator();
     }
 
     @Test
     public void shouldReturnDiscountPrice() {
-        String price = korea.getPrice(creator.createDocumentFromFile("xml/cosmetea/Cosmetea_discount.xml"));
+        String price = cosmetea.getPrice(creator.createDocumentFromFile("xml/cosmetea/Cosmetea_discount.xml"));
         assertEquals("418", price);
     }
 
     @Test
     public void shouldReturnNormalPrice() {
-        String price = korea.getPrice(creator.createDocumentFromFile("xml/cosmetea/Cosmetea_normal.xml"));
+        String price = cosmetea.getPrice(creator.createDocumentFromFile("xml/cosmetea/Cosmetea_normal.xml"));
         assertEquals("250", price);
     }
 
     @Test
     public void shouldReturnOutOfStock() {
-        String price = korea.getPrice(creator.createDocumentFromFile("xml/cosmetea/Cosmetea_outofstock.xml"));
+        String price = cosmetea.getPrice(creator.createDocumentFromFile("xml/cosmetea/Cosmetea_outofstock.xml"));
         assertEquals("Нет в наличии", price);
     }
 }

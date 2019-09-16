@@ -3,6 +3,7 @@ package integration;
 import checker.model.magazine.Magazine;
 import checker.model.magazine.NowZenith;
 import org.jsoup.nodes.Document;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -14,7 +15,12 @@ import static org.junit.Assert.*;
  */
 public class NowZenithTest {
 
-    private Magazine nowZenith = new NowZenith();
+    private Magazine nowZenith;
+
+    @Before
+    public void setUp() {
+        nowZenith = new NowZenith();
+    }
 
     @Test
     public void shouldReturnPageNotFound() {

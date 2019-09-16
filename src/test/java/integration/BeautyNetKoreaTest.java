@@ -3,6 +3,7 @@ package integration;
 import checker.model.magazine.BeautyNetKorea;
 import checker.model.magazine.Magazine;
 import org.jsoup.nodes.Document;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -15,7 +16,12 @@ import static org.junit.Assert.assertFalse;
  */
 public class BeautyNetKoreaTest {
 
-    private Magazine beautyNetKorea = new BeautyNetKorea();
+    private Magazine beautyNetKorea;
+
+    @Before
+    public void setUp() {
+        beautyNetKorea = new BeautyNetKorea();
+    }
 
     @Test
     public void shouldReturnPageNotFound() {

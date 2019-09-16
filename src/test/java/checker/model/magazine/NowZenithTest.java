@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class NowZenithTest {
 
-    private NowZenith nowZenith;
+    private Magazine nowZenith;
     private DocumentCreator creator;
 
     @Before

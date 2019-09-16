@@ -3,6 +3,7 @@ package integration;
 import checker.model.magazine.Magazine;
 import checker.model.magazine.SweetCorea;
 import org.jsoup.nodes.Document;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -15,7 +16,12 @@ import static org.junit.Assert.assertFalse;
  */
 public class SweetCoreaTest {
 
-    private Magazine sweetCorea = new SweetCorea();
+    private Magazine sweetCorea;
+
+    @Before
+    public void setUp() {
+        sweetCorea = new SweetCorea();
+    }
 
     @Test
     public void shouldReturnPageNotFound() {

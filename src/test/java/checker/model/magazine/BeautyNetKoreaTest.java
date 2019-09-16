@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class BeautyNetKoreaTest {
 
-    private BeautyNetKorea beautyNetKorea;
+    private Magazine beautyNetKorea;
     private DocumentCreator creator;
 
     @Before

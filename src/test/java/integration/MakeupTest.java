@@ -14,7 +14,12 @@ import static org.junit.Assert.*;
  */
 public class MakeupTest {
 
-    private Magazine makeup = new Makeup();
+    private Magazine makeup;
+
+    @Before
+    public void setUp() {
+        makeup = new Makeup();
+    }
 
     @Test
     public void shouldReturnPageNotFound() {

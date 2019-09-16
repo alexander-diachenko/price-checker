@@ -3,6 +3,7 @@ package integration;
 import checker.model.magazine.Magazine;
 import checker.model.magazine.RoseRoseShop;
 import org.jsoup.nodes.Document;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -14,7 +15,12 @@ import static org.junit.Assert.*;
  */
 public class RoseRoseShopTest {
 
-    private Magazine roseRoseShop = new RoseRoseShop();
+    private Magazine roseRoseShop;
+
+    @Before
+    public void setUp() {
+        roseRoseShop = new RoseRoseShop();
+    }
 
     @Test
     public void shouldReturnPageNotFound() {

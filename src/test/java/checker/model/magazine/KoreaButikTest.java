@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class KoreaButikTest {
 
-    private KoreaButik koreaButik;
+    private Magazine koreaButik;
     private DocumentCreator creator;
 
     @Before

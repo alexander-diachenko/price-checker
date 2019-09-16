@@ -8,19 +8,12 @@ import org.jsoup.select.Elements;
 public class Rozetka extends AbstractMagazine {
 
     @Override
-    protected String getValue(Document document) {
-        if (!isAvailable(document)) {
-            return OUT_OF_STOCK;
-        }
+    protected String getPriceFrom(Document document) {
         Elements prices = document.getElementsByClass("detail-price-uah");
-        if(!prices.isEmpty()) {
-            return getPrice(prices);
-        }
-        return NOT_FOUND;
-    }
-
-    private String getPrice(Elements elements) {
-        return StringUtil.formatPrice(elements.stream().findFirst().orElseThrow(IllegalStateException::new).text());
+        return prices.stream()
+                .findFirst()
+                .map(price -> StringUtil.formatPrice(price.text()))
+                .orElseThrow(IllegalStateException::new);
     }
 
     @Override
@@ -32,7 +25,7 @@ public class Rozetka extends AbstractMagazine {
     public boolean isAvailable(Document document) {
         Elements buyButtons = document.getElementsByClass("btn-link-i");
         for (Element buyButton : buyButtons) {
-            if("Купить".equalsIgnoreCase(buyButton.text())) {
+            if ("Купить".equalsIgnoreCase(buyButton.text())) {
                 return true;
             }
         }

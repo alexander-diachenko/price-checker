@@ -2,16 +2,17 @@ package checker.model.magazine;
 
 import checker.util.StringUtil;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 /**
  * @author Alexander Diachenko
  */
-public class KoreaButik extends AbstractMagazine {
+public class SweetCorea extends AbstractMagazine {
 
     @Override
-    protected String getPriceFrom(Document document) {
-        Elements prices = document.getElementsByAttributeValue("data-qaid", "product_price");
+    protected String getPriceFrom(Document document) throws IllegalStateException {
+        Elements prices = document.getElementsByClass("price");
         return prices.stream()
                 .findFirst()
                 .map(price -> StringUtil.formatPrice(price.text()))
@@ -20,12 +21,12 @@ public class KoreaButik extends AbstractMagazine {
 
     @Override
     protected String getSiteDomain() {
-        return "korea-butik.com";
+        return "www.sweetcorea.com";
     }
 
     @Override
     public boolean isAvailable(Document document) {
-        Elements presenceData = document.getElementsByAttributeValue("data-qaid", "presence_data");
-        return "В наличии".equalsIgnoreCase(presenceData.text());
+        Element description = document.select("div.description:contains(Out Of Stock)").first();
+        return description == null;
     }
 }

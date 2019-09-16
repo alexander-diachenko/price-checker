@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class RozetkaTest {
 
-    private Rozetka rozetka;
+    private Magazine rozetka;
     private DocumentCreator creator;
 
     @Before
@@ -21,19 +21,19 @@ public class RozetkaTest {
 
     @Test
     public void shouldReturnDiscountPrice() {
-        String price = rozetka.getValue(creator.createDocumentFromFile("xml/rozetka/Rozetka_discount.xml"));
+        String price = rozetka.getPrice(creator.createDocumentFromFile("xml/rozetka/Rozetka_discount.xml"));
         assertEquals("631", price);
     }
 
     @Test
     public void shouldReturnOutOfStock() {
-        String price = rozetka.getValue(creator.createDocumentFromFile("xml/rozetka/Rozetka_outofstock.xml"));
+        String price = rozetka.getPrice(creator.createDocumentFromFile("xml/rozetka/Rozetka_outofstock.xml"));
         assertEquals("Нет в наличии", price);
     }
 
     @Test
     public void shouldReturnSelectedProductDiscountPrice() {
-        String price = rozetka.getValue(creator.createDocumentFromFile("xml/rozetka/Rozetka_select.xml"));
+        String price = rozetka.getPrice(creator.createDocumentFromFile("xml/rozetka/Rozetka_select.xml"));
         assertEquals("75", price);
     }
 }

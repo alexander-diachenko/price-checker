@@ -1,7 +1,7 @@
 package integration;
 
 import checker.model.magazine.Magazine;
-import checker.model.magazine.Rozetka;
+import checker.model.magazine.SweetCorea;
 import org.jsoup.nodes.Document;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,24 +14,24 @@ import static org.junit.Assert.assertFalse;
 /**
  * @author Alexander Diachenko.
  */
-public class RozetkaTest {
+public class SweetCoreaTest {
 
-    private Magazine rozetka;
+    private Magazine sweetCorea;
 
     @Before
     public void setUp() {
-        rozetka = new Rozetka();
+        sweetCorea = new SweetCorea();
     }
 
     @Test
     public void shouldReturnPageNotFound() {
-        String price = rozetka.getPrice(rozetka.getDocument("https://rozetka.com.ua/qwe"));
+        String price = sweetCorea.getPrice(sweetCorea.getDocument("http://www.sweetcorea.com/qwe"));
         assertEquals("Страница не найдена", price);
     }
 
     @Test
     public void shouldReturnNotEmptyDocument() throws IOException {
-        Document document = rozetka.getDocument("https://rozetka.com.ua/");
+        Document document = sweetCorea.getDocument("http://www.sweetcorea.com");
         assertFalse(document.children().isEmpty());
     }
 }

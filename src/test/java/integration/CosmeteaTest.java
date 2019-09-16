@@ -1,7 +1,7 @@
 package integration;
 
+import checker.model.magazine.Cosmetea;
 import checker.model.magazine.Magazine;
-import checker.model.magazine.Rozetka;
 import org.jsoup.nodes.Document;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,24 +14,24 @@ import static org.junit.Assert.assertFalse;
 /**
  * @author Alexander Diachenko.
  */
-public class RozetkaTest {
+public class CosmeteaTest {
 
-    private Magazine rozetka;
+    private Magazine korea;
 
     @Before
     public void setUp() {
-        rozetka = new Rozetka();
+        korea = new Cosmetea();
     }
 
     @Test
     public void shouldReturnPageNotFound() {
-        String price = rozetka.getPrice(rozetka.getDocument("https://rozetka.com.ua/qwe"));
+        String price = korea.getPrice(korea.getDocument("https://cosmetea.com.ua/qwe"));
         assertEquals("Страница не найдена", price);
     }
 
     @Test
     public void shouldReturnNotEmptyDocument() throws IOException {
-        Document document = rozetka.getDocument("https://rozetka.com.ua/");
+        Document document = korea.getDocument("https://cosmetea.com.ua/");
         assertFalse(document.children().isEmpty());
     }
 }

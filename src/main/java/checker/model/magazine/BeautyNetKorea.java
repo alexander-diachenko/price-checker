@@ -12,19 +12,16 @@ import org.jsoup.select.Elements;
 public class BeautyNetKorea extends AbstractMagazine {
 
     @Override
-    protected String getValue(Document document) {
-        if (!isAvailable(document)) {
-            return OUT_OF_STOCK;
-        }
+    protected String getPriceFrom(Document document) {
         Element discountPrice = document.getElementById("span_product_price_sale");
         if (discountPrice != null) {
             return formatPrice(discountPrice.text());
         }
         Element price = document.getElementById("span_product_price_text");
-        if(price != null) {
+        if (price != null) {
             return formatPrice(price.text());
         }
-        return NOT_FOUND;
+        throw new IllegalStateException();
     }
 
     private String formatPrice(String price) {

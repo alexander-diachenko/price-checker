@@ -10,15 +10,12 @@ import org.jsoup.select.Elements;
  */
 public class RoseRoseShop extends AbstractMagazine {
 
-    protected String getValue(Document document) {
-        if (!isAvailable(document)) {
-            return OUT_OF_STOCK;
-        }
-        Elements price = document.getElementsByAttributeValue("itemprop", "price");
-        if(price == null) {
-            return NOT_FOUND;
-        }
-        return StringUtil.formatPrice(price.text());
+    protected String getPriceFrom(Document document) {
+        Elements prices = document.getElementsByAttributeValue("itemprop", "price");
+        return prices.stream()
+                .findFirst()
+                .map(price -> StringUtil.formatPrice(price.text()))
+                .orElseThrow(IllegalStateException::new);
     }
 
     @Override

@@ -10,15 +10,15 @@ import org.jsoup.select.Elements;
  */
 public class Makeup extends AbstractMagazine {
 
-    protected String getValue(Document document) {
-        if (!isAvailable(document)) {
-            return OUT_OF_STOCK;
-        }
+    protected String getPriceFrom(Document document) {
         Elements elementsByAttributeValue = document.getElementsByAttributeValue("data-variant-id", getDataVariantId(url));
         if (elementsByAttributeValue.isEmpty()) {
             return document.select("span.product-item__price > span.rus").text();
         }
-        return elementsByAttributeValue.stream().findFirst().map(element -> element.attr("data-price")).orElse(NOT_FOUND);
+        return elementsByAttributeValue.stream()
+                .findFirst()
+                .map(element -> element.attr("data-price"))
+                .orElseThrow(IllegalStateException::new);
     }
 
     @Override

@@ -3,6 +3,7 @@ package integration;
 import checker.model.magazine.BeautyNetKorea;
 import checker.model.magazine.Magazine;
 import org.jsoup.nodes.Document;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -15,17 +16,22 @@ import static org.junit.Assert.assertFalse;
  */
 public class BeautyNetKoreaTest {
 
-    private Magazine beautyNetKorea = new BeautyNetKorea();
+    private Magazine beautyNetKorea;
+
+    @Before
+    public void setUp() {
+        beautyNetKorea = new BeautyNetKorea();
+    }
 
     @Test
     public void shouldReturnPageNotFound() {
-        String price = beautyNetKorea.getPrice("https://beautynetkorea.com/qwe");
+        String price = beautyNetKorea.getPrice(beautyNetKorea.getDocument("https://beautynetkorea.com/qwe"));
         assertEquals("Страница не найдена", price);
     }
 
     @Test
     public void shouldReturnNotEmptyDocument() throws IOException {
         Document document = beautyNetKorea.getDocument("https://beautynetkorea.com/");
-        assertFalse(document.data().isEmpty());
+        assertFalse(document.children().isEmpty());
     }
 }

@@ -16,31 +16,40 @@ public abstract class AbstractMagazine implements Magazine {
     private static final Logger logger = Logger.getLogger(AbstractMagazine.class);
 
     private static final String PAGE_NOT_FOUND = "Страница не найдена";
-    static final String OUT_OF_STOCK = "Нет в наличии";
-    static final String NOT_FOUND = "Не найдено";
+    private static final String OUT_OF_STOCK = "Нет в наличии";
+    private static final String NOT_FOUND = "Не найдено";
     protected String url;
 
     @Override
-    public Document getDocument(String url) throws IOException {
-        return Jsoup
-                .connect(url)
-                .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36")
-                .get();
-    }
-
-    @Override
-    public String getPrice(String url) {
+    public Document getDocument(String url) {
         this.url = url;
         try {
-            Document document = getDocument(url);
-            return getValue(document);
+            return Jsoup
+                    .connect(url)
+                    .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36")
+                    .get();
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
-            return PAGE_NOT_FOUND;
+            return null;
         }
     }
 
-    protected abstract String getValue(Document document);
+    @Override
+    public String getPrice(Document document) {
+        if (document == null) {
+            return PAGE_NOT_FOUND;
+        }
+        if (!isAvailable(document)) {
+            return OUT_OF_STOCK;
+        }
+        try {
+            return getPriceFrom(document);
+        } catch (IllegalStateException e) {
+            return NOT_FOUND;
+        }
+    }
+
+    protected abstract String getPriceFrom(Document document) throws IllegalStateException;
 
     @Override
     public boolean isThisWebsite(String url) {

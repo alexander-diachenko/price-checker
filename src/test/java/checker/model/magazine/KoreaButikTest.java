@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class KoreaButikTest {
 
-    private KoreaButik koreaButik;
+    private Magazine koreaButik;
     private DocumentCreator creator;
 
     @Before
@@ -21,19 +21,19 @@ public class KoreaButikTest {
 
     @Test
     public void shouldReturnDiscountPrice() {
-        String price = koreaButik.getValue(creator.createDocumentFromFile("xml/koreaButik/KoreaButik_discount.xml"));
+        String price = koreaButik.getPrice(creator.createDocumentFromFile("xml/koreaButik/KoreaButik_discount.xml"));
         assertEquals("337.50", price);
     }
 
     @Test
     public void shouldReturnNormalPrice() {
-        String price = koreaButik.getValue(creator.createDocumentFromFile("xml/koreaButik/KoreaButik_normal.xml"));
+        String price = koreaButik.getPrice(creator.createDocumentFromFile("xml/koreaButik/KoreaButik_normal.xml"));
         assertEquals("145", price);
     }
 
     @Test
     public void shouldReturnOutOfStock() {
-        String price = koreaButik.getValue(creator.createDocumentFromFile("xml/koreaButik/KoreaButik_outofstock.xml"));
+        String price = koreaButik.getPrice(creator.createDocumentFromFile("xml/koreaButik/KoreaButik_outofstock.xml"));
         assertEquals("Нет в наличии", price);
     }
 }

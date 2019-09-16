@@ -9,11 +9,11 @@ import java.io.IOException;
  */
 public interface Magazine {
 
-    String getPrice(String url);
+    String getPrice(Document document);
 
     boolean isThisWebsite(String url);
 
-    Document getDocument(String url) throws IOException;
+    Document getDocument(String url);
 
     boolean isAvailable(Document document);
 }

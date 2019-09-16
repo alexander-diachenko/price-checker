@@ -8,32 +8,32 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Alexander Diachenko
  */
-public class KoreaTest {
+public class CosmeteaTest {
 
-    private Magazine korea;
+    private Magazine cosmetea;
     private DocumentCreator creator;
 
     @Before
     public void setup() {
-        korea = new Korea();
+        cosmetea = new Cosmetea();
         creator = new DocumentCreator();
     }
 
     @Test
     public void shouldReturnDiscountPrice() {
-        String price = korea.getPrice(creator.createDocumentFromFile("xml/korea/Korea_discount.xml"));
-        assertEquals("380.00", price);
+        String price = cosmetea.getPrice(creator.createDocumentFromFile("xml/cosmetea/Cosmetea_discount.xml"));
+        assertEquals("418", price);
     }
 
     @Test
     public void shouldReturnNormalPrice() {
-        String price = korea.getPrice(creator.createDocumentFromFile("xml/korea/Korea_normal.xml"));
-        assertEquals("430.00", price);
+        String price = cosmetea.getPrice(creator.createDocumentFromFile("xml/cosmetea/Cosmetea_normal.xml"));
+        assertEquals("250", price);
     }
 
     @Test
     public void shouldReturnOutOfStock() {
-        String price = korea.getPrice(creator.createDocumentFromFile("xml/korea/Korea_outofstock.xml"));
+        String price = cosmetea.getPrice(creator.createDocumentFromFile("xml/cosmetea/Cosmetea_outofstock.xml"));
         assertEquals("Нет в наличии", price);
     }
 }

@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class NowZenithTest {
 
-    private NowZenith nowZenith;
+    private Magazine nowZenith;
     private DocumentCreator creator;
 
     @Before
@@ -21,13 +21,13 @@ public class NowZenithTest {
 
     @Test
     public void shouldReturnDiscountPrice() {
-        String price = nowZenith.getValue(creator.createDocumentFromFile("xml/nowZenith/NowZenith_discount.xml"));
+        String price = nowZenith.getPrice(creator.createDocumentFromFile("xml/nowZenith/NowZenith_discount.xml"));
         assertEquals("6.19", price);
     }
 
     @Test
     public void shouldReturnNormalPrice() {
-        String price = nowZenith.getValue(creator.createDocumentFromFile("xml/nowZenith/NowZenith_normal.xml"));
+        String price = nowZenith.getPrice(creator.createDocumentFromFile("xml/nowZenith/NowZenith_normal.xml"));
         assertEquals("4.60", price);
     }
 }

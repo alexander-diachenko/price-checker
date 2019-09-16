@@ -74,6 +74,9 @@ public class MainService extends Service<Void> {
         Magazine nowZenith = new NowZenith();
         Magazine rozetka = new Rozetka();
         Magazine koreaButik = new KoreaButik();
+        Magazine sweetCorea = new SweetCorea();
+        Magazine cosmetea = new Cosmetea();
+        Magazine sweetness = new Sweetness();
         magazines.add(makeup);
         magazines.add(korea);
         magazines.add(roseRoseShop);
@@ -81,6 +84,9 @@ public class MainService extends Service<Void> {
         magazines.add(nowZenith);
         magazines.add(rozetka);
         magazines.add(koreaButik);
+        magazines.add(sweetCorea);
+        magazines.add(cosmetea);
+        magazines.add(sweetness);
         return magazines;
     }
 }

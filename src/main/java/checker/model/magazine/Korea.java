@@ -11,12 +11,12 @@ import org.jsoup.select.Elements;
 public class Korea extends AbstractMagazine {
 
     @Override
-    protected String getPriceFrom(Document document){
-        Elements prices = document.getElementsByClass("price");
-        return prices.stream()
-                .findFirst()
-                .map(price -> StringUtil.formatPrice(price.text()))
-                .orElseThrow(IllegalStateException::new);
+    protected String getPriceFrom(Document document) {
+        Element price = document.select("div.summary > p > span > span").first();
+        if (price == null) {
+            price = document.select("div.summary > p > span > ins > span").first();
+        }
+        return StringUtil.formatPrice(price.text());
     }
 
     @Override
@@ -26,12 +26,7 @@ public class Korea extends AbstractMagazine {
 
     @Override
     public boolean isAvailable(Document document) {
-        Elements availabilities = document.getElementsByClass("availability");
-        for (Element availability : availabilities) {
-            if ("В наличии".equalsIgnoreCase(availability.text())) {
-                return true;
-            }
-        }
-        return false;
+        Elements availabilities = document.getElementsByClass("out-of-stock");
+        return availabilities.isEmpty();
     }
 }

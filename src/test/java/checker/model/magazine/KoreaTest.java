@@ -22,13 +22,13 @@ public class KoreaTest {
     @Test
     public void shouldReturnDiscountPrice() {
         String price = korea.getPrice(creator.createDocumentFromFile("xml/korea/Korea_discount.xml"));
-        assertEquals("295", price);
+        assertEquals("380.00", price);
     }
 
     @Test
     public void shouldReturnNormalPrice() {
         String price = korea.getPrice(creator.createDocumentFromFile("xml/korea/Korea_normal.xml"));
-        assertEquals("310", price);
+        assertEquals("430.00", price);
     }
 
     @Test

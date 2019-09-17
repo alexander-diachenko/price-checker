@@ -17,7 +17,7 @@ public class Sweetness extends AbstractMagazine {
 
     @Override
     protected String getSiteDomain() {
-        return null;
+        return "sweetness.com.ua";
     }
 
     @Override

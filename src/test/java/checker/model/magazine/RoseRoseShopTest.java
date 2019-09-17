@@ -3,7 +3,8 @@ package checker.model.magazine;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
 
 /**
  * @author Alexander Diachenko
@@ -35,5 +36,20 @@ public class RoseRoseShopTest {
     public void shouldReturnOutOfStock() {
         String price = roseRoseShop.getPrice(creator.createDocumentFromFile("xml/roseRoseShop/RoseRoseShop_outofstock.xml"));
         assertEquals("Нет в наличии", price);
+    }
+
+    @Test
+    public void shouldReturnTrueWhenIsThisWebSiteCalled() {
+        assertTrue(roseRoseShop.isThisWebsite("https://www.roseroseshop.com"));
+    }
+
+    @Test
+    public void shouldReturnFalseWhenIsThisWebSiteCalledWithGoogleDomain() {
+        assertFalse(roseRoseShop.isThisWebsite("https://www.google.com.ua/"));
+    }
+
+    @Test
+    public void shouldReturnFalseWhenIsThisWebSiteCalledWithIncorrectDomain() {
+        assertFalse(roseRoseShop.isThisWebsite("qwe"));
     }
 }

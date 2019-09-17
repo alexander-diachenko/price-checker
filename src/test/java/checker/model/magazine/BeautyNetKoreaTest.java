@@ -3,7 +3,7 @@ package checker.model.magazine;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * @author Alexander Diachenko
@@ -35,5 +35,20 @@ public class BeautyNetKoreaTest {
     public void shouldReturnOutOfStock() {
         String price = beautyNetKorea.getPrice(creator.createDocumentFromFile("xml/beautyNewKorea/BeautyNetKorea_outofstock.xml"));
         assertEquals("Нет в наличии", price);
+    }
+
+    @Test
+    public void shouldReturnTrueWhenIsThisWebSiteCalled() {
+        assertTrue(beautyNetKorea.isThisWebsite("https://beautynetkorea.com"));
+    }
+
+    @Test
+    public void shouldReturnFalseWhenIsThisWebSiteCalledWithGoogleDomain() {
+        assertFalse(beautyNetKorea.isThisWebsite("https://www.google.com.ua/"));
+    }
+
+    @Test
+    public void shouldReturnFalseWhenIsThisWebSiteCalledWithIncorrectDomain() {
+        assertFalse(beautyNetKorea.isThisWebsite("qwe"));
     }
 }

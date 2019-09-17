@@ -3,7 +3,8 @@ package checker.model.magazine;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
 
 /**
  * @author Alexander Diachenko
@@ -35,5 +36,20 @@ public class RozetkaTest {
     public void shouldReturnSelectedProductDiscountPrice() {
         String price = rozetka.getPrice(creator.createDocumentFromFile("xml/rozetka/Rozetka_select.xml"));
         assertEquals("75", price);
+    }
+
+    @Test
+    public void shouldReturnTrueWhenIsThisWebSiteCalled() {
+        assertTrue(rozetka.isThisWebsite("https://rozetka.com.ua"));
+    }
+
+    @Test
+    public void shouldReturnFalseWhenIsThisWebSiteCalledWithGoogleDomain() {
+        assertFalse(rozetka.isThisWebsite("https://www.google.com.ua/"));
+    }
+
+    @Test
+    public void shouldReturnFalseWhenIsThisWebSiteCalledWithIncorrectDomain() {
+        assertFalse(rozetka.isThisWebsite("qwe"));
     }
 }

@@ -2,6 +2,8 @@ package checker.model.magazine;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.util.Optional;
 
@@ -11,7 +13,15 @@ import java.util.Optional;
 public class Makeup extends AbstractMagazine {
 
     protected String getPriceFrom(Document document) {
-        return document.getElementsByAttributeValue("data-variant-id", getDataVariantId(url)).stream()
+        Elements elementsByAttributeValue = document.getElementsByAttributeValue("data-variant-id", getDataVariantId(url));
+        if (elementsByAttributeValue.isEmpty()) { //TODO как нибудь разобратся что тут происходит
+            Elements discounts = document.select("span.product-item__price > span.rus");
+            return discounts.stream()
+                    .findFirst()
+                    .map(Element::text)
+                    .orElseThrow(IllegalStateException::new);
+        }
+        return elementsByAttributeValue.stream()
                 .findFirst()
                 .map(element -> element.attr("data-price"))
                 .orElseThrow(IllegalStateException::new);

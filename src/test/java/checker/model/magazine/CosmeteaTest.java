@@ -39,6 +39,12 @@ public class CosmeteaTest {
     }
 
     @Test
+    public void shouldReturnNotFound() {
+        String price = cosmetea.getPrice(creator.createDocumentFromFile("xml/cosmetea/Cosmetea_notfound.xml"));
+        assertEquals("Не найдено", price);
+    }
+
+    @Test
     public void shouldReturnTrueWhenIsThisWebSiteCalled() {
         assertTrue(cosmetea.isThisWebsite("https://cosmetea.com.ua"));
     }

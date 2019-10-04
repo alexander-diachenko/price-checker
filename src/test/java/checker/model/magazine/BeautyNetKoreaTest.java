@@ -38,6 +38,12 @@ public class BeautyNetKoreaTest {
     }
 
     @Test
+    public void shouldReturnNotFound() {
+        String price = beautyNetKorea.getPrice(creator.createDocumentFromFile("xml/beautyNewKorea/BeautyNetKorea_notfound.xml"));
+        assertEquals("Не найдено", price);
+    }
+
+    @Test
     public void shouldReturnTrueWhenIsThisWebSiteCalled() {
         assertTrue(beautyNetKorea.isThisWebsite("https://beautynetkorea.com"));
     }

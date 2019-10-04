@@ -39,6 +39,12 @@ public class RoseRoseShopTest {
     }
 
     @Test
+    public void shouldReturnNotFound() {
+        String price = roseRoseShop.getPrice(creator.createDocumentFromFile("xml/roseRoseShop/RoseRoseShop_notfound.xml"));
+        assertEquals("Не найдено", price);
+    }
+
+    @Test
     public void shouldReturnTrueWhenIsThisWebSiteCalled() {
         assertTrue(roseRoseShop.isThisWebsite("https://www.roseroseshop.com"));
     }

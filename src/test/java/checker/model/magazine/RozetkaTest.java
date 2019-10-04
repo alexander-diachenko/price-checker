@@ -39,6 +39,12 @@ public class RozetkaTest {
     }
 
     @Test
+    public void shouldReturnNotFound() {
+        String price = rozetka.getPrice(creator.createDocumentFromFile("xml/rozetka/Rozetka_notfound.xml"));
+        assertEquals("Не найдено", price);
+    }
+
+    @Test
     public void shouldReturnTrueWhenIsThisWebSiteCalled() {
         assertTrue(rozetka.isThisWebsite("https://rozetka.com.ua"));
     }

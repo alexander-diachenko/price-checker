@@ -14,14 +14,14 @@ public class Korea extends AbstractMagazine {
 
     @Override
     protected String getPriceFrom(Document document) {
-        Optional<Element> first = Optional.ofNullable(document.select("div.summary > p > span > span").first());
-        if (first.isPresent()) {
-            return StringUtil.formatPrice(first.get().text());
+        Optional<Element> discountPrice = Optional.ofNullable(document.select("div.summary > p > span > span").first());
+        if (discountPrice.isPresent()) {
+            return StringUtil.formatPrice(discountPrice.get().text());
         }
 
-        Optional<Element> second = Optional.ofNullable(document.select("div.summary > p > span > ins > span").first());
-        if (second.isPresent()) {
-            return StringUtil.formatPrice(second.get().text());
+        Optional<Element> price = Optional.ofNullable(document.select("div.summary > p > span > ins > span").first());
+        if (price.isPresent()) {
+            return StringUtil.formatPrice(price.get().text());
         }
         throw new IllegalStateException();
     }

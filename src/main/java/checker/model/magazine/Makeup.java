@@ -5,6 +5,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.util.Optional;
+
 /**
  * @author Alexander Diachenko.
  */
@@ -13,7 +15,11 @@ public class Makeup extends AbstractMagazine {
     protected String getPriceFrom(Document document) {
         Elements elementsByAttributeValue = document.getElementsByAttributeValue("data-variant-id", getDataVariantId(url));
         if (elementsByAttributeValue.isEmpty()) {
-            return document.select("span.product-item__price > span.rus").text();
+            Elements discounts = document.select("span.product-item__price > span.rus");
+            return discounts.stream()
+                    .findFirst()
+                    .map(Element::text)
+                    .orElseThrow(IllegalStateException::new);
         }
         return elementsByAttributeValue.stream()
                 .findFirst()
@@ -28,8 +34,9 @@ public class Makeup extends AbstractMagazine {
 
     @Override
     public boolean isAvailable(Document document) {
-        final Element status = document.getElementById("product_enabled");
-        return StringUtils.containsIgnoreCase(status.text(), "Есть в наличии");
+        return Optional.ofNullable(document.getElementById("product_enabled"))
+                .filter(availability -> StringUtils.containsIgnoreCase(availability.text(), "Есть в наличии"))
+                .isPresent();
     }
 
     private String getDataVariantId(String url) {

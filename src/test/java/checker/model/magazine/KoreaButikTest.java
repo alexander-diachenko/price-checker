@@ -39,6 +39,12 @@ public class KoreaButikTest {
     }
 
     @Test
+    public void shouldReturnNotFound() {
+        String price = koreaButik.getPrice(creator.createDocumentFromFile("xml/koreaButik/KoreaButik_notfound.xml"));
+        assertEquals("Не найдено", price);
+    }
+
+    @Test
     public void shouldReturnTrueWhenIsThisWebSiteCalled() {
         assertTrue(koreaButik.isThisWebsite("https://korea-butik.com"));
     }

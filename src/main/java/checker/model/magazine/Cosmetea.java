@@ -5,6 +5,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.util.Optional;
+
 /**
  * @author Alexander Diachenko
  */
@@ -29,7 +31,7 @@ public class Cosmetea extends AbstractMagazine {
 
     @Override
     public boolean isAvailable(Document document) {
-        Element availability = document.select("ul.description:contains(Доступность: На складе)").first();
-        return availability != null;
+        Elements availabilities = document.select("ul.description:contains(Доступность: Нет в наличии)");
+        return availabilities.isEmpty();
     }
 }

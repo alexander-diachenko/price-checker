@@ -26,7 +26,7 @@ public class SweetCorea extends AbstractMagazine {
 
     @Override
     public boolean isAvailable(Document document) {
-        Element description = document.select("div.description:contains(Out Of Stock)").first();
-        return description == null;
+        Elements availabilities = document.select("div.description:contains(Out Of Stock)");
+        return availabilities.isEmpty();
     }
 }

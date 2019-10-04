@@ -26,6 +26,6 @@ public class KoreaButik extends AbstractMagazine {
     @Override
     public boolean isAvailable(Document document) {
         Elements presenceData = document.getElementsByAttributeValue("data-qaid", "presence_data");
-        return "В наличии".equalsIgnoreCase(presenceData.text());
+        return !"Нет в наличии".equalsIgnoreCase(presenceData.text());
     }
 }

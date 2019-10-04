@@ -40,7 +40,7 @@ public class KoreaTest {
 
     @Test
     public void shouldReturnNotFound() {
-        String price = korea.getPrice(creator.createDocumentFromFile("xml/common/qwe.xml"));
+        String price = korea.getPrice(creator.createDocumentFromFile("xml/korea/Korea_notfound.xml"));
         assertEquals("Не найдено", price);
     }
 

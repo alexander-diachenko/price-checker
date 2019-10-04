@@ -33,6 +33,12 @@ public class NowZenithTest {
     }
 
     @Test
+    public void shouldReturnNotFound() {
+        String price = nowZenith.getPrice(creator.createDocumentFromFile("xml/nowZenith/NowZenith_notfound.xml"));
+        assertEquals("Не найдено", price);
+    }
+
+    @Test
     public void shouldReturnTrueWhenIsThisWebSiteCalled() {
         assertTrue(nowZenith.isThisWebsite("http://www.nowzenith.com"));
     }

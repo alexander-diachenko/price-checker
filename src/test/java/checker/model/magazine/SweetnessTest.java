@@ -39,6 +39,12 @@ public class SweetnessTest {
     }
 
     @Test
+    public void shouldReturnNotFound() {
+        String price = sweetness.getPrice(creator.createDocumentFromFile("xml/sweetness/Sweetness_notfound.xml"));
+        assertEquals("Не найдено", price);
+    }
+
+    @Test
     public void shouldReturnTrueWhenIsThisWebSiteCalled() {
         assertTrue(sweetness.isThisWebsite("https://sweetness.com.ua"));
     }

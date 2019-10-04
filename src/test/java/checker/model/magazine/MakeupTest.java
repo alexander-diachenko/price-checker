@@ -42,6 +42,13 @@ public class MakeupTest {
     }
 
     @Test
+    public void shouldReturnNotFound() {
+        makeup.url = "https://makeup.com.ua/product/20652/";
+        String price = makeup.getPrice(creator.createDocumentFromFile("xml/makeup/Makeup_notfound.xml"));
+        assertEquals("Не найдено", price);
+    }
+
+    @Test
     public void shouldReturnTrueWhenIsThisWebSiteCalled() {
         assertTrue(makeup.isThisWebsite("https://makeup.com.ua/"));
     }

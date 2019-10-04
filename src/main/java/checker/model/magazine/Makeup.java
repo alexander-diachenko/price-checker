@@ -2,8 +2,8 @@ package checker.model.magazine;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+
+import java.util.Optional;
 
 /**
  * @author Alexander Diachenko.
@@ -11,11 +11,7 @@ import org.jsoup.select.Elements;
 public class Makeup extends AbstractMagazine {
 
     protected String getPriceFrom(Document document) {
-        Elements elementsByAttributeValue = document.getElementsByAttributeValue("data-variant-id", getDataVariantId(url));
-        if (elementsByAttributeValue.isEmpty()) {
-            return document.select("span.product-item__price > span.rus").text();
-        }
-        return elementsByAttributeValue.stream()
+        return document.getElementsByAttributeValue("data-variant-id", getDataVariantId(url)).stream()
                 .findFirst()
                 .map(element -> element.attr("data-price"))
                 .orElseThrow(IllegalStateException::new);
@@ -28,8 +24,9 @@ public class Makeup extends AbstractMagazine {
 
     @Override
     public boolean isAvailable(Document document) {
-        final Element status = document.getElementById("product_enabled");
-        return StringUtils.containsIgnoreCase(status.text(), "Есть в наличии");
+        return Optional.ofNullable(document.getElementById("product_enabled"))
+                .filter(availability -> StringUtils.containsIgnoreCase(availability.text(), "Есть в наличии"))
+                .isPresent();
     }
 
     private String getDataVariantId(String url) {

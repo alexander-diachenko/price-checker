@@ -39,6 +39,12 @@ public class KoreaTest {
     }
 
     @Test
+    public void shouldReturnNotFound() {
+        String price = korea.getPrice(creator.createDocumentFromFile("xml/korea/Korea_notfound.xml"));
+        assertEquals("Не найдено", price);
+    }
+
+    @Test
     public void shouldReturnTrueWhenIsThisWebSiteCalled() {
         assertTrue(korea.isThisWebsite("https://korea.in.ua/"));
     }

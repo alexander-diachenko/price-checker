@@ -1,9 +1,12 @@
 package checker.model.magazine;
 
 import checker.util.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.util.Optional;
 
 /**
  * @author Alexander Diachenko
@@ -25,7 +28,7 @@ public class RoseRoseShop extends AbstractMagazine {
 
     @Override
     public boolean isAvailable(Document document) {
-        Element cartButton = document.getElementById("button-cart");
-        return cartButton != null;
+        return Optional.ofNullable(document.getElementById("button-cart"))
+                .isPresent();
     }
 }

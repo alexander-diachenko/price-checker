@@ -19,9 +19,10 @@ public class Makeup extends AbstractMagazine {
     private static final String IN_STOCK = "Есть в наличии";
 
     protected String getPriceFrom(Document document) {
-        return ofNullable(document.getElementsByAttributeValue(DATA_VARIANT_ID, getDataVariantId(url)).first())
-                .map(element -> element.attr(NORMAL_PRICE))
-                .or(() -> ofNullable(document.select(DISCOUNT_PRICE).first()).map(Element::text))
+        return ofNullable(document.select(DISCOUNT_PRICE).first())
+                .map(Element::text)
+                .or(() -> ofNullable(document.getElementsByAttributeValue(DATA_VARIANT_ID, getDataVariantId(url)).first())
+                .map(element -> element.attr(NORMAL_PRICE)))
                 .orElseThrow(IllegalStateException::new);
     }
 

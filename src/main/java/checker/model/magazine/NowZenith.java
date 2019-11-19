@@ -2,34 +2,32 @@ package checker.model.magazine;
 
 import checker.util.StringUtil;
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
+import org.jsoup.nodes.Element;
+
+import java.util.Optional;
+
+import static java.util.Optional.ofNullable;
 
 /**
  * @author Alexander Diachenko
  */
 public class NowZenith extends AbstractMagazine {
 
-    private static final String DISCOUNTS = "special-price";
-    private static final String NORMAL_PRICES = "product-price";
+    private static final String DISCOUNT_PRICE = "special-price";
+    private static final String NORMAL_PRICE = "product-price";
     private static final String SITE_DOMAIN = "www.nowzenith.com";
 
     @Override
     protected String getPriceFrom(Document document) {
-        Elements discounts = document.getElementsByClass(DISCOUNTS);
-        if(!discounts.isEmpty()) {
-            return getPriceFrom(discounts);
-
-        }
-        Elements prices = document.getElementsByClass(NORMAL_PRICES);
-        if(!prices.isEmpty()) {
-            return getPriceFrom(prices);
-
-        }
-        throw new IllegalStateException();
+        return getElementByClass(document, DISCOUNT_PRICE)
+                .or(() -> getElementByClass(document, NORMAL_PRICE))
+                .map(Element::text)
+                .map(StringUtil::formatPrice)
+                .orElseThrow(IllegalStateException::new);
     }
 
-    private String getPriceFrom(Elements elements) {
-        return StringUtil.formatPrice(elements.stream().findFirst().orElseThrow(IllegalStateException::new).text());
+    private Optional<Element> getElementByClass(Document document, String className) {
+        return ofNullable(document.getElementsByClass(className).first());
     }
 
     @Override

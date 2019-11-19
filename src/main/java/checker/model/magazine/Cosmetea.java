@@ -1,29 +1,35 @@
 package checker.model.magazine;
 
-import checker.util.StringUtil;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.util.Optional;
+
+import static checker.util.StringUtil.formatPrice;
+import static java.util.Optional.ofNullable;
 
 /**
  * @author Alexander Diachenko
  */
 public class Cosmetea extends AbstractMagazine {
 
-    private static final String DISCOUNTS = "autocalc-product-special";
-    private static final String NORMAL_PRICES = "autocalc-product-price";
+    private static final String DISCOUNT_PRICE = "autocalc-product-special";
+    private static final String NORMAL_PRICE = "autocalc-product-price";
     private static final String SITE_DOMAIN = "cosmetea.com.ua";
     private static final String OUT_OF_STOCK = "ul.description:contains(Доступность: Нет в наличии)";
 
     @Override
     protected String getPriceFrom(Document document) {
-        Elements prices = document.getElementsByClass(DISCOUNTS);
-        if (prices.isEmpty()) {
-            prices = document.getElementsByClass(NORMAL_PRICES);
-        }
-        return prices.stream()
-                .findFirst()
-                .map(price -> StringUtil.formatPrice(price.text()))
+        String price = getElementByClass(document, DISCOUNT_PRICE)
+                .or(() -> getElementByClass(document, NORMAL_PRICE))
+                .map(Element::text)
                 .orElseThrow(IllegalStateException::new);
+        return formatPrice(price);
+    }
+
+    private Optional<Element> getElementByClass(Document document, String className) {
+        return ofNullable(document.getElementsByClass(className).first());
     }
 
     @Override

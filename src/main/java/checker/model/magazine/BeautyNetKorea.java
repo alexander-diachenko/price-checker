@@ -8,6 +8,8 @@ import org.jsoup.select.Elements;
 
 import java.util.Optional;
 
+import static java.util.Optional.ofNullable;
+
 /**
  * @author Alexander Diachenko
  */
@@ -29,7 +31,7 @@ public class BeautyNetKorea extends AbstractMagazine {
     }
 
     private Optional<Element> getElementById(Document document, String id) {
-        return Optional.ofNullable(document.getElementById(id));
+        return ofNullable(document.getElementById(id));
     }
 
     private String formatPrice(String price) {

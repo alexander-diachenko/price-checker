@@ -2,6 +2,7 @@ package checker.model.magazine;
 
 import checker.util.StringUtil;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 /**
@@ -20,7 +21,8 @@ public class KoreaButik extends AbstractMagazine {
         Elements prices = document.getElementsByAttributeValue(DATA_QAID, PRODUCT_PRICE);
         return prices.stream()
                 .findFirst()
-                .map(price -> StringUtil.formatPrice(price.text()))
+                .map(Element::text)
+                .map(StringUtil::formatPrice)
                 .orElseThrow(IllegalStateException::new);
     }
 
@@ -32,6 +34,8 @@ public class KoreaButik extends AbstractMagazine {
     @Override
     public boolean isAvailable(Document document) {
         Elements presenceData = document.getElementsByAttributeValue(DATA_QAID, PRESENCE_DATA);
-        return !OUT_OF_STOCK.equalsIgnoreCase(presenceData.text());
+        return presenceData.stream()
+                .map(Element::text)
+                .anyMatch(price -> !OUT_OF_STOCK.equalsIgnoreCase(price));
     }
 }

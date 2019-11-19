@@ -2,6 +2,7 @@ package checker.model.magazine;
 
 import checker.util.StringUtil;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 /**
@@ -9,16 +10,17 @@ import org.jsoup.select.Elements;
  */
 public class SweetCorea extends AbstractMagazine {
 
-    private static final String DISCOUNTS = "price";
+    private static final String DISCOUNT_PRICE = "price";
     private static final String SITE_DOMAIN = "www.sweetcorea.com";
     private static final String OUT_OF_STOCK = "div.description:contains(Out Of Stock)";
 
     @Override
     protected String getPriceFrom(Document document) {
-        Elements prices = document.getElementsByClass(DISCOUNTS);
+        Elements prices = document.getElementsByClass(DISCOUNT_PRICE);
         return prices.stream()
                 .findFirst()
-                .map(price -> StringUtil.formatPrice(price.text()))
+                .map(Element::text)
+                .map(StringUtil::formatPrice)
                 .orElseThrow(IllegalStateException::new);
     }
 

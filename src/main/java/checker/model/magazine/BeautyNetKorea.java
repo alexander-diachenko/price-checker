@@ -6,12 +6,14 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.util.Optional;
+
 /**
  * @author Alexander Diachenko
  */
 public class BeautyNetKorea extends AbstractMagazine {
 
-    private static final String DISCOUNT = "span_product_price_sale";
+    private static final String DISCOUNT_PRICE = "span_product_price_sale";
     private static final String NORMAL_PRICE = "span_product_price_text";
     private static final String SITE_DOMAIN = "beautynetkorea.com";
     private static final String OUT_OF_STOCK = "Out-of-stock";
@@ -19,15 +21,15 @@ public class BeautyNetKorea extends AbstractMagazine {
 
     @Override
     protected String getPriceFrom(Document document) {
-        Element discountPrice = document.getElementById(DISCOUNT);
-        if (discountPrice != null) {
-            return formatPrice(discountPrice.text());
-        }
-        Element price = document.getElementById(NORMAL_PRICE);
-        if (price != null) {
-            return formatPrice(price.text());
-        }
-        throw new IllegalStateException();
+        String price = getElementById(document, DISCOUNT_PRICE)
+                .or(() -> getElementById(document, NORMAL_PRICE))
+                .map(Element::text)
+                .orElseThrow(IllegalStateException::new);
+        return formatPrice(price);
+    }
+
+    private Optional<Element> getElementById(Document document, String id) {
+        return Optional.ofNullable(document.getElementById(id));
     }
 
     private String formatPrice(String price) {

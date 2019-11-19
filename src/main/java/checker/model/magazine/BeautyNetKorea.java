@@ -23,11 +23,11 @@ public class BeautyNetKorea extends AbstractMagazine {
 
     @Override
     protected String getPriceFrom(Document document) {
-        String price = getElementById(document, DISCOUNT_PRICE)
+        return getElementById(document, DISCOUNT_PRICE)
                 .or(() -> getElementById(document, NORMAL_PRICE))
                 .map(Element::text)
+                .map(this::formatPrice)
                 .orElseThrow(IllegalStateException::new);
-        return formatPrice(price);
     }
 
     private Optional<Element> getElementById(Document document, String id) {

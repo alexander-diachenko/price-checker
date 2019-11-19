@@ -1,12 +1,12 @@
 package checker.model.magazine;
 
+import checker.util.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.Optional;
 
-import static checker.util.StringUtil.formatPrice;
 import static java.util.Optional.ofNullable;
 
 /**
@@ -21,11 +21,11 @@ public class Cosmetea extends AbstractMagazine {
 
     @Override
     protected String getPriceFrom(Document document) {
-        String price = getElementByClass(document, DISCOUNT_PRICE)
+        return getElementByClass(document, DISCOUNT_PRICE)
                 .or(() -> getElementByClass(document, NORMAL_PRICE))
                 .map(Element::text)
+                .map(StringUtil::formatPrice)
                 .orElseThrow(IllegalStateException::new);
-        return formatPrice(price);
     }
 
     private Optional<Element> getElementByClass(Document document, String className) {

@@ -34,7 +34,8 @@ public class Makeup extends AbstractMagazine {
     @Override
     public boolean isAvailable(Document document) {
         return ofNullable(document.getElementById(PRODUCT_STATUS))
-                .filter(availability -> StringUtils.containsIgnoreCase(availability.text(), IN_STOCK))
+                .map(Element::text)
+                .filter(text -> StringUtils.containsIgnoreCase(text, IN_STOCK))
                 .isPresent();
     }
 

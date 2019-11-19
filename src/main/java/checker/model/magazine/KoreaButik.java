@@ -33,9 +33,8 @@ public class KoreaButik extends AbstractMagazine {
 
     @Override
     public boolean isAvailable(Document document) {
-        Elements presenceData = document.getElementsByAttributeValue(DATA_QAID, PRESENCE_DATA);
-        return presenceData.stream()
+        return document.getElementsByAttributeValue(DATA_QAID, PRESENCE_DATA).stream()
                 .map(Element::text)
-                .anyMatch(price -> !OUT_OF_STOCK.equalsIgnoreCase(price));
+                .noneMatch(OUT_OF_STOCK::equalsIgnoreCase);
     }
 }

@@ -7,17 +7,18 @@ import org.jsoup.select.Elements;
 
 public class Rozetka extends AbstractMagazine {
 
-    private static final String DISCOUNTS = "detail-price-uah";
+    private static final String DISCOUNT_PRICE = "detail-price-uah";
     private static final String SITE_DOMAIN = "rozetka.com.ua";
     private static final String BTN_LINK_I = "btn-link-i";
     private static final String BUY_TEXT = "Купить";
 
     @Override
     protected String getPriceFrom(Document document) {
-        Elements prices = document.getElementsByClass(DISCOUNTS);
+        Elements prices = document.getElementsByClass(DISCOUNT_PRICE);
         return prices.stream()
                 .findFirst()
-                .map(price -> StringUtil.formatPrice(price.text()))
+                .map(Element::text)
+                .map(StringUtil::formatPrice)
                 .orElseThrow(IllegalStateException::new);
     }
 
@@ -28,12 +29,8 @@ public class Rozetka extends AbstractMagazine {
 
     @Override
     public boolean isAvailable(Document document) {
-        Elements buyButtons = document.getElementsByClass(BTN_LINK_I);
-        for (Element buyButton : buyButtons) {
-            if (BUY_TEXT.equalsIgnoreCase(buyButton.text())) {
-                return true;
-            }
-        }
-        return false;
+        return document.getElementsByClass(BTN_LINK_I).stream()
+                .map(Element::text)
+                .anyMatch(BUY_TEXT::equalsIgnoreCase);
     }
 }

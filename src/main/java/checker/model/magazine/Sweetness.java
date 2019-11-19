@@ -11,9 +11,13 @@ import java.util.Optional;
  */
 public class Sweetness extends AbstractMagazine {
 
+    private static final String DISCOUNT = "our_price_display";
+    private static final String SITE_DOMAIN = "sweetness.com.ua";
+    private static final String ADD_TO_CART = "add_to_cart";
+
     @Override
-    protected String getPriceFrom(Document document) throws IllegalStateException {
-        Optional<Element> price = Optional.ofNullable(document.getElementById("our_price_display"));
+    protected String getPriceFrom(Document document) {
+        Optional<Element> price = Optional.ofNullable(document.getElementById(DISCOUNT));
         if (price.isPresent()) {
             return StringUtil.formatPrice(price.get().text());
         }
@@ -22,11 +26,11 @@ public class Sweetness extends AbstractMagazine {
 
     @Override
     protected String getSiteDomain() {
-        return "sweetness.com.ua";
+        return SITE_DOMAIN;
     }
 
     @Override
     public boolean isAvailable(Document document) {
-        return Optional.ofNullable(document.getElementById("add_to_cart")).isPresent();
+        return Optional.ofNullable(document.getElementById(ADD_TO_CART)).isPresent();
     }
 }

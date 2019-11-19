@@ -49,7 +49,7 @@ public abstract class AbstractMagazine implements Magazine {
         }
     }
 
-    protected abstract String getPriceFrom(Document document) throws IllegalStateException;
+    protected abstract String getPriceFrom(Document document);
 
     @Override
     public boolean isThisWebsite(String url) {

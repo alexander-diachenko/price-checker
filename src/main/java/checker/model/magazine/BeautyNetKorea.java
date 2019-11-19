@@ -11,13 +11,19 @@ import org.jsoup.select.Elements;
  */
 public class BeautyNetKorea extends AbstractMagazine {
 
+    private static final String DISCOUNT = "span_product_price_sale";
+    private static final String NORMAL_PRICE = "span_product_price_text";
+    private static final String SITE_DOMAIN = "beautynetkorea.com";
+    private static final String OUT_OF_STOCK = "Out-of-stock";
+    private static final String ALT = "alt";
+
     @Override
     protected String getPriceFrom(Document document) {
-        Element discountPrice = document.getElementById("span_product_price_sale");
+        Element discountPrice = document.getElementById(DISCOUNT);
         if (discountPrice != null) {
             return formatPrice(discountPrice.text());
         }
-        Element price = document.getElementById("span_product_price_text");
+        Element price = document.getElementById(NORMAL_PRICE);
         if (price != null) {
             return formatPrice(price.text());
         }
@@ -31,12 +37,12 @@ public class BeautyNetKorea extends AbstractMagazine {
 
     @Override
     protected String getSiteDomain() {
-        return "beautynetkorea.com";
+        return SITE_DOMAIN;
     }
 
     @Override
     public boolean isAvailable(Document document) {
-        Elements availabilities = document.getElementsByAttributeValue("alt", "Out-of-stock");
+        Elements availabilities = document.getElementsByAttributeValue(ALT, OUT_OF_STOCK);
         return availabilities.isEmpty();
     }
 }

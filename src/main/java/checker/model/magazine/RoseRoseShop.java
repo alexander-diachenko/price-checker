@@ -1,9 +1,7 @@
 package checker.model.magazine;
 
 import checker.util.StringUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.Optional;
@@ -13,8 +11,13 @@ import java.util.Optional;
  */
 public class RoseRoseShop extends AbstractMagazine {
 
+    private static final String ITEMPROP = "itemprop";
+    private static final String NORMAL_PRICE = "price";
+    private static final String SITE_DOMAIN = "www.roseroseshop.com";
+    private static final String BUTTON_CART = "button-cart";
+
     protected String getPriceFrom(Document document) {
-        Elements prices = document.getElementsByAttributeValue("itemprop", "price");
+        Elements prices = document.getElementsByAttributeValue(ITEMPROP, NORMAL_PRICE);
         return prices.stream()
                 .findFirst()
                 .map(price -> StringUtil.formatPrice(price.text()))
@@ -23,12 +26,12 @@ public class RoseRoseShop extends AbstractMagazine {
 
     @Override
     protected String getSiteDomain() {
-        return "www.roseroseshop.com";
+        return SITE_DOMAIN;
     }
 
     @Override
     public boolean isAvailable(Document document) {
-        return Optional.ofNullable(document.getElementById("button-cart"))
+        return Optional.ofNullable(document.getElementById(BUTTON_CART))
                 .isPresent();
     }
 }

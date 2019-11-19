@@ -9,9 +9,15 @@ import org.jsoup.select.Elements;
  */
 public class KoreaButik extends AbstractMagazine {
 
+    private static final String DATA_QAID = "data-qaid";
+    private static final String PRODUCT_PRICE = "product_price";
+    private static final String SITE_DOMAIN = "korea-butik.com";
+    private static final String PRESENCE_DATA = "presence_data";
+    private static final String OUT_OF_STOCK = "Нет в наличии";
+
     @Override
     protected String getPriceFrom(Document document) {
-        Elements prices = document.getElementsByAttributeValue("data-qaid", "product_price");
+        Elements prices = document.getElementsByAttributeValue(DATA_QAID, PRODUCT_PRICE);
         return prices.stream()
                 .findFirst()
                 .map(price -> StringUtil.formatPrice(price.text()))
@@ -20,12 +26,12 @@ public class KoreaButik extends AbstractMagazine {
 
     @Override
     protected String getSiteDomain() {
-        return "korea-butik.com";
+        return SITE_DOMAIN;
     }
 
     @Override
     public boolean isAvailable(Document document) {
-        Elements presenceData = document.getElementsByAttributeValue("data-qaid", "presence_data");
-        return !"Нет в наличии".equalsIgnoreCase(presenceData.text());
+        Elements presenceData = document.getElementsByAttributeValue(DATA_QAID, PRESENCE_DATA);
+        return !OUT_OF_STOCK.equalsIgnoreCase(presenceData.text());
     }
 }

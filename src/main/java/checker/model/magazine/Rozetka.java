@@ -7,9 +7,14 @@ import org.jsoup.select.Elements;
 
 public class Rozetka extends AbstractMagazine {
 
+    private static final String DISCOUNTS = "detail-price-uah";
+    private static final String SITE_DOMAIN = "rozetka.com.ua";
+    private static final String BTN_LINK_I = "btn-link-i";
+    private static final String BUY_TEXT = "Купить";
+
     @Override
     protected String getPriceFrom(Document document) {
-        Elements prices = document.getElementsByClass("detail-price-uah");
+        Elements prices = document.getElementsByClass(DISCOUNTS);
         return prices.stream()
                 .findFirst()
                 .map(price -> StringUtil.formatPrice(price.text()))
@@ -18,14 +23,14 @@ public class Rozetka extends AbstractMagazine {
 
     @Override
     protected String getSiteDomain() {
-        return "rozetka.com.ua";
+        return SITE_DOMAIN;
     }
 
     @Override
     public boolean isAvailable(Document document) {
-        Elements buyButtons = document.getElementsByClass("btn-link-i");
+        Elements buyButtons = document.getElementsByClass(BTN_LINK_I);
         for (Element buyButton : buyButtons) {
-            if ("Купить".equalsIgnoreCase(buyButton.text())) {
+            if (BUY_TEXT.equalsIgnoreCase(buyButton.text())) {
                 return true;
             }
         }

@@ -4,7 +4,7 @@ import checker.util.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-import java.util.Optional;
+import static java.util.Optional.ofNullable;
 
 /**
  * @author Alexander Diachenko
@@ -17,11 +17,10 @@ public class Sweetness extends AbstractMagazine {
 
     @Override
     protected String getPriceFrom(Document document) {
-        Optional<Element> price = Optional.ofNullable(document.getElementById(DISCOUNT));
-        if (price.isPresent()) {
-            return StringUtil.formatPrice(price.get().text());
-        }
-        throw new IllegalStateException();
+        return ofNullable(document.getElementById(DISCOUNT))
+                .map(Element::text)
+                .map(StringUtil::formatPrice)
+                .orElseThrow(IllegalStateException::new);
     }
 
     @Override
@@ -31,6 +30,6 @@ public class Sweetness extends AbstractMagazine {
 
     @Override
     public boolean isAvailable(Document document) {
-        return Optional.ofNullable(document.getElementById(ADD_TO_CART)).isPresent();
+        return ofNullable(document.getElementById(ADD_TO_CART)).isPresent();
     }
 }

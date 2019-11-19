@@ -1,11 +1,13 @@
 package checker.model.magazine;
 
-import checker.util.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.Optional;
+
+import static checker.util.StringUtil.formatPrice;
+import static java.util.Optional.ofNullable;
 
 /**
  * @author Alexander Diachenko
@@ -19,16 +21,15 @@ public class Korea extends AbstractMagazine {
 
     @Override
     protected String getPriceFrom(Document document) {
-        Optional<Element> discountPrice = Optional.ofNullable(document.select(DISCOUNT_PRICE).first());
-        if (discountPrice.isPresent()) {
-            return StringUtil.formatPrice(discountPrice.get().text());
-        }
+        String price = getElementByClass(document, DISCOUNT_PRICE)
+                .or(() -> getElementByClass(document, NORMAL_PRICE))
+                .map(Element::text)
+                .orElseThrow(IllegalStateException::new);
+        return formatPrice(price);
+    }
 
-        Optional<Element> price = Optional.ofNullable(document.select(NORMAL_PRICE).first());
-        if (price.isPresent()) {
-            return StringUtil.formatPrice(price.get().text());
-        }
-        throw new IllegalStateException();
+    private Optional<Element> getElementByClass(Document document, String className) {
+        return ofNullable(document.select(className).first());
     }
 
     @Override

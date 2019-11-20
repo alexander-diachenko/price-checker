@@ -67,26 +67,16 @@ public class MainService extends Service<Void> {
 
     private static List<Magazine> getMagazines() {
         List<Magazine> magazines = new ArrayList<>();
-        Magazine makeup = new Makeup();
-        Magazine korea = new Korea();
-        Magazine roseRoseShop = new RoseRoseShop();
-        Magazine beautyNetKorea = new BeautyNetKorea();
-        Magazine nowZenith = new NowZenith();
-        Magazine rozetka = new Rozetka();
-        Magazine koreaButik = new KoreaButik();
-        Magazine sweetCorea = new SweetCorea();
-        Magazine cosmetea = new Cosmetea();
-        Magazine sweetness = new Sweetness();
-        magazines.add(makeup);
-        magazines.add(korea);
-        magazines.add(roseRoseShop);
-        magazines.add(beautyNetKorea);
-        magazines.add(nowZenith);
-        magazines.add(rozetka);
-        magazines.add(koreaButik);
-        magazines.add(sweetCorea);
-        magazines.add(cosmetea);
-        magazines.add(sweetness);
+        magazines.add(new Makeup());
+        magazines.add(new Korea());
+        magazines.add(new RoseRoseShop());
+        magazines.add(new BeautyNetKorea());
+        magazines.add(new NowZenith());
+        magazines.add(new Rozetka());
+        magazines.add(new KoreaButik());
+        magazines.add(new SweetCorea());
+        magazines.add(new Cosmetea());
+        magazines.add(new Sweetness());
         return magazines;
     }
 }

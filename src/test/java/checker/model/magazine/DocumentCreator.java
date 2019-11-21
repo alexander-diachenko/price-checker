@@ -1,31 +1,24 @@
 package checker.model.magazine;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * @author Alexander Diachenko
  */
 public class DocumentCreator {
 
-    private String url = "";
-
     public Document createDocumentFromFile(String path) {
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource(path).getFile());
+        InputStream is = getClass().getClassLoader().getResourceAsStream(path);
         try {
-            Document document = Jsoup.parse(file, "UTF-8", url);
-            return document;
+            return Jsoup.parse(is, "UTF-8", StringUtils.EMPTY);
         } catch (IOException e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return null;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 }

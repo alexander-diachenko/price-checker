@@ -3,7 +3,8 @@ package checker.model.magazine;
 import checker.util.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+
+import static java.util.Optional.ofNullable;
 
 public class Rozetka extends AbstractMagazine {
 
@@ -14,9 +15,7 @@ public class Rozetka extends AbstractMagazine {
 
     @Override
     protected String getPriceFrom(Document document) {
-        Elements prices = document.getElementsByClass(DISCOUNT_PRICE);
-        return prices.stream()
-                .findFirst()
+        return ofNullable(document.getElementsByClass(DISCOUNT_PRICE).first())
                 .map(Element::text)
                 .map(StringUtil::formatPrice)
                 .orElseThrow(IllegalStateException::new);

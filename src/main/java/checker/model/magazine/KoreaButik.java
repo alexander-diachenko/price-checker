@@ -3,7 +3,8 @@ package checker.model.magazine;
 import checker.util.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+
+import static java.util.Optional.ofNullable;
 
 /**
  * @author Alexander Diachenko
@@ -18,9 +19,7 @@ public class KoreaButik extends AbstractMagazine {
 
     @Override
     protected String getPriceFrom(Document document) {
-        Elements prices = document.getElementsByAttributeValue(DATA_QAID, PRODUCT_PRICE);
-        return prices.stream()
-                .findFirst()
+        return ofNullable(document.getElementsByAttributeValue(DATA_QAID, PRODUCT_PRICE).first())
                 .map(Element::text)
                 .map(StringUtil::formatPrice)
                 .orElseThrow(IllegalStateException::new);

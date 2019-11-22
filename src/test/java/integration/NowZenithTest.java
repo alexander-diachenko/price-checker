@@ -3,33 +3,34 @@ package integration;
 import checker.model.magazine.Magazine;
 import checker.model.magazine.NowZenith;
 import org.jsoup.nodes.Document;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * @author Alexander Diachenko.
  */
-public class NowZenithTest {
+class NowZenithTest {
 
     private Magazine nowZenith;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         nowZenith = new NowZenith();
     }
 
     @Test
-    public void shouldReturnPageNotFound() {
+    void shouldReturnPageNotFound() {
         String price = nowZenith.getPrice(nowZenith.getDocument("http://www.nowzenith.com/qwe"));
         assertEquals("Страница не найдена", price);
     }
 
     @Test
-    public void shouldReturnNotEmptyDocument() throws IOException {
+    void shouldReturnNotEmptyDocument() throws IOException {
         Document document = nowZenith.getDocument("http://www.nowzenith.com/");
         assertFalse(document.children().isEmpty());
     }

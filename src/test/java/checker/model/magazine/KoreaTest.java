@@ -1,61 +1,60 @@
 package checker.model.magazine;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Alexander Diachenko
  */
-public class KoreaTest {
+class KoreaTest {
 
     private Magazine korea;
     private DocumentCreator creator;
 
-    @Before
-    public void setup() {
+    @BeforeEach
+    void setup() {
         korea = new Korea();
         creator = new DocumentCreator();
     }
 
     @Test
-    public void shouldReturnDiscountPrice() {
+    void shouldReturnDiscountPrice() {
         String price = korea.getPrice(creator.createDocumentFromFile("xml/korea/Korea_discount.xml"));
         assertEquals("380.00", price);
     }
 
     @Test
-    public void shouldReturnNormalPrice() {
+    void shouldReturnNormalPrice() {
         String price = korea.getPrice(creator.createDocumentFromFile("xml/korea/Korea_normal.xml"));
         assertEquals("430.00", price);
     }
 
     @Test
-    public void shouldReturnOutOfStock() {
+    void shouldReturnOutOfStock() {
         String price = korea.getPrice(creator.createDocumentFromFile("xml/korea/Korea_outofstock.xml"));
         assertEquals("Нет в наличии", price);
     }
 
     @Test
-    public void shouldReturnNotFound() {
+    void shouldReturnNotFound() {
         String price = korea.getPrice(creator.createDocumentFromFile("xml/korea/Korea_notfound.xml"));
         assertEquals("Не найдено", price);
     }
 
     @Test
-    public void shouldReturnTrueWhenIsThisWebSiteCalled() {
+    void shouldReturnTrueWhenIsThisWebSiteCalled() {
         assertTrue(korea.isThisWebsite("https://korea.in.ua/"));
     }
 
     @Test
-    public void shouldReturnFalseWhenIsThisWebSiteCalledWithGoogleDomain() {
+    void shouldReturnFalseWhenIsThisWebSiteCalledWithGoogleDomain() {
         assertFalse(korea.isThisWebsite("https://www.google.com.ua/"));
     }
 
     @Test
-    public void shouldReturnFalseWhenIsThisWebSiteCalledWithIncorrectDomain() {
+    void shouldReturnFalseWhenIsThisWebSiteCalledWithIncorrectDomain() {
         assertFalse(korea.isThisWebsite("qwe"));
     }
 }

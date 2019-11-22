@@ -3,34 +3,34 @@ package integration;
 import checker.model.magazine.BeautyNetKorea;
 import checker.model.magazine.Magazine;
 import org.jsoup.nodes.Document;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * @author Alexander Diachenko.
  */
-public class BeautyNetKoreaTest {
+class BeautyNetKoreaTest {
 
     private Magazine beautyNetKorea;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         beautyNetKorea = new BeautyNetKorea();
     }
 
     @Test
-    public void shouldReturnPageNotFound() {
+    void shouldReturnPageNotFound() {
         String price = beautyNetKorea.getPrice(beautyNetKorea.getDocument("https://beautynetkorea.com/qwe"));
         assertEquals("Страница не найдена", price);
     }
 
     @Test
-    public void shouldReturnNotEmptyDocument() throws IOException {
+    void shouldReturnNotEmptyDocument() throws IOException {
         Document document = beautyNetKorea.getDocument("https://beautynetkorea.com/");
         assertFalse(document.children().isEmpty());
     }

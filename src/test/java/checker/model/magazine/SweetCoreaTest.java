@@ -1,55 +1,54 @@
 package checker.model.magazine;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Alexander Diachenko
  */
-public class SweetCoreaTest {
+class SweetCoreaTest {
 
     private Magazine sweetCorea;
     private DocumentCreator creator;
 
-    @Before
-    public void setup() {
+    @BeforeEach
+    void setup() {
         sweetCorea = new SweetCorea();
         creator = new DocumentCreator();
     }
 
     @Test
-    public void shouldReturnNormalPrice() {
+    void shouldReturnNormalPrice() {
         String price = sweetCorea.getPrice(creator.createDocumentFromFile("xml/sweetCorea/SweetCorea_normal.xml"));
         assertEquals("6.300", price);
     }
 
     @Test
-    public void shouldReturnOutOfStock() {
+    void shouldReturnOutOfStock() {
         String price = sweetCorea.getPrice(creator.createDocumentFromFile("xml/sweetCorea/SweetCorea_outofstock.xml"));
         assertEquals("Нет в наличии", price);
     }
 
     @Test
-    public void shouldReturnNotFound() {
+    void shouldReturnNotFound() {
         String price = sweetCorea.getPrice(creator.createDocumentFromFile("xml/sweetCorea/SweetCorea_notfound.xml"));
         assertEquals("Не найдено", price);
     }
 
     @Test
-    public void shouldReturnTrueWhenIsThisWebSiteCalled() {
+    void shouldReturnTrueWhenIsThisWebSiteCalled() {
         assertTrue(sweetCorea.isThisWebsite("http://www.sweetcorea.com"));
     }
 
     @Test
-    public void shouldReturnFalseWhenIsThisWebSiteCalledWithGoogleDomain() {
+    void shouldReturnFalseWhenIsThisWebSiteCalledWithGoogleDomain() {
         assertFalse(sweetCorea.isThisWebsite("https://www.google.com.ua/"));
     }
 
     @Test
-    public void shouldReturnFalseWhenIsThisWebSiteCalledWithIncorrectDomain() {
+    void shouldReturnFalseWhenIsThisWebSiteCalledWithIncorrectDomain() {
         assertFalse(sweetCorea.isThisWebsite("qwe"));
     }
 }

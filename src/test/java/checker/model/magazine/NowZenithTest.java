@@ -1,55 +1,54 @@
 package checker.model.magazine;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Alexander Diachenko
  */
-public class NowZenithTest {
+class NowZenithTest {
 
     private Magazine nowZenith;
     private DocumentCreator creator;
 
-    @Before
-    public void setup() {
+    @BeforeEach
+    void setup() {
         nowZenith = new NowZenith();
         creator = new DocumentCreator();
     }
 
     @Test
-    public void shouldReturnDiscountPrice() {
+    void shouldReturnDiscountPrice() {
         String price = nowZenith.getPrice(creator.createDocumentFromFile("xml/nowZenith/NowZenith_discount.xml"));
         assertEquals("6.19", price);
     }
 
     @Test
-    public void shouldReturnNormalPrice() {
+    void shouldReturnNormalPrice() {
         String price = nowZenith.getPrice(creator.createDocumentFromFile("xml/nowZenith/NowZenith_normal.xml"));
         assertEquals("4.60", price);
     }
 
     @Test
-    public void shouldReturnNotFound() {
+    void shouldReturnNotFound() {
         String price = nowZenith.getPrice(creator.createDocumentFromFile("xml/nowZenith/NowZenith_notfound.xml"));
         assertEquals("Не найдено", price);
     }
 
     @Test
-    public void shouldReturnTrueWhenIsThisWebSiteCalled() {
+    void shouldReturnTrueWhenIsThisWebSiteCalled() {
         assertTrue(nowZenith.isThisWebsite("http://www.nowzenith.com"));
     }
 
     @Test
-    public void shouldReturnFalseWhenIsThisWebSiteCalledWithGoogleDomain() {
+    void shouldReturnFalseWhenIsThisWebSiteCalledWithGoogleDomain() {
         assertFalse(nowZenith.isThisWebsite("https://www.google.com.ua/"));
     }
 
     @Test
-    public void shouldReturnFalseWhenIsThisWebSiteCalledWithIncorrectDomain() {
+    void shouldReturnFalseWhenIsThisWebSiteCalledWithIncorrectDomain() {
         assertFalse(nowZenith.isThisWebsite("qwe"));
     }
 }

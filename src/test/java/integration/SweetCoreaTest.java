@@ -3,32 +3,32 @@ package integration;
 import checker.model.magazine.Magazine;
 import checker.model.magazine.SweetCorea;
 import org.jsoup.nodes.Document;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * @author Alexander Diachenko.
  */
-public class SweetCoreaTest {
+class SweetCoreaTest {
 
     private Magazine sweetCorea;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         sweetCorea = new SweetCorea();
     }
 
     @Test
-    public void shouldReturnPageNotFound() {
+    void shouldReturnPageNotFound() {
         String price = sweetCorea.getPrice(sweetCorea.getDocument("http://www.sweetcorea.com/qwe"));
         assertEquals("Страница не найдена", price);
     }
 
     @Test
-    public void shouldReturnNotEmptyDocument() {
+    void shouldReturnNotEmptyDocument() {
         Document document = sweetCorea.getDocument("http://www.sweetcorea.com");
         assertFalse(document.children().isEmpty());
     }

@@ -8,7 +8,7 @@
     <artifactId>price-checker</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>
-        <javafx>12.0.1</javafx>
+        <javafx>14.0.2</javafx>
         <junit.jupiter.version>5.2.0</junit.jupiter.version>
     </properties>
     <build>

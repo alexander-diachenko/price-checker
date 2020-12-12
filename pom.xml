@@ -94,5 +94,10 @@
             <artifactId>javafx-media</artifactId>
             <version>${javafx}</version>
         </dependency>
+        <dependency>
+            <groupId>com.epam</groupId>
+            <artifactId>price-checker-core</artifactId>
+            <version>1.0.1</version>
+        </dependency>
     </dependencies>
 </project>

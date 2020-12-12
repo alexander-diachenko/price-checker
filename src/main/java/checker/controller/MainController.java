@@ -4,6 +4,7 @@ import checker.component.Modal;
 import checker.service.MainService;
 import checker.util.FileUtil;
 import checker.util.TimeUtil;
+import com.epam.pricecheckercore.service.PriceChecker;
 import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -66,7 +67,8 @@ public class MainController implements Initializable {
         disableAll(true);
         progressIndicator.setProgress(-1);
         savedFilePath = getSavedFilePath();
-        MainService service = new MainService(file.getPath(), urlColumn.getValue(), insertColumn.getValue(), savedFilePath, progressIndicator);
+
+        MainService service = new MainService(new PriceChecker(), file, urlColumn.getValue(), insertColumn.getValue(), savedFilePath);
         service.restart();
         service.setOnSucceeded(event -> setComplete());
         service.setOnFailed(event -> setFailed(service.getException()));

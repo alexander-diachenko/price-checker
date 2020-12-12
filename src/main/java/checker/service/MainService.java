@@ -1,82 +1,58 @@
 package checker.service;
 
-import checker.model.excel.Excel;
-import checker.model.excel.ExcelImpl;
-import checker.model.magazine.*;
-import javafx.application.Platform;
+import com.epam.pricecheckercore.model.CheckerInput;
+import com.epam.pricecheckercore.model.CheckerOutput;
+import com.epam.pricecheckercore.service.Checker;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import javafx.scene.control.ProgressIndicator;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
-import java.util.*;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import java.io.File;
+import java.io.FileOutputStream;
 
 /**
  * @author Alexander Diachenko.
  */
 public class MainService extends Service<Void> {
 
-    private String filePath;
-    private Integer urlColumn;
-    private Integer insertColumn;
-    private String savedFilePath;
-    private ProgressIndicator progressIndicator;
+    private final Checker checker;
+    private final File file;
+    private final Integer urlColumn;
+    private final Integer insertColumn;
+    private final String savedFilePath;
 
-    public MainService(String filePath, Integer urlColumn, Integer insertColumn, String savedFilePath, ProgressIndicator progressIndicator) {
-        this.filePath = filePath;
+    public MainService(Checker checker, File file, Integer urlColumn, Integer insertColumn, String savedFilePath) {
+        this.checker = checker;
+        this.file = file;
         this.urlColumn = urlColumn;
         this.insertColumn = insertColumn;
         this.savedFilePath = savedFilePath;
-        this.progressIndicator = progressIndicator;
     }
 
     @Override
     protected Task<Void> createTask() {
-        return new Task<Void>() {
+        return new Task<>() {
             @Override
             protected Void call() throws Exception {
-                Excel excel = new ExcelImpl();
-                List<Magazine> magazines = getMagazines();
-                List<List<Object>> table = excel.read(filePath);
-                for (int index = 0; index < table.size(); index++) {
-                    List<Object> row = table.get(index);
-                    if (row.size() < urlColumn) {
-                        continue;
-                    }
-                    String url = String.valueOf(row.get(urlColumn - 1));
-                    for (Magazine magazine : magazines) {
-                        if (magazine.isThisWebsite(url)) {
-                            String price = magazine.getPrice(magazine.getDocument(url));
-                            insert(row, insertColumn - 1, price);
-                        }
-                    }
-                    int finalIndex = index;
-                    Platform.runLater(() -> progressIndicator.setProgress(0.99 / table.size() * (finalIndex + 1)));
-                }
-                excel.write(table, savedFilePath);
+                CheckerInput checkerInput = CheckerInput.builder()
+                        .file(FileUtils.readFileToByteArray(file))
+                        .insertIndex(insertColumn)
+                        .urlIndex(urlColumn)
+                        .build();
+                CheckerOutput checkerOutput = checker.check(checkerInput);
+
+                File result = new File(savedFilePath);
+                FileUtils.writeByteArrayToFile(result, checkerOutput.getFile());
+                KeyGenerator kgen = KeyGenerator.getInstance("AES");
+                kgen.init(128);
+                SecretKey key = kgen.generateKey();
+                byte[] encoded = key.getEncoded();
+                IOUtils.write(encoded, new FileOutputStream(result));
                 return null;
             }
         };
-    }
-
-    private void insert(List<Object> row, int column, String price) {
-        while (row.size() <= column) {
-            row.add("");
-        }
-        row.set(column, price);
-    }
-
-    private static List<Magazine> getMagazines() {
-        List<Magazine> magazines = new ArrayList<>();
-        magazines.add(new Makeup());
-        magazines.add(new Korea());
-        magazines.add(new RoseRoseShop());
-        magazines.add(new BeautyNetKorea());
-        magazines.add(new NowZenith());
-        magazines.add(new Rozetka());
-        magazines.add(new KoreaButik());
-        magazines.add(new SweetCorea());
-        magazines.add(new Cosmetea());
-        magazines.add(new Sweetness());
-        return magazines;
     }
 }

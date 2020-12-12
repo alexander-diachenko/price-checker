@@ -16,19 +16,20 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 /**
  * @author Alexander Diachenko.
  */
 public class MainController implements Initializable {
 
-    private static final Logger logger = Logger.getLogger(MainController.class);
+//    private static final Logger logger = Logger.getLogger(MainController.class);
 
     @FXML
     private Button check;
@@ -68,7 +69,8 @@ public class MainController implements Initializable {
         progressIndicator.setProgress(-1);
         savedFilePath = getSavedFilePath();
 
-        MainService service = new MainService(new PriceChecker(), file, urlColumn.getValue(), insertColumn.getValue(), savedFilePath);
+        PriceChecker checker = new PriceChecker();
+        MainService service = new MainService(checker, file, urlColumn.getValue(), insertColumn.getValue(), savedFilePath);
         service.restart();
         service.setOnSucceeded(event -> setComplete());
         service.setOnFailed(event -> setFailed(service.getException()));
@@ -83,7 +85,7 @@ public class MainController implements Initializable {
 
     private void setFailed(Throwable exception) {
         flashTaskBar();
-        logger.error(exception.getMessage(), exception);
+//        logger.error(exception.getMessage(), exception);
         disableAll(false);
         progressIndicator.setProgress(0);
         Modal.openModal(getStage(), exception);
@@ -123,7 +125,7 @@ public class MainController implements Initializable {
             FileUtil.open(new File(savedFilePath));
         } catch (IOException exception) {
             setFailed(exception);
-            logger.error(exception.getMessage(), exception);
+//            logger.error(exception.getMessage(), exception);
         }
     }
 

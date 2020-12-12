@@ -6,12 +6,10 @@ import com.epam.pricecheckercore.service.Checker;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
 import java.io.File;
-import java.io.FileOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * @author Alexander Diachenko.
@@ -39,18 +37,12 @@ public class MainService extends Service<Void> {
             protected Void call() throws Exception {
                 CheckerInput checkerInput = CheckerInput.builder()
                         .file(FileUtils.readFileToByteArray(file))
-                        .insertIndex(insertColumn)
-                        .urlIndex(urlColumn)
+                        .insertIndex(insertColumn - 1)
+                        .urlIndex(urlColumn - 1)
                         .build();
                 CheckerOutput checkerOutput = checker.check(checkerInput);
 
-                File result = new File(savedFilePath);
-                FileUtils.writeByteArrayToFile(result, checkerOutput.getFile());
-                KeyGenerator kgen = KeyGenerator.getInstance("AES");
-                kgen.init(128);
-                SecretKey key = kgen.generateKey();
-                byte[] encoded = key.getEncoded();
-                IOUtils.write(encoded, new FileOutputStream(result));
+                Files.write(Paths.get(savedFilePath), checkerOutput.getFile());
                 return null;
             }
         };

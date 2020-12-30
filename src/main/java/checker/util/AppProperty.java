@@ -1,16 +1,17 @@
 package checker.util;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 /**
  * @author Alexander Diachenko.
  */
 public class AppProperty {
 
-    private static final Logger logger = Logger.getLogger(AppProperty.class);
+//    private static final Logger logger = Logger.getLogger(AppProperty.class);
 
     private AppProperty() {
         throw new IllegalStateException("Creating object not allowed!");
@@ -25,7 +26,7 @@ public class AppProperty {
             mainProperties.load(file);
             file.close();
         } catch (IOException e) {
-            logger.error(e.getMessage(), e);
+//            logger.error(e.getMessage(), e);
         }
         return mainProperties;
     }
@@ -34,7 +35,7 @@ public class AppProperty {
         try (OutputStream output = new FileOutputStream("./config.properties")) {
             properties.store(output, null);
         } catch (IOException ex) {
-            logger.error(ex.getMessage(), ex);
+//            logger.error(ex.getMessage(), ex);
         }
         return properties;
     }

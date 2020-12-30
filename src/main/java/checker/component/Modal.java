@@ -9,7 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -19,7 +19,7 @@ import java.util.Properties;
  */
 public class Modal {
 
-    private static final Logger logger = Logger.getLogger(Modal.class);
+//    private static final Logger logger = Logger.getLogger(Modal.class);
 
     private Modal() {
         throw new IllegalStateException("Creating object not allowed!");
@@ -44,7 +44,7 @@ public class Modal {
             stage.initOwner(primaryStage.getScene().getWindow());
             stage.show();
         } catch (IOException e) {
-            logger.error(exception.getMessage(), exception);
+//            logger.error(exception.getMessage(), exception);
         }
     }
 }

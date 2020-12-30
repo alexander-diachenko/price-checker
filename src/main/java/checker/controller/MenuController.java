@@ -11,7 +11,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 import checker.util.AppProperty;
 
 import java.io.IOException;
@@ -19,13 +19,14 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 /**
  * @author Alexander Diachenko.
  */
 public class MenuController implements Initializable {
 
-    private static final Logger logger = Logger.getLogger(MenuController.class);
+//    private static final Logger logger = Logger.getLogger(MenuController.class);
 
     private static final String LANGUAGE = "language";
     private static final String STYLE = "style";
@@ -119,7 +120,7 @@ public class MenuController implements Initializable {
             try {
                 new PriceCheckerFX().start(new Stage());
             } catch (IOException e) {
-                logger.error(e.getMessage(), e);
+//                logger.error(e.getMessage(), e);
             }
         });
     }

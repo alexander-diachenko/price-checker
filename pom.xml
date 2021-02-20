@@ -10,7 +10,7 @@
     <properties>
         <javafx>12.0.1</javafx>
         <junit.jupiter.version>5.2.0</junit.jupiter.version>
-        <price-checker-core>1.0.3</price-checker-core>
+        <price-checker-core>1.0.4</price-checker-core>
     </properties>
     <build>
         <plugins>
